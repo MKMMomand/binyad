@@ -1,0 +1,8 @@
+Set-Content -Path "templates\robots.txt" -Encoding UTF8 -Value @'
+User-agent: *
+Allow: /
+Disallow: /binyad-admin/
+Disallow: /i18n/
+
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml
+'@

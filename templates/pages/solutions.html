@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Solutions" %}{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container">
+  <h1>{% trans "Solutions" %}</h1>
+  <p class="lead">{% trans "From paper to organized digital systems — solutions tailored to your workflow." %}</p>
+</div></section>
+<section class="section"><div class="container grid grid-3">
+  <div class="card"><h3>{% trans "Office automation" %}</h3><p class="muted">{% trans "Letters, documents, employees, and reporting in one place." %}</p></div>
+  <div class="card"><h3>{% trans "Inventory & warehouses" %}</h3><p class="muted">{% trans "Track stock, purchases, sales, and movements accurately." %}</p></div>
+  <div class="card"><h3>{% trans "Customer management" %}</h3><p class="muted">{% trans "Centralized customer data, communication history, and follow-ups." %}</p></div>
+  <div class="card"><h3>{% trans "HR & employees" %}</h3><p class="muted">{% trans "Records, attendance, leave, and payroll support." %}</p></div>
+  <div class="card"><h3>{% trans "Custom development" %}</h3><p class="muted">{% trans "Systems built specifically for your organization." %}</p></div>
+  <div class="card"><h3>{% trans "Offline-first systems" %}</h3><p class="muted">{% trans "Software that works even with limited internet connectivity." %}</p></div>
+</div></section>
+{% endblock %}

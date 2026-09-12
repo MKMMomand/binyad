@@ -1,0 +1,39 @@
+Set-Content -Path "templates\products\list.html" -Encoding UTF8 -Value @'
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Products" %}{% endblock %}
+{% block meta_description %}{% trans "Binyad product line: office management, inventory, CRM, HR, and industry-specific systems." %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Products" %}</h1>
+    <p class="lead">
+      {% trans "Our product roadmap. Products are being developed and released progressively. Some are available today, others are in planning or under active development." %}
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-3">
+    {% for p in products %}
+      <a class="card" href="{{ p.get_absolute_url }}">
+        <span class="status-badge status-{{ p.status }}">{{ p.get_status_display }}</span>
+        {% if p.image %}
+          <img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" class="card-image">
+        {% endif %}
+        <h3>{{ p.name_fa|default:p.name }}</h3>
+        <p class="muted">{{ p.short_description_fa|default:p.short_description }}</p>
+        <span class="card-arrow">&rarr;</span>
+      </a>
+    {% empty %}
+      <div class="empty-state">
+        <h3>{% trans "Products coming soon" %}</h3>
+        <p class="muted">{% trans "Our product catalog is being prepared." %}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+'@

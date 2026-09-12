@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Services" %}{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "Services" %}</h1>
+    <p class="lead">{% trans "Practical software and IT services for businesses, offices and organizations." %}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container grid grid-3">
+    {% for s in services %}
+      <a class="card service-card" href="{{ s.get_absolute_url }}">
+        <span class="card-icon">{{ s.icon|default:"◆" }}</span>
+        <h3>{{ s.name_fa|default:s.name }}</h3>
+        <p class="muted">{{ s.short_description_fa|default:s.short_description }}</p>
+        <span class="card-arrow">→</span>
+      </a>
+    {% empty %}
+      <p class="muted">{% trans "Services will be added soon." %}</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

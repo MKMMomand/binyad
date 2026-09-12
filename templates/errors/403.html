@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}403 — {% trans "Access denied" %}{% endblock %}
+{% block content %}
+<section class="section"><div class="container narrow center">
+  <h1 class="error-code">403</h1>
+  <p class="lead">{% trans "You do not have permission to access this page." %}</p>
+  <a class="btn btn-primary" href="{% url 'pages:home' %}">{% trans "Return home" %}</a>
+</div></section>
+{% endblock %}

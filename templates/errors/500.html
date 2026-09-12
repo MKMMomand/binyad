@@ -1,0 +1,10 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><title>500</title>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}"></head>
+<body><section class="section"><div class="container narrow center">
+  <h1 class="error-code">500</h1>
+  <p class="lead">{% trans "Something went wrong. Please try again later." %}</p>
+  <a class="btn btn-primary" href="/">{% trans "Return home" %}</a>
+</div></section></body></html>

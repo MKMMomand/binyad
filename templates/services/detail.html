@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ service.seo_title|default:service.name }}{% endblock %}
+{% block meta_description %}{{ service.seo_description|default:service.short_description }}{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a> /
+      <a href="{% url 'services:list' %}">{% trans "Services" %}</a> /
+      <span>{{ service.name_fa|default:service.name }}</span>
+    </nav>
+    <h1>{{ service.name_fa|default:service.name }}</h1>
+    <p class="lead">{{ service.short_description_fa|default:service.short_description }}</p>
+    <a class="btn btn-primary" href="{% url 'contact:consultation' %}">{% trans "Request a Consultation" %}</a>
+  </div>
+</section>
+<section class="section">
+  <div class="container two-col">
+    <div class="prose">
+      {{ service.description_fa|default:service.description|linebreaks }}
+    </div>
+    <aside class="panel">
+      <h3>{% trans "Features" %}</h3>
+      <ul class="feature-list">
+        {% for f in service.features_list %}<li>{{ f }}</li>{% empty %}
+        <li class="muted">{% trans "Feature list coming soon." %}</li>
+        {% endfor %}
+      </ul>
+      {% if service.image %}<img src="{{ service.image.url }}" alt="{{ service.name }}" loading="lazy">{% endif %}
+    </aside>
+  </div>
+</section>
+{% if related %}
+<section class="section section-alt">
+  <div class="container">
+    <h2>{% trans "Related services" %}</h2>
+    <div class="grid grid-3">
+      {% for s in related %}
+        <a class="card" href="{{ s.get_absolute_url }}">
+          <h3>{{ s.name_fa|default:s.name }}</h3>
+          <p class="muted">{{ s.short_description_fa|default:s.short_description }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{{ site.name_fa }} — {% trans "Smart Solutions for Better Management" %}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">{% trans "Binyad — Business, Management & IT Solutions" %}</span>
+      <h1>{% trans "Smart Solutions for Better Management" %}</h1>
+      <p class="lead">{% trans "Binyad designs and implements software, administrative and technology solutions for businesses and organizations." %}</p>
+      <div class="hero-actions">
+        <a href="{% url 'contact:consultation' %}" class="btn btn-primary">{% trans "Request a Consultation" %}</a>
+        <a href="{% url 'services:list' %}" class="btn btn-ghost">{% trans "View Services" %}</a>
+      </div>
+      <p class="hero-note muted">{% trans "From manual work to organized digital systems." %}</p>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#176B45"/><stop offset="1" stop-color="#2E8B57"/>
+          </linearGradient>
+        </defs>
+        <rect x="20" y="30" width="360" height="230" rx="18" fill="#F5F8F6" stroke="#DDEAE1"/>
+        <rect x="20" y="30" width="360" height="40" rx="18" fill="url(#g1)"/>
+        <circle cx="45" cy="50" r="6" fill="#fff" opacity=".9"/>
+        <circle cx="65" cy="50" r="6" fill="#fff" opacity=".7"/>
+        <circle cx="85" cy="50" r="6" fill="#fff" opacity=".5"/>
+        <rect x="40" y="90" width="130" height="14" rx="7" fill="#CFE0D5"/>
+        <rect x="40" y="115" width="200" height="10" rx="5" fill="#E1EEE6"/>
+        <rect x="40" y="135" width="170" height="10" rx="5" fill="#E1EEE6"/>
+        <rect x="40" y="170" width="90" height="60" rx="10" fill="url(#g1)" opacity=".85"/>
+        <rect x="140" y="170" width="90" height="60" rx="10" fill="#2E8B57" opacity=".55"/>
+        <rect x="240" y="170" width="120" height="60" rx="10" fill="#10251C" opacity=".25"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-head">
+      <h2>{% trans "What we do" %}</h2>
+      <p class="muted">{% trans "Practical services designed for real business needs." %}</p>
+    </header>
+    <div class="grid grid-4">
+      {% for s in services %}
+        <a class="card service-card" href="{{ s.get_absolute_url }}">
+          <span class="card-icon">{{ s.icon|default:"◆" }}</span>
+          <h3>{{ s.name_fa|default:s.name }}</h3>
+          <p class="muted">{{ s.short_description_fa|default:s.short_description }}</p>
+          <span class="card-arrow">→</span>
+        </a>
+      {% empty %}
+        <p class="muted">{% trans "Services will be added soon." %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container two-col">
+    <div>
+      <h2>{% trans "Common business problems we solve" %}</h2>
+      <ul class="check-list">
+        <li>{% trans "Paper-based records" %}</li>
+        <li>{% trans "Excel dependency" %}</li>
+        <li>{% trans "Lost information" %}</li>
+        <li>{% trans "Difficult reporting" %}</li>
+        <li>{% trans "Manual administration" %}</li>
+        <li>{% trans "Poor data organization" %}</li>
+        <li>{% trans "Lack of centralized information" %}</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>{% trans "Binyad converts these into organized digital systems." %}</h3>
+      <p class="muted">{% trans "We start by understanding your workflow — then design a system that fits your reality, not the other way around." %}</p>
+      <a class="btn btn-primary" href="{% url 'contact:consultation' %}">{% trans "Request a Consultation" %}</a>
+    </div>
+  </div>
+</section>
+
+{% if flagship %}
+<section class="section">
+  <div class="container two-col">
+    <div>
+      <span class="eyebrow">{% trans "Flagship product" %}</span>
+      <h2>{{ flagship.name_fa|default:flagship.name }}</h2>
+      <p class="muted">{{ flagship.short_description_fa|default:flagship.short_description }}</p>
+      <ul class="feature-list">
+        {% for f in flagship.features_list %}<li>{{ f }}</li>{% endfor %}
+      </ul>
+      <a class="btn btn-primary" href="{{ flagship.get_absolute_url }}">{% trans "View Solution" %}</a>
+    </div>
+    <div class="panel panel-accent">
+      <span class="status-badge status-{{ flagship.status }}">{{ flagship.get_status_display }}</span>
+      {% if flagship.image %}<img src="{{ flagship.image.url }}" alt="{{ flagship.name }}" loading="lazy">{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section-alt">
+  <div class="container">
+    <header class="section-head"><h2>{% trans "Why Binyad" %}</h2></header>
+    <div class="grid grid-4">
+      <div class="card"><h3>{% trans "Local understanding" %}</h3></div>
+      <div class="card"><h3>{% trans "Persian & Pashto support" %}</h3></div>
+      <div class="card"><h3>{% trans "Practical solutions" %}</h3></div>
+      <div class="card"><h3>{% trans "Offline-first options" %}</h3></div>
+      <div class="card"><h3>{% trans "Custom development" %}</h3></div>
+      <div class="card"><h3>{% trans "Affordable solutions" %}</h3></div>
+      <div class="card"><h3>{% trans "Local technical support" %}</h3></div>
+      <div class="card"><h3>{% trans "Data security" %}</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-head"><h2>{% trans "Industries we serve" %}</h2></header>
+    <div class="tag-cloud">
+      {% for label in "Companies,Pharmacies,Clinics,Schools,Shops,Distributors,NGOs,Real estate,Construction,Offices,Startups"|slice:"" %}{% endfor %}
+      <span class="tag">{% trans "Companies" %}</span>
+      <span class="tag">{% trans "Pharmacies" %}</span>
+      <span class="tag">{% trans "Clinics" %}</span>
+      <span class="tag">{% trans "Schools" %}</span>
+      <span class="tag">{% trans "Shops" %}</span>
+      <span class="tag">{% trans "Distributors" %}</span>
+      <span class="tag">{% trans "NGOs" %}</span>
+      <span class="tag">{% trans "Real estate" %}</span>
+      <span class="tag">{% trans "Construction" %}</span>
+      <span class="tag">{% trans "Offices" %}</span>
+      <span class="tag">{% trans "Startups" %}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <header class="section-head"><h2>{% trans "How we work" %}</h2></header>
+    <ol class="process">
+      <li><span class="num">1</span><span>{% trans "Discover" %}</span></li>
+      <li><span class="num">2</span><span>{% trans "Analyze" %}</span></li>
+      <li><span class="num">3</span><span>{% trans "Design" %}</span></li>
+      <li><span class="num">4</span><span>{% trans "Develop" %}</span></li>
+      <li><span class="num">5</span><span>{% trans "Test" %}</span></li>
+      <li><span class="num">6</span><span>{% trans "Train" %}</span></li>
+      <li><span class="num">7</span><span>{% trans "Support" %}</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>{% trans "What is your business or administrative challenge?" %}</h2>
+      <p>{% trans "Talk to Binyad and let us design a practical solution for it." %}</p>
+    </div>
+    <a href="{% url 'contact:consultation' %}" class="btn btn-light">{% trans "Request a Consultation" %}</a>
+  </div>
+</section>
+{% endblock %}

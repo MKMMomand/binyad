@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Request a Consultation" %}{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container">
+  <h1>{% trans "Request a Consultation" %}</h1>
+  <p class="lead">{% trans "Tell us about your business and the challenge you want to solve. We will respond with a practical suggestion." %}</p>
+</div></section>
+<section class="section"><div class="container">
+  <form method="post" class="form form-wide">
+    {% csrf_token %}
+    <div class="grid grid-2">
+      <div class="form-row"><label>{% trans "Name" %}*</label>{{ form.name }}{{ form.name.errors }}</div>
+      <div class="form-row"><label>{% trans "Phone" %}*</label>{{ form.phone }}{{ form.phone.errors }}</div>
+      <div class="form-row"><label>{% trans "Email" %}</label>{{ form.email }}</div>
+      <div class="form-row"><label>{% trans "Company" %}</label>{{ form.company }}</div>
+      <div class="form-row"><label>{% trans "Business type" %}</label>{{ form.business_type }}</div>
+      <div class="form-row"><label>{% trans "Required service" %}</label>{{ form.required_service }}</div>
+      <div class="form-row"><label>{% trans "Budget range (optional)" %}</label>{{ form.budget_range }}</div>
+      <div class="form-row"><label>{% trans "Preferred contact method" %}</label>{{ form.preferred_contact_method }}</div>
+    </div>
+    <div class="form-row"><label>{% trans "Project description" %}*</label>{{ form.project_description }}{{ form.project_description.errors }}</div>
+    <div class="form-row"><label>{% trans "Additional message" %}</label>{{ form.message }}</div>
+    <button class="btn btn-primary" type="submit">{% trans "Submit request" %}</button>
+  </form>
+</div></section>
+{% endblock %}

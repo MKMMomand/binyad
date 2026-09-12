@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ project.title_fa|default:project.title }}{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container">
+  <nav class="breadcrumbs"><a href="{% url 'pages:home' %}">{% trans "Home" %}</a> / <a href="{% url 'portfolio:list' %}">{% trans "Portfolio" %}</a> / <span>{{ project.title }}</span></nav>
+  <h1>{{ project.title_fa|default:project.title }}</h1>
+  <p class="lead">{{ project.industry }}{% if project.client_name %} — {{ project.client_name }}{% endif %}</p>
+  {% if project.is_demo %}<span class="tag tag-demo">{% trans "Demo entry" %}</span>{% endif %}
+</div></section>
+<section class="section"><div class="container two-col">
+  <div class="prose">{{ project.description_fa|default:project.description|linebreaks }}</div>
+  <aside class="panel">
+    <h3>{% trans "Details" %}</h3>
+    <ul class="meta-list">
+      {% if project.technologies %}<li><strong>{% trans "Technologies:" %}</strong> {{ project.technologies }}</li>{% endif %}
+      {% if project.completion_date %}<li><strong>{% trans "Completed:" %}</strong> {{ project.completion_date }}</li>{% endif %}
+    </ul>
+  </aside>
+</div></section>
+{% if project.gallery.all %}
+<section class="section section-alt"><div class="container grid grid-3">
+  {% for img in project.gallery.all %}<img src="{{ img.image.url }}" alt="{{ img.caption }}" loading="lazy" class="gallery-img">{% endfor %}
+</div></section>
+{% endif %}
+{% endblock %}

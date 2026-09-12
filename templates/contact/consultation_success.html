@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Request received" %}{% endblock %}
+{% block content %}
+<section class="section"><div class="container narrow center">
+  <div class="success-icon" aria-hidden="true">✓</div>
+  <h1>{% trans "Thank you for contacting Binyad." %}</h1>
+  <p class="lead">{% trans "We received your consultation request and will review it carefully. One of our team members will get in touch soon." %}</p>
+  <a class="btn btn-primary" href="{% url 'pages:home' %}">{% trans "Back to home" %}</a>
+</div></section>
+{% endblock %}

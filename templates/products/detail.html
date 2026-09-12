@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ product.seo_title|default:product.name }}{% endblock %}
+{% block meta_description %}{{ product.seo_description|default:product.short_description }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url "pages:home" %}">{% trans "Home" %}</a> /
+      <a href="{% url "products:list" %}">{% trans "Products" %}</a> /
+      <span>{{ product.name_fa|default:product.name }}</span>
+    </nav>
+    <span class="status-badge status-{{ product.status }}">{{ product.get_status_display }}</span>
+    <h1>{{ product.name_fa|default:product.name }}</h1>
+    <p class="lead">{{ product.short_description_fa|default:product.short_description }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url "contact:consultation" %}">{% trans "Request a Consultation" %}</a>
+      {% if product.demo_url %}
+        <a class="btn btn-ghost" href="{{ product.demo_url }}" target="_blank" rel="noopener">{% trans "View Demo" %}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container two-col">
+    <div class="prose">
+      {{ product.description_fa|default:product.description|linebreaks }}
+    </div>
+    <aside class="panel">
+      <h3>{% trans "Features" %}</h3>
+      <ul class="feature-list">
+        {% for f in product.features_list %}
+          <li>{{ f }}</li>
+        {% empty %}
+          <li class="muted">{% trans "Feature list coming soon." %}</li>
+        {% endfor %}
+      </ul>
+    </aside>
+  </div>
+</section>
+
+{% if related %}
+<section class="section section-alt">
+  <div class="container">
+    <h2>{% trans "Related products" %}</h2>
+    <div class="grid grid-3">
+      {% for p in related %}
+        <a class="card" href="{{ p.get_absolute_url }}">
+          <h3>{{ p.name_fa|default:p.name }}</h3>
+          <p class="muted">{{ p.short_description_fa|default:p.short_description }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+'@

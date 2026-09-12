@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Blog" %}{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container">
+  <h1>{% trans "Blog & Articles" %}</h1>
+  <form method="get" class="search-form">
+    <input type="search" name="q" value="{{ query }}" placeholder="{% trans 'Search articles…' %}" class="form-control">
+    <button class="btn btn-primary" type="submit">{% trans "Search" %}</button>
+  </form>
+</div></section>
+<section class="section"><div class="container grid grid-3">
+  {% for p in posts %}
+    <a class="card post-card" href="{{ p.get_absolute_url }}">
+      {% if p.featured_image %}<img src="{{ p.featured_image.url }}" alt="{{ p.title }}" loading="lazy" class="card-image">{% endif %}
+      <h3>{{ p.title }}</h3>
+      <p class="muted">{{ p.excerpt|default:p.content|truncatewords:20 }}</p>
+      <span class="muted small">{{ p.published_at|date:"Y-m-d" }}</span>
+    </a>
+  {% empty %}
+    <p class="muted">{% trans "No articles yet." %}</p>
+  {% endfor %}
+</div>
+{% if is_paginated %}
+<div class="container pagination">
+  {% if page_obj.has_previous %}<a class="btn btn-ghost btn-sm" href="?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>{% endif %}
+  <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a class="btn btn-ghost btn-sm" href="?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>{% endif %}
+</div>
+{% endif %}
+</section>
+{% endblock %}

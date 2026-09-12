@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "About"
+msgstr "درباره ما"
+
+msgid "Services"
+msgstr "خدمات"
+
+msgid "Solutions"
+msgstr "راه‌حل‌ها"
+
+msgid "Products"
+msgstr "محصولات"
+
+msgid "Portfolio"
+msgstr "نمونه‌کارها"
+
+msgid "Blog"
+msgstr "بلاگ"
+
+msgid "Contact"
+msgstr "تماس"
+
+msgid "Request a Consultation"
+msgstr "درخواست مشاوره"
+
+msgid "Smart Solutions for Better Management"
+msgstr "راه‌حل‌های هوشمند برای مدیریت بهتر"
+
+msgid "Binyad designs and implements software, administrative and technology solutions for businesses and organizations."
+msgstr "بنیاد، راه‌حل‌های نرم‌افزاری، اداری و تکنالوژی را برای کسب‌وکارها و سازمان‌ها طراحی و پیاده‌سازی می‌کند."
+
+msgid "View Services"
+msgstr "مشاهده خدمات"
+
+msgid "What we do"
+msgstr "کاری که ما انجام می‌دهیم"
+
+msgid "Why Binyad"
+msgstr "چرا بنیاد"
+
+msgid "How we work"
+msgstr "روش کار ما"
+
+msgid "Discover"
+msgstr "شناخت نیاز"
+
+msgid "Analyze"
+msgstr "تحلیل"
+
+msgid "Design"
+msgstr "طراحی"
+
+msgid "Develop"
+msgstr "توسعه"
+
+msgid "Test"
+msgstr "آزمایش"
+
+msgid "Train"
+msgstr "آموزش"
+
+msgid "Support"
+msgstr "پشتیبانی"
+
+msgid "What is your business or administrative challenge?"
+msgstr "مشکل کاری یا اداری شما چیست؟"
+
+msgid "Talk to Binyad and let us design a practical solution for it."
+msgstr "با بنیاد صحبت کنید تا برای آن یک راه‌حل عملی طراحی کنیم."

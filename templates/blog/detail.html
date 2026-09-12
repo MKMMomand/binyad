@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ post.seo_title|default:post.title }}{% endblock %}
+{% block meta_description %}{{ post.seo_description|default:post.excerpt }}{% endblock %}
+{% block content %}
+<article class="section">
+  <div class="container prose">
+    <nav class="breadcrumbs"><a href="{% url 'pages:home' %}">{% trans "Home" %}</a> / <a href="{% url 'blog:list' %}">{% trans "Blog" %}</a> / <span>{{ post.title }}</span></nav>
+    <h1>{{ post.title }}</h1>
+    <p class="muted">{{ post.published_at|date:"Y-m-d" }}{% if post.category %} — {{ post.category.name }}{% endif %}</p>
+    {% if post.featured_image %}<img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy">{% endif %}
+    <div>{{ post.content|linebreaks }}</div>
+  </div>
+</article>
+{% if related %}
+<section class="section section-alt"><div class="container">
+  <h2>{% trans "Related articles" %}</h2>
+  <div class="grid grid-3">
+    {% for r in related %}<a class="card" href="{{ r.get_absolute_url }}"><h3>{{ r.title }}</h3></a>{% endfor %}
+  </div>
+</div></section>
+{% endif %}
+{% endblock %}

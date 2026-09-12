@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "About Binyad" %}{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <h1>{% trans "About Binyad" %}</h1>
+    <p class="lead">{% trans "A technology company built to help Afghan businesses organize and digitize their operations." %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container two-col">
+    <div>
+      <h2>{% trans "Our mission" %}</h2>
+      <p>{% trans "To make professional business software and digital systems accessible to small and medium organizations in Afghanistan." %}</p>
+      <h2>{% trans "Our vision" %}</h2>
+      <p>{% trans "A future where Afghan offices run on organized, secure and locally supported digital systems." %}</p>
+      <h2>{% trans "Our values" %}</h2>
+      <ul class="check-list">
+        <li>{% trans "Honesty about what we can deliver." %}</li>
+        <li>{% trans "Practical solutions over impressive-sounding promises." %}</li>
+        <li>{% trans "Respect for local language, culture and workflows." %}</li>
+        <li>{% trans "Long-term support, not one-time delivery." %}</li>
+      </ul>
+    </div>
+    <aside class="panel">
+      <h3>{% trans "How we work" %}</h3>
+      <p class="muted">{% trans "We start with your real workflow — not with a template. Then we design a system that fits." %}</p>
+      <a class="btn btn-primary" href="{% url 'contact:consultation' %}">{% trans "Request a Consultation" %}</a>
+    </aside>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Portfolio" %}{% endblock %}
+{% block content %}
+<section class="page-hero"><div class="container">
+  <h1>{% trans "Portfolio" %}</h1>
+  <p class="lead">{% trans "Selected work. This section will be updated as projects are completed and approved for publication." %}</p>
+</div></section>
+<section class="section"><div class="container grid grid-3">
+  {% for p in projects %}
+    <a class="card" href="{{ p.get_absolute_url }}">
+      {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}" loading="lazy" class="card-image">{% endif %}
+      <h3>{{ p.title_fa|default:p.title }}</h3>
+      <p class="muted">{{ p.industry }}</p>
+      {% if p.is_demo %}<span class="tag tag-demo">{% trans "Demo" %}</span>{% endif %}
+    </a>
+  {% empty %}
+    <div class="empty-state">
+      <h3>{% trans "Portfolio is empty for now" %}</h3>
+      <p class="muted">{% trans "We only publish real client projects after approval. Please check back soon." %}</p>
+    </div>
+  {% endfor %}
+</div></section>
+{% endblock %}

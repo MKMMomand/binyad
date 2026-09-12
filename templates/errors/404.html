@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}404 — {% trans "Page not found" %}{% endblock %}
+{% block content %}
+<section class="section"><div class="container narrow center">
+  <h1 class="error-code">404</h1>
+  <p class="lead">{% trans "The page you are looking for could not be found." %}</p>
+  <a class="btn btn-primary" href="{% url 'pages:home' %}">{% trans "Return home" %}</a>
+</div></section>
+{% endblock %}
