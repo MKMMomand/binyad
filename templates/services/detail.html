@@ -1,49 +1,347 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{{ service.seo_title|default:service.name }}{% endblock %}
-{% block meta_description %}{{ service.seo_description|default:service.short_description }}{% endblock %}
+
+{% block title %}{{ service.seo_title|default:service.name_fa|default:service.name }} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta_description %}{{ service.seo_description|default:service.short_description_fa|default:service.short_description }}{% endblock %}
+
+{% block og_title %}{{ service.name_fa|default:service.name }}{% endblock %}
+{% block og_description %}{{ service.short_description_fa|default:service.short_description }}{% endblock %}
+{% if service.image %}
+  {% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}{% endblock %}
+{% endif %}
+
 {% block content %}
-<section class="page-hero">
+
+{# ============ HERO ============ #}
+<section class="page-hero service-hero">
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a> /
-      <a href="{% url 'services:list' %}">{% trans "Services" %}</a> /
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="{% url 'services:list' %}">{% trans "Services" %}</a>
+      <span class="breadcrumb-sep">/</span>
       <span>{{ service.name_fa|default:service.name }}</span>
     </nav>
-    <h1>{{ service.name_fa|default:service.name }}</h1>
-    <p class="lead">{{ service.short_description_fa|default:service.short_description }}</p>
-    <a class="btn btn-primary" href="{% url 'contact:consultation' %}">{% trans "Request a Consultation" %}</a>
-  </div>
-</section>
-<section class="section">
-  <div class="container two-col">
-    <div class="prose">
-      {{ service.description_fa|default:service.description|linebreaks }}
+
+    <div class="service-hero-inner">
+      <div class="service-hero-copy">
+        <span class="eyebrow">{% trans "Service" %}</span>
+        <h1>{{ service.name_fa|default:service.name }}</h1>
+        <p class="lead">
+          {{ service.short_description_fa|default:service.short_description }}
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="{% url 'contact:consultation' %}">
+            {% trans "Request a Consultation" %}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="{% url 'services:list' %}">
+            {% trans "All services" %}
+          </a>
+        </div>
+
+        <ul class="service-hero-bullets">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Practical, not theoretical" %}
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Local support in Persian & Pashto" %}
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Fixed-scope, transparent pricing" %}
+          </li>
+        </ul>
+      </div>
+
+      <aside class="service-hero-visual">
+        {% if service.image %}
+          <img src="{{ service.image.url }}" alt="{{ service.name_fa|default:service.name }}" loading="eager">
+        {% else %}
+          <div class="service-visual-placeholder" aria-hidden="true">
+            <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="svg1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#176B45"/>
+                  <stop offset="1" stop-color="#2E8B57"/>
+                </linearGradient>
+              </defs>
+              <rect x="20" y="20" width="360" height="280" rx="20" fill="#F5F8F6" stroke="#DDEAE1"/>
+              <rect x="60" y="60" width="280" height="200" rx="14" fill="#fff" stroke="#DDEAE1"/>
+              <rect x="60" y="60" width="280" height="38" rx="14" fill="url(#svg1)"/>
+              <circle cx="82" cy="79" r="5" fill="#fff" opacity=".95"/>
+              <circle cx="98" cy="79" r="5" fill="#fff" opacity=".75"/>
+              <circle cx="114" cy="79" r="5" fill="#fff" opacity=".55"/>
+              <rect x="80" y="118" width="120" height="10" rx="5" fill="#CFE0D5"/>
+              <rect x="80" y="140" width="200" height="8" rx="4" fill="#E1EEE6"/>
+              <rect x="80" y="158" width="170" height="8" rx="4" fill="#E1EEE6"/>
+              <rect x="80" y="184" width="120" height="50" rx="8" fill="url(#svg1)" opacity=".85"/>
+              <rect x="210" y="184" width="90" height="50" rx="8" fill="#2E8B57" opacity=".5"/>
+              <circle cx="100" cy="210" r="6" fill="#fff" opacity=".9"/>
+              <rect x="114" y="202" width="60" height="6" rx="3" fill="#fff" opacity=".7"/>
+              <rect x="114" y="216" width="46" height="5" rx="2.5" fill="#fff" opacity=".5"/>
+            </svg>
+          </div>
+        {% endif %}
+      </aside>
     </div>
-    <aside class="panel">
-      <h3>{% trans "Features" %}</h3>
-      <ul class="feature-list">
-        {% for f in service.features_list %}<li>{{ f }}</li>{% empty %}
-        <li class="muted">{% trans "Feature list coming soon." %}</li>
-        {% endfor %}
-      </ul>
-      {% if service.image %}<img src="{{ service.image.url }}" alt="{{ service.name }}" loading="lazy">{% endif %}
-    </aside>
   </div>
 </section>
-{% if related %}
-<section class="section section-alt">
+
+{# ============ VALUE STRIP ============ #}
+<section class="service-value-strip">
   <div class="container">
-    <h2>{% trans "Related services" %}</h2>
+    <div class="svs-grid">
+      <div class="svs-item">
+        <span class="svs-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 9h8"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+        </span>
+        <strong>{% trans "Scope upfront" %}</strong>
+        <span class="muted small">{% trans "Clear deliverables before we start." %}</span>
+      </div>
+      <div class="svs-item">
+        <span class="svs-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </span>
+        <strong>{% trans "On-time delivery" %}</strong>
+        <span class="muted small">{% trans "Realistic timelines, tracked openly." %}</span>
+      </div>
+      <div class="svs-item">
+        <span class="svs-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        <strong>{% trans "Direct communication" %}</strong>
+        <span class="muted small">{% trans "You speak with the person building it." %}</span>
+      </div>
+      <div class="svs-item">
+        <span class="svs-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        <strong>{% trans "Support after delivery" %}</strong>
+        <span class="muted small">{% trans "We stay available long-term." %}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ============ BODY ============ #}
+<section class="section service-section">
+  <div class="container">
+    <div class="service-body">
+
+      {# ------- Narrative ------- #}
+      <article class="service-narrative prose">
+
+        {% if service.description_fa or service.description %}
+          <h2>{% trans "What this service covers" %}</h2>
+          {{ service.description_fa|default:service.description|linebreaks }}
+        {% else %}
+          <h2>{% trans "What this service covers" %}</h2>
+          <p class="muted">
+            {% trans "Detailed information for this service is being prepared. Contact us to discuss what we can deliver for your specific case." %}
+          </p>
+        {% endif %}
+
+        {# What's included — derived from features #}
+        {% if service.features_list %}
+          <h2 class="mt-lg">{% trans "What's included" %}</h2>
+          <div class="included-grid">
+            {% for f in service.features_list %}
+              <div class="included-item">
+                <span class="included-check" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <span>{{ f }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {# Process for this specific service #}
+        <h2 class="mt-lg">{% trans "How we deliver it" %}</h2>
+        <p class="muted">
+          {% trans "Every engagement follows the same proven path, adapted to your specific scope." %}
+        </p>
+
+        <ol class="service-steps">
+          <li>
+            <span class="step-num">01</span>
+            <div>
+              <strong>{% trans "Understand" %}</strong>
+              <p class="muted small">{% trans "We study how your organization works today — not how it should work in theory." %}</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <div>
+              <strong>{% trans "Propose" %}</strong>
+              <p class="muted small">{% trans "We present a clear scope, timeline, and cost. No hidden extras." %}</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <div>
+              <strong>{% trans "Build" %}</strong>
+              <p class="muted small">{% trans "We develop in stages so you see progress, not a black box." %}</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">04</span>
+            <div>
+              <strong>{% trans "Deliver & train" %}</strong>
+              <p class="muted small">{% trans "You receive the finished work along with training for your team." %}</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">05</span>
+            <div>
+              <strong>{% trans "Support" %}</strong>
+              <p class="muted small">{% trans "We remain available for fixes, improvements, and questions." %}</p>
+            </div>
+          </li>
+        </ol>
+
+        {# Who it's for #}
+        <h2 class="mt-lg">{% trans "Who this is for" %}</h2>
+        <p class="muted">
+          {% trans "This service is well-suited to organizations that recognize one of these situations:" %}
+        </p>
+        <ul class="who-for-list">
+          <li>{% trans "Your current process relies on paper, Excel, or WhatsApp messages." %}</li>
+          <li>{% trans "You have tried generic software and it doesn't match how you actually work." %}</li>
+          <li>{% trans "You need a system that runs in Persian or Pashto, not just translated English." %}</li>
+          <li>{% trans "You need a solution that keeps working when the internet is unreliable." %}</li>
+        </ul>
+
+        {# Callout #}
+        <div class="service-callout">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+          </svg>
+          <div>
+            <strong>{% trans "Not sure this fits your case?" %}</strong>
+            <p class="muted small">
+              {% trans "Tell us what you're trying to solve — we'll tell you honestly whether this service is right for you, or suggest a different path." %}
+            </p>
+            <a class="btn btn-primary btn-sm mt-sm" href="{% url 'contact:consultation' %}">
+              {% trans "Request a Consultation" %}
+            </a>
+          </div>
+        </div>
+
+      </article>
+
+      {# ------- Sidebar ------- #}
+      <aside class="service-sidebar">
+
+        <div class="panel">
+          <h4 class="sidebar-heading">{% trans "Quick summary" %}</h4>
+          <ul class="sidebar-summary">
+            <li>
+              <span class="sidebar-label">{% trans "Category" %}</span>
+              <span class="sidebar-value">{% trans "Professional service" %}</span>
+            </li>
+            <li>
+              <span class="sidebar-label">{% trans "Delivery" %}</span>
+              <span class="sidebar-value">{% trans "On-site or remote" %}</span>
+            </li>
+            <li>
+              <span class="sidebar-label">{% trans "Languages" %}</span>
+              <span class="sidebar-value">{% trans "Persian · Pashto · English" %}</span>
+            </li>
+            <li>
+              <span class="sidebar-label">{% trans "Support" %}</span>
+              <span class="sidebar-value">{% trans "Local, long-term" %}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="panel panel-accent service-cta-panel">
+          <span class="eyebrow">{% trans "Ready to start?" %}</span>
+          <h4>{% trans "Let's discuss your project" %}</h4>
+          <p class="muted small">
+            {% trans "A short conversation is enough for us to understand your needs and propose a practical next step." %}
+          </p>
+          <a class="btn btn-primary btn-block mt-sm" href="{% url 'contact:consultation' %}">
+            {% trans "Request a Consultation" %}
+          </a>
+          {% if site.whatsapp %}
+            <a class="btn btn-whatsapp btn-block mt-sm" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42z"/></svg>
+              {% trans "Chat on WhatsApp" %}
+            </a>
+          {% endif %}
+        </div>
+
+        <div class="panel service-help-panel">
+          <h4 class="sidebar-heading">{% trans "Common questions" %}</h4>
+          <details>
+            <summary>{% trans "How long does a project take?" %}</summary>
+            <p class="muted small">{% trans "It depends on scope — from a few days for a website to a few months for a full system." %}</p>
+          </details>
+          <details>
+            <summary>{% trans "Do you work outside Kabul?" %}</summary>
+            <p class="muted small">{% trans "Yes — we work with clients across Afghanistan, and remotely with others." %}</p>
+          </details>
+          <details>
+            <summary>{% trans "What about payments?" %}</summary>
+            <p class="muted small">{% trans "We agree on a fixed schedule before starting. No surprise costs." %}</p>
+          </details>
+          <details>
+            <summary>{% trans "Do you provide training?" %}</summary>
+            <p class="muted small">{% trans "Yes — every delivery includes training for your team." %}</p>
+          </details>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{# ============ RELATED SERVICES ============ #}
+{% if related %}
+<section class="section section-alt related-services-section">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">{% trans "Related services" %}</span>
+      <h2>{% trans "Explore similar services" %}</h2>
+      <p>{% trans "Organizations often combine this service with one of the following." %}</p>
+    </header>
+
     <div class="grid grid-3">
       {% for s in related %}
-        <a class="card" href="{{ s.get_absolute_url }}">
+        <a class="card service-card" href="{{ s.get_absolute_url }}">
+          <span class="card-icon" aria-hidden="true">
+            {% if s.icon %}<i class="{{ s.icon }}"></i>{% else %}◆{% endif %}
+          </span>
           <h3>{{ s.name_fa|default:s.name }}</h3>
           <p class="muted">{{ s.short_description_fa|default:s.short_description }}</p>
+          <span class="card-arrow" aria-hidden="true">→</span>
         </a>
       {% endfor %}
     </div>
   </div>
 </section>
 {% endif %}
+
+{# ============ CLOSING CTA ============ #}
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>{% trans "Let's design the right solution together" %}</h2>
+      <p>{% trans "A short consultation is enough for us to understand your needs and propose a plan." %}</p>
+    </div>
+    <a href="{% url 'contact:consultation' %}" class="btn btn-light btn-lg">
+      {% trans "Request a Consultation" %}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
 {% endblock %}

@@ -1,10 +1,193 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Terms & Conditions" %}{% endblock %}
+
+{% block title %}{% trans "Terms & Conditions" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta_description %}{% trans "Terms and conditions for using the Binyad website and engaging our services." %}{% endblock %}
+{% block meta %}<meta name="robots" content="index, follow">{% endblock %}
+
 {% block content %}
-<section class="section"><div class="container prose narrow">
-  <h1>{% trans "Terms & Conditions" %}</h1>
-  <p>{% trans "All services provided by Binyad are subject to a separate written agreement between Binyad and the client, which specifies scope, timeline, and responsibilities." %}</p>
-  <p>{% trans "Information on this website is provided for general description purposes and does not constitute a binding offer." %}</p>
-</div></section>
+
+<section class="page-hero legal-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>{% trans "Terms & Conditions" %}</span>
+    </nav>
+
+    <div class="legal-hero-inner">
+      <div>
+        <span class="eyebrow">{% trans "Legal" %}</span>
+        <h1>{% trans "Terms & Conditions" %}</h1>
+        <p class="lead">
+          {% trans "The rules that govern your use of this website and any services provided by Binyad." %}
+        </p>
+        <ul class="legal-meta">
+          <li>
+            <span class="legal-meta-label">{% trans "Last updated" %}</span>
+            <span class="legal-meta-value">{% now "F Y" %}</span>
+          </li>
+          <li>
+            <span class="legal-meta-label">{% trans "Applies to" %}</span>
+            <span class="legal-meta-value">{{ request.get_host }}</span>
+          </li>
+          <li>
+            <span class="legal-meta-label">{% trans "Contact" %}</span>
+            <span class="legal-meta-value">
+              {% if site.email %}<a href="mailto:{{ site.email }}">{{ site.email }}</a>{% else %}{% trans "Contact page" %}{% endif %}
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <aside class="legal-hero-icon" aria-hidden="true">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lt1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#176B45"/>
+              <stop offset="1" stop-color="#2E8B57"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#F5F8F6" stroke="#DDEAE1"/>
+          <rect x="55" y="40" width="90" height="120" rx="10" fill="url(#lt1)" opacity=".92"/>
+          <rect x="70" y="60" width="60" height="6" rx="3" fill="#fff" opacity=".85"/>
+          <rect x="70" y="78" width="50" height="6" rx="3" fill="#fff" opacity=".7"/>
+          <rect x="70" y="96" width="55" height="6" rx="3" fill="#fff" opacity=".7"/>
+          <rect x="70" y="114" width="40" height="6" rx="3" fill="#fff" opacity=".55"/>
+        </svg>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section legal-section">
+  <div class="container">
+    <div class="legal-layout">
+
+      <aside class="legal-toc" aria-label="{% trans 'On this page' %}">
+        <span class="toc-title">{% trans "On this page" %}</span>
+        <ul>
+          <li><a href="#acceptance">{% trans "Acceptance" %}</a></li>
+          <li><a href="#use-of-site">{% trans "Use of this site" %}</a></li>
+          <li><a href="#services">{% trans "Services & agreements" %}</a></li>
+          <li><a href="#intellectual">{% trans "Intellectual property" %}</a></li>
+          <li><a href="#liability">{% trans "Limitation of liability" %}</a></li>
+          <li><a href="#third-party">{% trans "Third-party links" %}</a></li>
+          <li><a href="#changes">{% trans "Changes" %}</a></li>
+          <li><a href="#law">{% trans "Governing law" %}</a></li>
+          <li><a href="#contact">{% trans "Contact" %}</a></li>
+        </ul>
+      </aside>
+
+      <article class="legal-content">
+
+        <section id="acceptance" class="legal-block">
+          <h2>{% trans "Acceptance of these terms" %}</h2>
+          <p>
+            {% trans "By using this website, you agree to these Terms & Conditions. If you do not agree, please do not use the website." %}
+          </p>
+        </section>
+
+        <section id="use-of-site" class="legal-block">
+          <h2>{% trans "Use of this site" %}</h2>
+          <p>
+            {% trans "You may use this website for lawful purposes only. You agree not to:" %}
+          </p>
+          <ul class="legal-list">
+            <li>{% trans "Attempt to gain unauthorized access to any part of the website or its systems." %}</li>
+            <li>{% trans "Submit false, misleading, or abusive information through our forms." %}</li>
+            <li>{% trans "Copy, redistribute, or republish substantial parts of the website without written permission." %}</li>
+          </ul>
+        </section>
+
+        <section id="services" class="legal-block">
+          <h2>{% trans "Services & agreements" %}</h2>
+          <p>
+            {% trans "Any services provided by Binyad are governed by a separate written agreement between Binyad and the client, which specifies the scope, timeline, deliverables, and payment terms." %}
+          </p>
+          <p>
+            {% trans "Information on this website is for general informational purposes only. It does not constitute a binding offer or a guarantee of delivery." %}
+          </p>
+        </section>
+
+        <section id="intellectual" class="legal-block">
+          <h2>{% trans "Intellectual property" %}</h2>
+          <p>
+            {% trans "All content on this website — including text, design, graphics, and code — is the property of Binyad unless otherwise indicated. Client projects and their deliverables are governed by the applicable project agreement." %}
+          </p>
+        </section>
+
+        <section id="liability" class="legal-block">
+          <h2>{% trans "Limitation of liability" %}</h2>
+          <p>
+            {% trans "While we make every effort to keep the information on this website accurate and up to date, we make no warranties about its completeness or accuracy. Binyad is not liable for any loss arising from reliance on the information presented here." %}
+          </p>
+        </section>
+
+        <section id="third-party" class="legal-block">
+          <h2>{% trans "Third-party links" %}</h2>
+          <p>
+            {% trans "This website may contain links to external websites. We are not responsible for the content, policies, or practices of those websites." %}
+          </p>
+        </section>
+
+        <section id="changes" class="legal-block">
+          <h2>{% trans "Changes to these terms" %}</h2>
+          <p>
+            {% trans "We may update these Terms & Conditions at any time. The 'Last updated' date at the top of this page will reflect the current version." %}
+          </p>
+        </section>
+
+        <section id="law" class="legal-block">
+          <h2>{% trans "Governing law" %}</h2>
+          <p>
+            {% trans "These terms are governed by the laws of the Islamic Republic of Afghanistan. Any dispute arising from the use of this website or Binyad services will be handled in the appropriate courts." %}
+          </p>
+        </section>
+
+        <section id="contact" class="legal-block legal-contact-block">
+          <h2>{% trans "Contact" %}</h2>
+          <p>
+            {% trans "For any question about these terms, contact us:" %}
+          </p>
+          <div class="legal-contact-grid">
+            {% if site.email %}
+              <a href="mailto:{{ site.email }}" class="contact-chip">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+                {{ site.email }}
+              </a>
+            {% endif %}
+            {% if site.phone %}
+              <a href="tel:{{ site.phone }}" class="contact-chip">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+                {{ site.phone }}
+              </a>
+            {% endif %}
+            <a href="{% url 'contact:contact' %}" class="contact-chip">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              {% trans "Contact form" %}
+            </a>
+          </div>
+        </section>
+
+        <footer class="legal-footer">
+          <p class="muted small">
+            {% trans "By continuing to use this website you accept these terms." %}
+          </p>
+          <div class="legal-nav">
+            <a class="btn btn-ghost btn-sm" href="{% url 'pages:privacy' %}">
+              {% trans "Privacy Policy" %}
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-primary btn-sm" href="{% url 'contact:contact' %}">
+              {% trans "Contact us" %}
+            </a>
+          </div>
+        </footer>
+
+      </article>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

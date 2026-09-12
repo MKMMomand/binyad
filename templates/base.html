@@ -4,42 +4,96 @@
 <!DOCTYPE html>
 <html lang="{{ LANG }}" dir="{% if BIDI %}rtl{% else %}ltr{% endif %}">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% block title %}{{ site.name_fa }} — {{ site.tagline_fa }}{% endblock %}</title>
-<meta name="description" content="{% block meta_description %}{{ site.tagline_fa }}{% endblock %}">
-{% block meta %}{% endblock %}
-{% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
-<link rel="canonical" href="{{ request.build_absolute_uri }}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
-{% block extra_head %}{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176B45">
+
+  <title>{% block title %}{{ site.name_fa }} — {{ site.tagline_fa }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ site.tagline_fa }}{% endblock %}">
+
+  {# Open Graph #}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{{ site.name_fa }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ site.tagline_fa }}{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  {% if site.logo %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ site.logo.url }}">{% endif %}
+
+  {% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% block extra_head %}{% endblock %}
 </head>
 <body class="lang-{{ LANG }} {% if BIDI %}is-rtl{% else %}is-ltr{% endif %}">
 
-<a href="#main" class="skip-link">{% trans "Skip to content" %}</a>
+  <a href="#main" class="skip-link">{% trans "Skip to content" %}</a>
 
-<header class="site-header" id="siteHeader">
-  <div class="container header-inner">
-    <a class="brand" href="{% url 'pages:home' %}">
-      {% if site.logo %}
-        <img src="{{ site.logo.url }}" alt="{{ site.company_name }}" class="brand-logo">
-      {% else %}
-        <span class="brand-mark" aria-hidden="true">ب</span>
-      {% endif %}
-      <span class="brand-text">
-        <span class="brand-name">
-          {% if LANG == 'fa' %}{{ site.name_fa }}{% elif LANG == 'ps' %}{{ site.name_ps }}{% else %}{{ site.name_en }}{% endif %}
-        </span>
-        <span class="brand-tag">
-          {% if LANG == 'fa' %}{{ site.name_fa|default:"بنیاد" }}{% elif LANG == 'ps' %}{{ site.name_ps|default:"بنیاد" }}{% else %}{{ site.name_en|default:"Binyad" }}{% endif %}
-        </span>
-      </span>
-    </a>
+  {# ============ HEADER ============ #}
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
 
-    <nav class="main-nav" aria-label="{% trans 'Main navigation' %}">
+      <a class="brand" href="{% url 'pages:home' %}" aria-label="{{ site.company_name }}">
+        {% if site.logo %}
+          <img src="{{ site.logo.url }}" alt="{{ site.company_name }}" class="brand-logo" width="40" height="40">
+        {% else %}
+          <span class="brand-mark" aria-hidden="true">ب</span>
+        {% endif %}
+        <span class="brand-text">
+          <span class="brand-name">
+            {% if LANG == 'fa' %}{{ site.name_fa|default:"بنیاد" }}
+            {% elif LANG == 'ps' %}{{ site.name_ps|default:"بنیاد" }}
+            {% else %}{{ site.name_en|default:"Binyad" }}{% endif %}
+          </span>
+          <span class="brand-tag">
+            {% if LANG == 'fa' %}{{ site.tagline_fa|default:"" }}
+            {% elif LANG == 'ps' %}{{ site.tagline_ps|default:site.tagline_en }}
+            {% else %}{{ site.tagline_en|default:"" }}{% endif %}
+          </span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="{% trans 'Main navigation' %}">
+        <ul>
+          <li><a href="{% url 'pages:home' %}">{% trans "Home" %}</a></li>
+          <li><a href="{% url 'pages:about' %}">{% trans "About" %}</a></li>
+          <li><a href="{% url 'services:list' %}">{% trans "Services" %}</a></li>
+          <li><a href="{% url 'pages:solutions' %}">{% trans "Solutions" %}</a></li>
+          <li><a href="{% url 'products:list' %}">{% trans "Products" %}</a></li>
+          <li><a href="{% url 'portfolio:list' %}">{% trans "Portfolio" %}</a></li>
+          <li><a href="{% url 'blog:list' %}">{% trans "Blog" %}</a></li>
+          <li><a href="{% url 'contact:contact' %}">{% trans "Contact" %}</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+
+        <form action="{% url 'set_language' %}" method="post" class="lang-switcher">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          {% get_available_languages as LANGS %}
+          <select name="language" onchange="this.form.submit()" aria-label="{% trans 'Language' %}">
+            {% for code, label in LANGS %}
+              <option value="{{ code }}" {% if code == LANG %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </form>
+
+        <a href="{% url 'contact:consultation' %}" class="btn btn-primary btn-sm header-cta">
+          {% trans "Request a Consultation" %}
+        </a>
+
+        <button class="menu-toggle" aria-label="{% trans 'Menu' %}" aria-expanded="false" aria-controls="mobileNav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    {# Mobile nav — rendered here so it's a sibling of header-inner for animation #}
+    <div class="mobile-nav" id="mobileNav" hidden>
       <ul>
         <li><a href="{% url 'pages:home' %}">{% trans "Home" %}</a></li>
         <li><a href="{% url 'pages:about' %}">{% trans "About" %}</a></li>
@@ -50,85 +104,103 @@
         <li><a href="{% url 'blog:list' %}">{% trans "Blog" %}</a></li>
         <li><a href="{% url 'contact:contact' %}">{% trans "Contact" %}</a></li>
       </ul>
-    </nav>
-
-    <div class="header-actions">
-      <form action="{% url 'set_language' %}" method="post" class="lang-switcher">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.path }}">
-        <select name="language" onchange="this.form.submit()" aria-label="{% trans 'Language' %}">
-          {% get_available_languages as LANGS %}
-          {% for code, label in LANGS %}
-            <option value="{{ code }}" {% if code == LANG %}selected{% endif %}>{{ label }}</option>
-          {% endfor %}
-        </select>
-      </form>
-      <a href="{% url 'contact:consultation' %}" class="btn btn-primary btn-sm">
+      <a href="{% url 'contact:consultation' %}" class="btn btn-primary">
         {% trans "Request a Consultation" %}
       </a>
-      <button class="menu-toggle" aria-label="{% trans 'Menu' %}" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
     </div>
-  </div>
-</header>
+  </header>
 
-<main id="main">
-{% block content %}{% endblock %}
-</main>
+  {# ============ MAIN ============ #}
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
 
-<footer class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <h3>{% if LANG == 'fa' %}{{ site.name_fa }}{% elif LANG == 'ps' %}{{ site.name_ps }}{% else %}{{ site.name_en }}{% endif %}</h3>
-      <p class="muted">
-        {% if LANG == 'fa' %}{{ site.tagline_fa }}{% elif LANG == 'ps' %}{{ site.tagline_ps|default:site.tagline_en }}{% else %}{{ site.tagline_en }}{% endif %}
-      </p>
-      <p>
-        {% if LANG == 'fa' %}{{ site.footer_text_fa }}{% elif LANG == 'ps' %}{{ site.footer_text_ps|default:site.footer_text_en }}{% else %}{{ site.footer_text_en }}{% endif %}
-      </p>
+  {# ============ FOOTER ============ #}
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="brand footer-brand-inner">
+          {% if site.logo %}
+            <img src="{{ site.logo.url }}" alt="{{ site.company_name }}" class="brand-logo" width="36" height="36">
+          {% else %}
+            <span class="brand-mark" aria-hidden="true">ب</span>
+          {% endif %}
+          <span class="brand-text">
+            <span class="brand-name">
+              {% if LANG == 'fa' %}{{ site.name_fa|default:"بنیاد" }}
+              {% elif LANG == 'ps' %}{{ site.name_ps|default:"بنیاد" }}
+              {% else %}{{ site.name_en|default:"Binyad" }}{% endif %}
+            </span>
+            <span class="brand-tag">
+              {% if LANG == 'fa' %}{{ site.tagline_fa }}
+              {% elif LANG == 'ps' %}{{ site.tagline_ps|default:site.tagline_en }}
+              {% else %}{{ site.tagline_en }}{% endif %}
+            </span>
+          </span>
+        </div>
+        {% if site.footer_text_fa or site.footer_text_en %}
+          <p class="muted footer-about">
+            {% if LANG == 'fa' %}{{ site.footer_text_fa }}
+            {% elif LANG == 'ps' %}{{ site.footer_text_ps|default:site.footer_text_en }}
+            {% else %}{{ site.footer_text_en }}{% endif %}
+          </p>
+        {% endif %}
+        {% if site.instagram or site.linkedin or site.facebook or site.telegram %}
+          <div class="footer-social">
+            {% if site.facebook %}<a href="{{ site.facebook }}" target="_blank" rel="noopener" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.75-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></a>{% endif %}
+            {% if site.instagram %}<a href="{{ site.instagram }}" target="_blank" rel="noopener" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8a7.9 7.9 0 1 0 0 15.9 7.9 7.9 0 0 0 0-15.9zm0 2.7a5.3 5.3 0 1 1 0 10.6 5.3 5.3 0 0 1 0-10.6zm6.3-1.2a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0z"/></svg></a>{% endif %}
+            {% if site.linkedin %}<a href="{{ site.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.6c0-1.34-.02-3.06-1.86-3.06-1.86 0-2.15 1.45-2.15 2.95v5.71H9.34V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.36-1.86 3.6 0 4.27 2.37 4.27 5.45v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45z"/></svg></a>{% endif %}
+            {% if site.telegram %}<a href="{{ site.telegram }}" target="_blank" rel="noopener" aria-label="Telegram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.6 20c-.24 1.1-.9 1.37-1.83.85l-5.04-3.72-2.43 2.34c-.27.27-.5.5-1 .5l.36-5.13 9.33-8.43c.4-.36-.09-.56-.63-.2L6.9 13.46 1.87 11.9c-1.09-.34-1.11-1.09.23-1.61L20.4 3.04c.91-.34 1.7.2 1.5 1.56z"/></svg></a>{% endif %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="footer-links-col">
+        <h4>{% trans "Quick links" %}</h4>
+        <ul class="footer-links">
+          <li><a href="{% url 'pages:about' %}">{% trans "About" %}</a></li>
+          <li><a href="{% url 'services:list' %}">{% trans "Services" %}</a></li>
+          <li><a href="{% url 'products:list' %}">{% trans "Products" %}</a></li>
+          <li><a href="{% url 'blog:list' %}">{% trans "Blog" %}</a></li>
+          <li><a href="{% url 'pages:privacy' %}">{% trans "Privacy Policy" %}</a></li>
+          <li><a href="{% url 'pages:terms' %}">{% trans "Terms & Conditions" %}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact-col">
+        <h4>{% trans "Contact" %}</h4>
+        <ul class="footer-links">
+          {% if site.phone %}<li><a href="tel:{{ site.phone }}">{{ site.phone }}</a></li>{% endif %}
+          {% if site.email %}<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>{% endif %}
+          {% if site.address_fa %}<li class="muted">{{ site.address_fa }}</li>{% endif %}
+          {% if site.opening_hours_fa %}<li class="muted">{{ site.opening_hours_fa }}</li>{% endif %}
+        </ul>
+        {% if site.whatsapp %}
+          <a class="btn btn-whatsapp btn-sm" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42z"/></svg>
+            {% trans "Chat on WhatsApp" %}
+          </a>
+        {% endif %}
+      </div>
     </div>
-    <div>
-      <h4>{% trans "Quick links" %}</h4>
-      <ul class="footer-links">
-        <li><a href="{% url 'pages:about' %}">{% trans "About" %}</a></li>
-        <li><a href="{% url 'services:list' %}">{% trans "Services" %}</a></li>
-        <li><a href="{% url 'products:list' %}">{% trans "Products" %}</a></li>
-        <li><a href="{% url 'blog:list' %}">{% trans "Blog" %}</a></li>
-        <li><a href="{% url 'pages:privacy' %}">{% trans "Privacy Policy" %}</a></li>
-        <li><a href="{% url 'pages:terms' %}">{% trans "Terms & Conditions" %}</a></li>
-      </ul>
+
+    <div class="container footer-bottom">
+      <span>&copy; {% now "Y" %} {{ site.company_name|default:"Binyad" }}. {% trans "All rights reserved." %}</span>
+      <span class="footer-meta">{% trans "From manual work to organized digital systems." %}</span>
     </div>
-    <div>
-      <h4>{% trans "Contact" %}</h4>
-      <ul class="footer-links">
-        {% if site.phone %}<li><a href="tel:{{ site.phone }}">{{ site.phone }}</a></li>{% endif %}
-        {% if site.email %}<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>{% endif %}
-        {% if site.address_fa %}<li>{{ site.address_fa }}</li>{% endif %}
-      </ul>
-      {% if site.whatsapp %}
-        <a class="btn btn-whatsapp btn-sm" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
-          {% trans "Chat on WhatsApp" %}
-        </a>
-      {% endif %}
-    </div>
-  </div>
-  <div class="container footer-bottom">
-    <span>&copy; {% now "Y" %} {{ site.company_name }}. {% trans "All rights reserved." %}</span>
-  </div>
-</footer>
+  </footer>
 
-{% if site.whatsapp %}
-<a class="whatsapp-float" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" aria-label="{% trans 'Chat on WhatsApp' %}">
-  <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42zM12.04 21.8a9.9 9.9 0 0 1-5.05-1.38l-.36-.22-3.75.98 1-3.66-.24-.37a9.84 9.84 0 0 1-1.51-5.24c0-5.45 4.44-9.89 9.9-9.89a9.83 9.83 0 0 1 9.89 9.9c0 5.45-4.44 9.88-9.88 9.88zm5.42-7.4c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.65-1.57-.9-2.15-.24-.57-.48-.5-.66-.5-.17 0-.37-.02-.57-.02-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.19 5.07 4.47.71.3 1.26.49 1.69.62.71.23 1.35.19 1.86.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
-</a>
-{% endif %}
+  {% if site.whatsapp %}
+    <a class="whatsapp-float" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" aria-label="{% trans 'Chat on WhatsApp' %}">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42zM12.04 21.8a9.9 9.9 0 0 1-5.05-1.38l-.36-.22-3.75.98 1-3.66-.24-.37a9.84 9.84 0 0 1-1.51-5.24c0-5.45 4.44-9.89 9.9-9.89a9.83 9.83 0 0 1 9.89 9.9c0 5.45-4.44 9.88-9.88 9.88zm5.42-7.4c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.65-1.57-.9-2.15-.24-.57-.48-.5-.66-.5-.17 0-.37-.02-.57-.02-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.19 5.07 4.47.71.3 1.26.49 1.69.62.71.23 1.35.19 1.86.12.57-.09 1.75-.71 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+    </a>
+  {% endif %}
 
-<button class="back-to-top" aria-label="{% trans 'Back to top' %}" id="backToTop">
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 14l6-6 6 6"/></svg>
-</button>
+  <button class="back-to-top" aria-label="{% trans 'Back to top' %}" id="backToTop">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
 
-<script src="{% static 'js/main.js' %}" defer></script>
-{% block extra_js %}{% endblock %}
+  <script src="{% static 'js/main.js' %}" defer></script>
+  {% block extra_js %}{% endblock %}
 </body>
 </html>

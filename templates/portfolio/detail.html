@@ -1,26 +1,336 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{{ project.title_fa|default:project.title }}{% endblock %}
-{% block content %}
-<section class="page-hero"><div class="container">
-  <nav class="breadcrumbs"><a href="{% url 'pages:home' %}">{% trans "Home" %}</a> / <a href="{% url 'portfolio:list' %}">{% trans "Portfolio" %}</a> / <span>{{ project.title }}</span></nav>
-  <h1>{{ project.title_fa|default:project.title }}</h1>
-  <p class="lead">{{ project.industry }}{% if project.client_name %} — {{ project.client_name }}{% endif %}</p>
-  {% if project.is_demo %}<span class="tag tag-demo">{% trans "Demo entry" %}</span>{% endif %}
-</div></section>
-<section class="section"><div class="container two-col">
-  <div class="prose">{{ project.description_fa|default:project.description|linebreaks }}</div>
-  <aside class="panel">
-    <h3>{% trans "Details" %}</h3>
-    <ul class="meta-list">
-      {% if project.technologies %}<li><strong>{% trans "Technologies:" %}</strong> {{ project.technologies }}</li>{% endif %}
-      {% if project.completion_date %}<li><strong>{% trans "Completed:" %}</strong> {{ project.completion_date }}</li>{% endif %}
-    </ul>
-  </aside>
-</div></section>
-{% if project.gallery.all %}
-<section class="section section-alt"><div class="container grid grid-3">
-  {% for img in project.gallery.all %}<img src="{{ img.image.url }}" alt="{{ img.caption }}" loading="lazy" class="gallery-img">{% endfor %}
-</div></section>
+
+{% block title %}{{ project.title_fa|default:project.title }} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta_description %}{{ project.description_fa|default:project.description|striptags|truncatewords:25 }}{% endblock %}
+
+{% block og_title %}{{ project.title_fa|default:project.title }}{% endblock %}
+{% block og_description %}{{ project.description_fa|default:project.description|striptags|truncatewords:25 }}{% endblock %}
+{% if project.image %}
+  {% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ project.image.url }}{% endblock %}
 {% endif %}
+
+{% block content %}
+
+{# ============ HERO ============ #}
+<section class="page-hero portfolio-detail-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="{% url 'portfolio:list' %}">{% trans "Portfolio" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>{{ project.title_fa|default:project.title }}</span>
+    </nav>
+
+    <div class="pd-hero-inner">
+      <div class="pd-hero-copy">
+        <div class="pd-badges">
+          {% if project.industry %}
+            <span class="pd-badge pd-badge-industry">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16v16H4z"/><path d="M4 10h16"/><path d="M10 10v10"/>
+              </svg>
+              {{ project.industry }}
+            </span>
+          {% endif %}
+          {% if project.is_demo %}
+            <span class="pd-badge pd-badge-demo">
+              {% trans "Demo entry" %}
+            </span>
+          {% endif %}
+          {% if project.featured %}
+            <span class="pd-badge pd-badge-featured">
+              ★ {% trans "Featured" %}
+            </span>
+          {% endif %}
+        </div>
+
+        <h1>{{ project.title_fa|default:project.title }}</h1>
+
+        {% if project.client_name %}
+          <p class="pd-client">
+            <span class="pd-client-label">{% trans "Client" %}</span>
+            <span class="pd-client-value">{{ project.client_name }}</span>
+          </p>
+        {% endif %}
+
+        {% if project.description_fa or project.description %}
+          <p class="lead">
+            {{ project.description_fa|default:project.description|striptags|truncatewords:40 }}
+          </p>
+        {% endif %}
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="{% url 'contact:consultation' %}">
+            {% trans "Start a similar project" %}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+          <a class="btn btn-ghost" href="{% url 'portfolio:list' %}">
+            {% trans "All projects" %}
+          </a>
+        </div>
+      </div>
+
+      <div class="pd-hero-visual">
+        {% if project.image %}
+          <img src="{{ project.image.url }}" alt="{{ project.title_fa|default:project.title }}" loading="eager">
+        {% else %}
+          <div class="pd-hero-placeholder" aria-hidden="true">
+            <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="pdd1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#176B45"/>
+                  <stop offset="1" stop-color="#2E8B57"/>
+                </linearGradient>
+              </defs>
+              <rect x="20" y="20" width="360" height="280" rx="20" fill="#F5F8F6" stroke="#DDEAE1"/>
+              <rect x="60" y="60" width="280" height="200" rx="14" fill="#fff" stroke="#DDEAE1"/>
+              <rect x="60" y="60" width="280" height="38" rx="14" fill="url(#pdd1)"/>
+              <circle cx="82" cy="79" r="5" fill="#fff" opacity=".95"/>
+              <circle cx="98" cy="79" r="5" fill="#fff" opacity=".75"/>
+              <circle cx="114" cy="79" r="5" fill="#fff" opacity=".55"/>
+              <rect x="80" y="118" width="120" height="10" rx="5" fill="#CFE0D5"/>
+              <rect x="80" y="140" width="200" height="8" rx="4" fill="#E1EEE6"/>
+              <rect x="80" y="158" width="170" height="8" rx="4" fill="#E1EEE6"/>
+              <rect x="80" y="184" width="90" height="50" rx="8" fill="url(#pdd1)" opacity=".85"/>
+              <rect x="180" y="184" width="90" height="50" rx="8" fill="#2E8B57" opacity=".55"/>
+              <rect x="280" y="184" width="40" height="50" rx="8" fill="#10251C" opacity=".2"/>
+            </svg>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ============ METADATA STRIP ============ #}
+{% if project.industry or project.client_name or project.technologies or project.completion_date %}
+<section class="pd-meta-strip">
+  <div class="container">
+    <div class="pd-meta-grid">
+      {% if project.client_name %}
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">{% trans "Client" %}</span>
+          <span class="pd-meta-value">{{ project.client_name }}</span>
+        </div>
+      {% endif %}
+      {% if project.industry %}
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">{% trans "Industry" %}</span>
+          <span class="pd-meta-value">{{ project.industry }}</span>
+        </div>
+      {% endif %}
+      {% if project.technologies %}
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">{% trans "Technologies" %}</span>
+          <span class="pd-meta-value">{{ project.technologies }}</span>
+        </div>
+      {% endif %}
+      {% if project.completion_date %}
+        <div class="pd-meta-item">
+          <span class="pd-meta-label">{% trans "Completed" %}</span>
+          <span class="pd-meta-value">{{ project.completion_date|date:"F Y" }}</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ============ BODY ============ #}
+<section class="section portfolio-detail-section">
+  <div class="container">
+    <div class="pd-body">
+
+      {# Main narrative #}
+      <article class="pd-narrative prose">
+        {% if project.description_fa or project.description %}
+          <h2>{% trans "About this project" %}</h2>
+          {{ project.description_fa|default:project.description|linebreaks }}
+        {% else %}
+          <h2>{% trans "About this project" %}</h2>
+          <p class="muted">
+            {% trans "A detailed case study for this project is being prepared. Contact us if you would like to hear more about how it was built." %}
+          </p>
+        {% endif %}
+
+        {% if project.technologies %}
+          <h2 class="mt-lg">{% trans "What we built" %}</h2>
+          <p>
+            {% trans "This project involved design, development, and delivery based on the client's actual workflow. The following technologies and approaches were used:" %}
+          </p>
+          <div class="pd-tech-chips">
+            {% for tech in project.technologies.split|slice:":12" %}
+              {% if tech != ',' and tech != '·' %}
+                <span class="pd-tech-chip">{{ tech|cut:"," }}</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="pd-story-callout">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+          </svg>
+          <div>
+            <strong>{% trans "Interested in a similar project?" %}</strong>
+            <p class="muted small">
+              {% trans "Every solution is designed around the client's real workflow. Tell us about yours." %}
+            </p>
+            <a class="btn btn-primary btn-sm mt-sm" href="{% url 'contact:consultation' %}">
+              {% trans "Request a Consultation" %}
+            </a>
+          </div>
+        </div>
+      </article>
+
+      {# Sidebar #}
+      <aside class="pd-sidebar">
+
+        <div class="panel pd-sidebar-panel">
+          <h4>{% trans "Project summary" %}</h4>
+          <ul class="pd-sidebar-list">
+            {% if project.client_name %}
+              <li>
+                <span class="pd-side-label">{% trans "Client" %}</span>
+                <span class="pd-side-value">{{ project.client_name }}</span>
+              </li>
+            {% endif %}
+            {% if project.industry %}
+              <li>
+                <span class="pd-side-label">{% trans "Industry" %}</span>
+                <span class="pd-side-value">{{ project.industry }}</span>
+              </li>
+            {% endif %}
+            {% if project.completion_date %}
+              <li>
+                <span class="pd-side-label">{% trans "Completed" %}</span>
+                <span class="pd-side-value">{{ project.completion_date|date:"F Y" }}</span>
+              </li>
+            {% endif %}
+            {% if project.technologies %}
+              <li>
+                <span class="pd-side-label">{% trans "Technologies" %}</span>
+                <span class="pd-side-value">{{ project.technologies }}</span>
+              </li>
+            {% endif %}
+            <li>
+              <span class="pd-side-label">{% trans "Status" %}</span>
+              <span class="pd-side-value">
+                {% if project.published %}
+                  <span class="pd-status pd-status-live">
+                    <span class="pd-dot" aria-hidden="true"></span>
+                    {% trans "Published" %}
+                  </span>
+                {% else %}
+                  <span class="pd-status pd-status-draft">{% trans "Draft" %}</span>
+                {% endif %}
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="panel panel-accent pd-cta-panel">
+          <span class="eyebrow">{% trans "Have a project?" %}</span>
+          <h4>{% trans "Let's talk" %}</h4>
+          <p class="muted small">
+            {% trans "We design solutions around real workflows. Tell us about yours and we'll propose a practical plan." %}
+          </p>
+          <a class="btn btn-primary btn-block mt-sm" href="{% url 'contact:consultation' %}">
+            {% trans "Request a Consultation" %}
+          </a>
+          {% if site.whatsapp %}
+            <a class="btn btn-whatsapp btn-block mt-sm" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+              {% trans "Chat on WhatsApp" %}
+            </a>
+          {% endif %}
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{# ============ GALLERY ============ #}
+{% if project.gallery.all %}
+<section class="section section-alt pd-gallery-section">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">{% trans "Gallery" %}</span>
+      <h2>{% trans "Screenshots and visuals" %}</h2>
+    </header>
+
+    <div class="pd-gallery-grid">
+      {% for img in project.gallery.all %}
+        <figure class="pd-gallery-item">
+          <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}" loading="lazy">
+          {% if img.caption %}
+            <figcaption>{{ img.caption }}</figcaption>
+          {% endif %}
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ============ RELATED PROJECTS ============ #}
+{% if related_projects %}
+<section class="section">
+  <div class="container">
+    <header class="section-head">
+      <span class="eyebrow">{% trans "More work" %}</span>
+      <h2>{% trans "Other projects" %}</h2>
+      <p>{% trans "See how Binyad has helped other organizations." %}</p>
+    </header>
+
+    <div class="grid grid-3">
+      {% for p in related_projects %}
+        <article class="card project-card">
+          {% if p.image %}
+            <img src="{{ p.image.url }}" alt="{{ p.title }}" loading="lazy" class="card-image">
+          {% else %}
+            <div class="project-card-placeholder" aria-hidden="true">
+              <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="180" height="100" rx="8" fill="#F5F8F6" stroke="#DDEAE1"/>
+                <rect x="10" y="10" width="180" height="22" rx="8" fill="#176B45" opacity=".85"/>
+                <circle cx="22" cy="21" r="3" fill="#fff" opacity=".9"/>
+                <circle cx="34" cy="21" r="3" fill="#fff" opacity=".7"/>
+                <circle cx="46" cy="21" r="3" fill="#fff" opacity=".5"/>
+                <rect x="24" y="46" width="70" height="8" rx="4" fill="#CFE0D5"/>
+                <rect x="24" y="64" width="120" height="6" rx="3" fill="#E1EEE6"/>
+                <rect x="24" y="80" width="100" height="6" rx="3" fill="#E1EEE6"/>
+              </svg>
+            </div>
+          {% endif %}
+          <h3>{{ p.title_fa|default:p.title }}</h3>
+          {% if p.industry %}<span class="pd-badge pd-badge-industry">{{ p.industry }}</span>{% endif %}
+          <p class="muted small">{{ p.description_fa|default:p.description|striptags|truncatewords:12 }}</p>
+          <span class="card-arrow" aria-hidden="true">→</span>
+          <a class="stretched-link" href="{{ p.get_absolute_url }}" aria-label="{{ p.title_fa|default:p.title }}"></a>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ============ CLOSING CTA ============ #}
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>{% trans "Ready to start your project?" %}</h2>
+      <p>{% trans "Tell us about your organization and we'll suggest a practical next step." %}</p>
+    </div>
+    <a href="{% url 'contact:consultation' %}" class="btn btn-light btn-lg">
+      {% trans "Request a Consultation" %}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
 {% endblock %}

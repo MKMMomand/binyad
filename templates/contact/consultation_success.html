@@ -1,11 +1,120 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Request received" %}{% endblock %}
+
+{% block title %}{% trans "Request received" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta_description %}{% trans "Your consultation request has been received. Our team will contact you shortly." %}{% endblock %}
+{% block meta %}<meta name="robots" content="noindex, follow">{% endblock %}
+
 {% block content %}
-<section class="section"><div class="container narrow center">
-  <div class="success-icon" aria-hidden="true">✓</div>
-  <h1>{% trans "Thank you for contacting Binyad." %}</h1>
-  <p class="lead">{% trans "We received your consultation request and will review it carefully. One of our team members will get in touch soon." %}</p>
-  <a class="btn btn-primary" href="{% url 'pages:home' %}">{% trans "Back to home" %}</a>
-</div></section>
+
+<section class="success-page">
+
+  {# Decorative background #}
+  <div class="success-bg" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+  </div>
+
+  <div class="container">
+
+    <div class="success-card">
+
+      {# Animated check #}
+      <div class="success-check" aria-hidden="true">
+        <svg viewBox="0 0 52 52" width="72" height="72">
+          <circle class="check-circle" cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <path class="check-mark" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" d="M14 27l8 8 16-18"/>
+        </svg>
+      </div>
+
+      <span class="success-eyebrow">{% trans "Step 1 of 3 completed" %}</span>
+
+      <h1 class="success-title">
+        {% trans "Thank you for contacting Binyad." %}
+      </h1>
+
+      <p class="success-lead">
+        {% trans "We received your consultation request and will review it carefully. One of our team members will get in touch with you soon." %}
+      </p>
+
+      {# What happens next #}
+      <div class="success-timeline" role="list">
+        <div class="timeline-step is-done" role="listitem">
+          <span class="step-dot" aria-hidden="true"></span>
+          <div>
+            <strong>{% trans "Request received" %}</strong>
+            <p class="muted small">{% trans "Your message has been saved securely." %}</p>
+          </div>
+        </div>
+        <div class="timeline-step" role="listitem">
+          <span class="step-dot" aria-hidden="true"></span>
+          <div>
+            <strong>{% trans "Under review" %}</strong>
+            <p class="muted small">{% trans "We will assess your needs and prepare a tailored response." %}</p>
+          </div>
+        </div>
+        <div class="timeline-step" role="listitem">
+          <span class="step-dot" aria-hidden="true"></span>
+          <div>
+            <strong>{% trans "We contact you" %}</strong>
+            <p class="muted small">{% trans "Expect a call or message within 1 business day." %}</p>
+          </div>
+        </div>
+      </div>
+
+      {# Actions #}
+      <div class="success-actions">
+        <a class="btn btn-primary" href="{% url 'pages:home' %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>
+          </svg>
+          {% trans "Back to home" %}
+        </a>
+        <a class="btn btn-ghost" href="{% url 'services:list' %}">
+          {% trans "Explore our services" %}
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+
+      {# Contact fallback #}
+      {% if site.phone or site.whatsapp or site.email %}
+      <div class="success-contact">
+        <p class="muted small">
+          {% trans "Need to reach us sooner?" %}
+        </p>
+        <div class="success-contact-links">
+          {% if site.phone %}
+            <a href="tel:{{ site.phone }}" class="contact-chip">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              {{ site.phone }}
+            </a>
+          {% endif %}
+          {% if site.email %}
+            <a href="mailto:{{ site.email }}" class="contact-chip">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/>
+              </svg>
+              {{ site.email }}
+            </a>
+          {% endif %}
+          {% if site.whatsapp %}
+            <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="contact-chip contact-chip-wa">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42z"/>
+              </svg>
+              {% trans "WhatsApp" %}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+</section>
+
 {% endblock %}

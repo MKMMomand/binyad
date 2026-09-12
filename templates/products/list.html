@@ -1,39 +1,208 @@
-Set-Content -Path "templates\products\list.html" -Encoding UTF8 -Value @'
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Products" %}{% endblock %}
-{% block meta_description %}{% trans "Binyad product line: office management, inventory, CRM, HR, and industry-specific systems." %}{% endblock %}
+{% block title %}{% trans "Products" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta_description %}{% trans "Binyad product line: office management, inventory, CRM, HR, and industry-specific systems for Afghan businesses and organizations." %}{% endblock %}
+
+{% block og_title %}{% trans "Products" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block og_description %}{% trans "Explore Binyad's product roadmap — office management, inventory, CRM, HR, property, school, and clinic systems." %}{% endblock %}
 
 {% block content %}
-<section class="page-hero">
+
+{# ============ HERO ============ #}
+<section class="page-hero products-hero">
   <div class="container">
-    <h1>{% trans "Products" %}</h1>
-    <p class="lead">
-      {% trans "Our product roadmap. Products are being developed and released progressively. Some are available today, others are in planning or under active development." %}
-    </p>
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>{% trans "Products" %}</span>
+    </nav>
+
+    <div class="products-hero-grid">
+      <div>
+        <span class="eyebrow">{% trans "Binyad Product Line" %}</span>
+        <h1>{% trans "Software built for real workflows" %}</h1>
+        <p class="lead">
+          {% trans "Practical, offline-ready systems for offices, shops, clinics, schools, and organizations. Some products are available today, others are on our active roadmap." %}
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="{% url 'contact:consultation' %}">
+            {% trans "Request a Consultation" %}
+          </a>
+          <a class="btn btn-ghost" href="{% url 'services:list' %}">
+            {% trans "View Services" %}
+          </a>
+        </div>
+      </div>
+
+      <div class="products-hero-stats" role="list">
+        <div class="stat-card" role="listitem">
+          <span class="stat-number">{{ products|length }}</span>
+          <span class="stat-label">{% trans "Products on the roadmap" %}</span>
+        </div>
+        <div class="stat-card" role="listitem">
+          <span class="stat-number">3</span>
+          <span class="stat-label">{% trans "Languages supported" %}</span>
+        </div>
+        <div class="stat-card" role="listitem">
+          <span class="stat-number">∞</span>
+          <span class="stat-label">{% trans "Customization options" %}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container grid grid-3">
-    {% for p in products %}
-      <a class="card" href="{{ p.get_absolute_url }}">
-        <span class="status-badge status-{{ p.status }}">{{ p.get_status_display }}</span>
-        {% if p.image %}
-          <img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" class="card-image">
-        {% endif %}
-        <h3>{{ p.name_fa|default:p.name }}</h3>
-        <p class="muted">{{ p.short_description_fa|default:p.short_description }}</p>
-        <span class="card-arrow">&rarr;</span>
-      </a>
-    {% empty %}
-      <div class="empty-state">
-        <h3>{% trans "Products coming soon" %}</h3>
-        <p class="muted">{% trans "Our product catalog is being prepared." %}</p>
-      </div>
-    {% endfor %}
+{# ============ FILTER TABS ============ #}
+<section class="section product-list-section">
+  <div class="container">
+
+    <header class="section-head">
+      <h2>{% trans "Explore our products" %}</h2>
+      <p>{% trans "Filter by development status to see what is available now and what is coming next." %}</p>
+    </header>
+
+    <div class="filter-tabs" role="tablist" aria-label="{% trans 'Product status filter' %}">
+      <button class="filter-tab is-active" data-filter="all" role="tab" aria-selected="true">
+        {% trans "All" %}
+      </button>
+      <button class="filter-tab" data-filter="available" role="tab" aria-selected="false">
+        {% trans "Available" %}
+      </button>
+      <button class="filter-tab" data-filter="dev" role="tab" aria-selected="false">
+        {% trans "In Development" %}
+      </button>
+      <button class="filter-tab" data-filter="planned" role="tab" aria-selected="false">
+        {% trans "Planned" %}
+      </button>
+      <button class="filter-tab" data-filter="custom" role="tab" aria-selected="false">
+        {% trans "Custom" %}
+      </button>
+    </div>
+
+    <div class="grid grid-3 products-grid" id="productsGrid">
+      {% for p in products %}
+        <article class="card product-card" data-status="{{ p.status }}" itemscope itemtype="https://schema.org/SoftwareApplication">
+
+          <div class="product-card-visual">
+            {% if p.image %}
+              <img src="{{ p.image.url }}" alt="{{ p.name_fa|default:p.name }}" loading="lazy" itemprop="image">
+            {% else %}
+              <div class="product-card-placeholder" aria-hidden="true">
+                <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="180" height="120" rx="10" fill="#F5F8F6" stroke="#DDEAE1"/>
+                  <rect x="10" y="10" width="180" height="24" rx="10" fill="#176B45" opacity=".9"/>
+                  <circle cx="22" cy="22" r="3" fill="#fff" opacity=".9"/>
+                  <circle cx="34" cy="22" r="3" fill="#fff" opacity=".7"/>
+                  <circle cx="46" cy="22" r="3" fill="#fff" opacity=".5"/>
+                  <rect x="24" y="48" width="70" height="8" rx="4" fill="#CFE0D5"/>
+                  <rect x="24" y="64" width="110" height="6" rx="3" fill="#E1EEE6"/>
+                  <rect x="24" y="78" width="90" height="6" rx="3" fill="#E1EEE6"/>
+                  <rect x="24" y="96" width="50" height="22" rx="6" fill="#2E8B57" opacity=".65"/>
+                  <rect x="82" y="96" width="50" height="22" rx="6" fill="#176B45" opacity=".5"/>
+                </svg>
+              </div>
+            {% endif %}
+
+            <span class="status-badge status-{{ p.status }} product-status-pill">
+              {{ p.get_status_display }}
+            </span>
+          </div>
+
+          <div class="product-card-body">
+            <h3 itemprop="name">{{ p.name_fa|default:p.name }}</h3>
+            <p class="muted" itemprop="description">
+              {{ p.short_description_fa|default:p.short_description }}
+            </p>
+
+            {% if p.features_list %}
+              <ul class="product-card-features">
+                {% for f in p.features_list|slice:":3" %}
+                  <li>{{ f }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+
+          <div class="product-card-footer">
+            <span class="card-link">
+              {% trans "Learn more" %}
+              <span class="card-arrow">&rarr;</span>
+            </span>
+          </div>
+
+          <a class="stretched-link" href="{{ p.get_absolute_url }}" aria-label="{{ p.name_fa|default:p.name }}"></a>
+        </article>
+      {% empty %}
+        <div class="empty-state">
+          <h3>{% trans "Products coming soon" %}</h3>
+          <p class="muted">{% trans "Our product catalog is being prepared. Please check back shortly or contact us for a walkthrough." %}</p>
+          <a class="btn btn-primary mt-sm" href="{% url 'contact:consultation' %}">
+            {% trans "Request a Consultation" %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <p class="filter-empty-message" id="filterEmpty" hidden>
+      {% trans "No products in this category yet." %}
+    </p>
+
   </div>
 </section>
+
+{# ============ WHY BINYAD PRODUCTS ============ #}
+<section class="section section-alt">
+  <div class="container">
+    <header class="section-head">
+      <h2>{% trans "Why choose Binyad products" %}</h2>
+      <p>{% trans "Every Binyad product is built on the same principles — practical, local, and dependable." %}</p>
+    </header>
+
+    <div class="grid grid-4">
+      <div class="value-card">
+        <span class="value-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        <h3>{% trans "Secure by default" %}</h3>
+        <p class="muted small">{% trans "Built with modern security practices and clean data handling." %}</p>
+      </div>
+      <div class="value-card">
+        <span class="value-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 10h16"/><path d="M10 10v10"/></svg>
+        </span>
+        <h3>{% trans "Runs offline" %}</h3>
+        <p class="muted small">{% trans "Works with or without internet — data stays where you need it." %}</p>
+      </div>
+      <div class="value-card">
+        <span class="value-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+        </span>
+        <h3>{% trans "Persian & Pashto" %}</h3>
+        <p class="muted small">{% trans "Native RTL interface designed for local users, not just translated." %}</p>
+      </div>
+      <div class="value-card">
+        <span class="value-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </span>
+        <h3>{% trans "Local support" %}</h3>
+        <p class="muted small">{% trans "Fast technical support in your language and timezone." %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ============ CTA BAND ============ #}
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>{% trans "Need a system tailored to your business?" %}</h2>
+      <p>{% trans "We customize every product to fit your real workflow — tell us about it." %}</p>
+    </div>
+    <a href="{% url 'contact:consultation' %}" class="btn btn-light">
+      {% trans "Request a Consultation" %}
+    </a>
+  </div>
+</section>
+
 {% endblock %}
-'@

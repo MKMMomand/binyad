@@ -4,58 +4,204 @@
 {% block title %}{{ product.seo_title|default:product.name }}{% endblock %}
 {% block meta_description %}{{ product.seo_description|default:product.short_description }}{% endblock %}
 
+{% block og_title %}{{ product.name_fa|default:product.name }} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block og_description %}{{ product.short_description_fa|default:product.short_description }}{% endblock %}
+
 {% block content %}
-<section class="page-hero">
+
+{# ============ HERO ============ #}
+<section class="page-hero product-hero">
   <div class="container">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="{% url "pages:home" %}">{% trans "Home" %}</a> /
-      <a href="{% url "products:list" %}">{% trans "Products" %}</a> /
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="{% url 'products:list' %}">{% trans "Products" %}</a>
+      <span class="breadcrumb-sep">/</span>
       <span>{{ product.name_fa|default:product.name }}</span>
     </nav>
-    <span class="status-badge status-{{ product.status }}">{{ product.get_status_display }}</span>
-    <h1>{{ product.name_fa|default:product.name }}</h1>
-    <p class="lead">{{ product.short_description_fa|default:product.short_description }}</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="{% url "contact:consultation" %}">{% trans "Request a Consultation" %}</a>
-      {% if product.demo_url %}
-        <a class="btn btn-ghost" href="{{ product.demo_url }}" target="_blank" rel="noopener">{% trans "View Demo" %}</a>
-      {% endif %}
+
+    <div class="product-hero-grid">
+      <div class="product-hero-copy">
+        <span class="status-badge status-{{ product.status }}">
+          {{ product.get_status_display }}
+        </span>
+        <h1>{{ product.name_fa|default:product.name }}</h1>
+        <p class="lead">{{ product.short_description_fa|default:product.short_description }}</p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="{% url 'contact:consultation' %}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            {% trans "Request a Consultation" %}
+          </a>
+          {% if product.demo_url %}
+            <a class="btn btn-ghost" href="{{ product.demo_url }}" target="_blank" rel="noopener">
+              {% trans "View Demo" %}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <path d="M15 3h6v6"/><path d="M10 14 21 3"/>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+
+        {# Quick meta strip #}
+        <ul class="product-meta">
+          {% if product.status %}
+            <li>
+              <span class="meta-label">{% trans "Status" %}</span>
+              <span class="meta-value">{{ product.get_status_display }}</span>
+            </li>
+          {% endif %}
+          <li>
+            <span class="meta-label">{% trans "Category" %}</span>
+            <span class="meta-value">{% trans "Business software" %}</span>
+          </li>
+          <li>
+            <span class="meta-label">{% trans "Deployment" %}</span>
+            <span class="meta-value">{% trans "On-premise / Offline-ready" %}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="product-hero-visual">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name_fa|default:product.name }}" loading="lazy">
+        {% else %}
+          <div class="product-visual-placeholder" aria-hidden="true">
+            <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img">
+              <defs>
+                <linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#176B45"/>
+                  <stop offset="1" stop-color="#2E8B57"/>
+                </linearGradient>
+              </defs>
+              <rect x="20" y="24" width="360" height="240" rx="18" fill="#FFFFFF" stroke="#DDEAE1"/>
+              <rect x="20" y="24" width="360" height="44" rx="18" fill="url(#pg1)"/>
+              <circle cx="46" cy="46" r="6" fill="#fff" opacity=".9"/>
+              <circle cx="66" cy="46" r="6" fill="#fff" opacity=".7"/>
+              <circle cx="86" cy="46" r="6" fill="#fff" opacity=".5"/>
+              <rect x="42" y="92" width="150" height="14" rx="7" fill="#CFE0D5"/>
+              <rect x="42" y="118" width="220" height="10" rx="5" fill="#E1EEE6"/>
+              <rect x="42" y="140" width="180" height="10" rx="5" fill="#E1EEE6"/>
+              <rect x="42" y="180" width="100" height="60" rx="10" fill="url(#pg1)" opacity=".85"/>
+              <rect x="152" y="180" width="100" height="60" rx="10" fill="#2E8B57" opacity=".5"/>
+              <rect x="262" y="180" width="100" height="60" rx="10" fill="#10251C" opacity=".22"/>
+            </svg>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
 
+{# ============ MAIN ============ #}
 <section class="section">
   <div class="container two-col">
+
     <div class="prose">
-      {{ product.description_fa|default:product.description|linebreaks }}
+      {% if product.description_fa or product.description %}
+        {{ product.description_fa|default:product.description|linebreaks }}
+      {% else %}
+        <h2>{% trans "About this product" %}</h2>
+        <p class="muted">
+          {% trans "Detailed documentation for this product is being prepared. Contact us for a full walkthrough and demo." %}
+        </p>
+      {% endif %}
+
+      {# Add a "What you get" block for structure #}
+      <h2 class="mt-lg">{% trans "What this product delivers" %}</h2>
+      <div class="deliverables-grid">
+        <div class="deliverable">
+          <span class="deliverable-icon" aria-hidden="true">◎</span>
+          <h4>{% trans "Centralized data" %}</h4>
+          <p class="muted small">{% trans "One place for all records instead of scattered files and spreadsheets." %}</p>
+        </div>
+        <div class="deliverable">
+          <span class="deliverable-icon" aria-hidden="true">⚡</span>
+          <h4>{% trans "Faster operations" %}</h4>
+          <p class="muted small">{% trans "Automated routine work saves hours every week." %}</p>
+        </div>
+        <div class="deliverable">
+          <span class="deliverable-icon" aria-hidden="true">◆</span>
+          <h4>{% trans "Clear reporting" %}</h4>
+          <p class="muted small">{% trans "Manager-ready reports available anytime, not once a month." %}</p>
+        </div>
+        <div class="deliverable">
+          <span class="deliverable-icon" aria-hidden="true">✱</span>
+          <h4>{% trans "Local support" %}</h4>
+          <p class="muted small">{% trans "Persian / Pashto interface with support in your timezone." %}</p>
+        </div>
+      </div>
     </div>
-    <aside class="panel">
-      <h3>{% trans "Features" %}</h3>
-      <ul class="feature-list">
-        {% for f in product.features_list %}
-          <li>{{ f }}</li>
-        {% empty %}
-          <li class="muted">{% trans "Feature list coming soon." %}</li>
-        {% endfor %}
-      </ul>
+
+    <aside class="product-sidebar">
+      <div class="panel">
+        <h3>{% trans "Key features" %}</h3>
+        <ul class="feature-list">
+          {% for f in product.features_list %}
+            <li>{{ f }}</li>
+          {% empty %}
+            <li class="muted">{% trans "Feature list coming soon." %}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="panel panel-accent cta-panel">
+        <h4>{% trans "Interested?" %}</h4>
+        <p class="muted small">
+          {% trans "Tell us about your workflow and we will show you how this product fits." %}
+        </p>
+        <a class="btn btn-primary btn-block" href="{% url 'contact:consultation' %}">
+          {% trans "Request a Consultation" %}
+        </a>
+        {% if site.whatsapp %}
+          <a class="btn btn-whatsapp btn-block mt-sm" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">
+            {% trans "Chat on WhatsApp" %}
+          </a>
+        {% endif %}
+      </div>
     </aside>
   </div>
 </section>
 
+{# ============ RELATED ============ #}
 {% if related %}
 <section class="section section-alt">
   <div class="container">
-    <h2>{% trans "Related products" %}</h2>
+    <header class="section-head">
+      <h2>{% trans "Related products" %}</h2>
+      <p>{% trans "Explore other Binyad products built for similar needs." %}</p>
+    </header>
     <div class="grid grid-3">
       {% for p in related %}
         <a class="card" href="{{ p.get_absolute_url }}">
+          <span class="status-badge status-{{ p.status }}">{{ p.get_status_display }}</span>
+          {% if p.image %}
+            <img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy" class="card-image">
+          {% endif %}
           <h3>{{ p.name_fa|default:p.name }}</h3>
           <p class="muted">{{ p.short_description_fa|default:p.short_description }}</p>
+          <span class="card-arrow">&rarr;</span>
         </a>
       {% endfor %}
     </div>
   </div>
 </section>
 {% endif %}
+
+{# ============ CTA BAND ============ #}
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>{% trans "Ready to see it in action?" %}</h2>
+      <p>{% trans "Book a walkthrough and we will tailor it to your organization." %}</p>
+    </div>
+    <a href="{% url 'contact:consultation' %}" class="btn btn-light">
+      {% trans "Request a Consultation" %}
+    </a>
+  </div>
+</section>
+
 {% endblock %}
-'@

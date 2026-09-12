@@ -1,10 +1,75 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}404 — {% trans "Page not found" %}{% endblock %}
+
+{% block title %}404 — {% trans "Page not found" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
 {% block content %}
-<section class="section"><div class="container narrow center">
-  <h1 class="error-code">404</h1>
-  <p class="lead">{% trans "The page you are looking for could not be found." %}</p>
-  <a class="btn btn-primary" href="{% url 'pages:home' %}">{% trans "Return home" %}</a>
-</div></section>
+<section class="error-page">
+  <div class="error-bg" aria-hidden="true">
+    <span class="err-orb err-orb-1"></span>
+    <span class="err-orb err-orb-2"></span>
+  </div>
+
+  <div class="container">
+    <div class="error-card">
+
+      <div class="error-illustration" aria-hidden="true">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="e404" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#176B45"/>
+              <stop offset="1" stop-color="#2E8B57"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#F5F8F6" stroke="#DDEAE1"/>
+          <circle cx="86" cy="86" r="40" fill="none" stroke="url(#e404)" stroke-width="6"/>
+          <path d="M116 116 L144 144" stroke="url(#e404)" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="86" cy="86" r="30" fill="none" stroke="url(#e404)" stroke-width="2" opacity=".5"/>
+          <circle cx="86" cy="86" r="20" fill="none" stroke="url(#e404)" stroke-width="2" opacity=".3"/>
+        </svg>
+      </div>
+
+      <span class="error-code-badge">404</span>
+      <h1 class="error-title">{% trans "Page not found" %}</h1>
+      <p class="error-lead">
+        {% trans "The page you're looking for doesn't exist, or may have been moved. Try one of the options below." %}
+      </p>
+
+      <form class="error-search" action="{% url 'blog:list' %}" method="get" role="search">
+        <label class="visually-hidden" for="err-q">{% trans "Search" %}</label>
+        <input id="err-q" name="q" type="search" placeholder="{% trans 'Search our blog…' %}" class="form-control">
+        <button class="btn btn-primary" type="submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+          </svg>
+          {% trans "Search" %}
+        </button>
+      </form>
+
+      <div class="error-actions">
+        <a class="btn btn-primary btn-lg" href="{% url 'pages:home' %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>
+          </svg>
+          {% trans "Return home" %}
+        </a>
+        <a class="btn btn-ghost btn-lg" href="{% url 'contact:contact' %}">
+          {% trans "Contact us" %}
+        </a>
+      </div>
+
+      <div class="error-help">
+        <span class="muted small">{% trans "Or explore" %}</span>
+        <div class="error-links">
+          <a href="{% url 'services:list' %}">{% trans "Services" %}</a>
+          <a href="{% url 'products:list' %}">{% trans "Products" %}</a>
+          <a href="{% url 'portfolio:list' %}">{% trans "Portfolio" %}</a>
+          <a href="{% url 'blog:list' %}">{% trans "Blog" %}</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 {% endblock %}

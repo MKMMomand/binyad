@@ -1,27 +1,247 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Request a Consultation" %}{% endblock %}
+
+{% block title %}{% trans "Request a Consultation" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta_description %}{% trans "Tell Binyad about your business and the challenge you want to solve. We respond with a practical, tailored suggestion." %}{% endblock %}
+
+{% block og_title %}{% trans "Request a Consultation" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block og_description %}{% trans "Free consultation for businesses and organizations seeking practical digital solutions." %}{% endblock %}
+
 {% block content %}
-<section class="page-hero"><div class="container">
-  <h1>{% trans "Request a Consultation" %}</h1>
-  <p class="lead">{% trans "Tell us about your business and the challenge you want to solve. We will respond with a practical suggestion." %}</p>
-</div></section>
-<section class="section"><div class="container">
-  <form method="post" class="form form-wide">
-    {% csrf_token %}
-    <div class="grid grid-2">
-      <div class="form-row"><label>{% trans "Name" %}*</label>{{ form.name }}{{ form.name.errors }}</div>
-      <div class="form-row"><label>{% trans "Phone" %}*</label>{{ form.phone }}{{ form.phone.errors }}</div>
-      <div class="form-row"><label>{% trans "Email" %}</label>{{ form.email }}</div>
-      <div class="form-row"><label>{% trans "Company" %}</label>{{ form.company }}</div>
-      <div class="form-row"><label>{% trans "Business type" %}</label>{{ form.business_type }}</div>
-      <div class="form-row"><label>{% trans "Required service" %}</label>{{ form.required_service }}</div>
-      <div class="form-row"><label>{% trans "Budget range (optional)" %}</label>{{ form.budget_range }}</div>
-      <div class="form-row"><label>{% trans "Preferred contact method" %}</label>{{ form.preferred_contact_method }}</div>
+
+{# ============ HERO ============ #}
+<section class="page-hero consultation-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="{% url 'contact:contact' %}">{% trans "Contact" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>{% trans "Consultation" %}</span>
+    </nav>
+
+    <div class="consultation-hero-inner">
+      <div>
+        <span class="eyebrow">{% trans "Free Consultation" %}</span>
+        <h1>{% trans "Let's design a solution for your business" %}</h1>
+        <p class="lead">
+          {% trans "Tell us about your workflow and the challenge you want to solve. We will review your needs and respond with a practical, no-obligation suggestion." %}
+        </p>
+
+        <ul class="consultation-bullets">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Response within 1 business day" %}
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "No obligation, no pressure" %}
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Available in Persian, Pashto & English" %}
+          </li>
+        </ul>
+      </div>
+
+      <aside class="consultation-trust" aria-label="{% trans 'Trust indicators' %}">
+        <div class="trust-card">
+          <div class="trust-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <strong>{% trans "Confidential" %}</strong>
+            <p class="muted small">{% trans "Your information stays private and is never shared." %}</p>
+          </div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <div>
+            <strong>{% trans "Practical advice" %}</strong>
+            <p class="muted small">{% trans "Honest guidance — even if that means recommending a simpler path." %}</p>
+          </div>
+        </div>
+        <div class="trust-card">
+          <div class="trust-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div>
+            <strong>{% trans "Direct communication" %}</strong>
+            <p class="muted small">{% trans "You speak with the person building your solution." %}</p>
+          </div>
+        </div>
+      </aside>
     </div>
-    <div class="form-row"><label>{% trans "Project description" %}*</label>{{ form.project_description }}{{ form.project_description.errors }}</div>
-    <div class="form-row"><label>{% trans "Additional message" %}</label>{{ form.message }}</div>
-    <button class="btn btn-primary" type="submit">{% trans "Submit request" %}</button>
-  </form>
-</div></section>
+  </div>
+</section>
+
+{# ============ FORM ============ #}
+<section class="section consultation-section">
+  <div class="container">
+
+    <form method="post" class="consultation-form" novalidate>
+      {% csrf_token %}
+
+      {# Show non-field errors prominently #}
+      {% if form.non_field_errors %}
+        <div class="alert alert-error" role="alert">
+          {% for err in form.non_field_errors %}{{ err }}{% endfor %}
+        </div>
+      {% endif %}
+
+      {# ---------- SECTION 1: Contact ---------- #}
+      <fieldset class="form-section">
+        <legend class="form-section-head">
+          <span class="step-index">01</span>
+          <span>
+            <strong>{% trans "Your contact information" %}</strong>
+            <span class="muted small">{% trans "How can we reach you?" %}</span>
+          </span>
+        </legend>
+
+        <div class="grid grid-2">
+          <div class="form-row">
+            <label for="{{ form.name.id_for_label }}">
+              {% trans "Full name" %} <span class="req">*</span>
+            </label>
+            {{ form.name }}
+            {% if form.name.errors %}<div class="errorlist">{{ form.name.errors }}</div>{% endif %}
+          </div>
+
+          <div class="form-row">
+            <label for="{{ form.phone.id_for_label }}">
+              {% trans "Phone" %} <span class="req">*</span>
+            </label>
+            {{ form.phone }}
+            {% if form.phone.errors %}<div class="errorlist">{{ form.phone.errors }}</div>{% endif %}
+          </div>
+
+          <div class="form-row">
+            <label for="{{ form.email.id_for_label }}">{% trans "Email" %}</label>
+            {{ form.email }}
+            {% if form.email.errors %}<div class="errorlist">{{ form.email.errors }}</div>{% endif %}
+          </div>
+
+          <div class="form-row">
+            <label for="{{ form.company.id_for_label }}">{% trans "Company / organization" %}</label>
+            {{ form.company }}
+            {% if form.company.errors %}<div class="errorlist">{{ form.company.errors }}</div>{% endif %}
+          </div>
+        </div>
+      </fieldset>
+
+      {# ---------- SECTION 2: Business ---------- #}
+      <fieldset class="form-section">
+        <legend class="form-section-head">
+          <span class="step-index">02</span>
+          <span>
+            <strong>{% trans "About your business" %}</strong>
+            <span class="muted small">{% trans "Help us understand your context." %}</span>
+          </span>
+        </legend>
+
+        <div class="grid grid-2">
+          <div class="form-row">
+            <label for="{{ form.business_type.id_for_label }}">{% trans "Business type" %}</label>
+            {{ form.business_type }}
+            {% if form.business_type.errors %}<div class="errorlist">{{ form.business_type.errors }}</div>{% endif %}
+          </div>
+
+          <div class="form-row">
+            <label for="{{ form.required_service.id_for_label }}">{% trans "Service you're interested in" %}</label>
+            {{ form.required_service }}
+            {% if form.required_service.errors %}<div class="errorlist">{{ form.required_service.errors }}</div>{% endif %}
+            <span class="form-hint">
+              {% trans "Examples: website, office system, inventory, CRM, mobile app." %}
+            </span>
+          </div>
+
+          <div class="form-row">
+            <label for="{{ form.budget_range.id_for_label }}">{% trans "Budget range (optional)" %}</label>
+            {{ form.budget_range }}
+            {% if form.budget_range.errors %}<div class="errorlist">{{ form.budget_range.errors }}</div>{% endif %}
+          </div>
+
+          <div class="form-row">
+            <label for="{{ form.preferred_contact_method.id_for_label }}">{% trans "Preferred contact method" %}</label>
+            {{ form.preferred_contact_method }}
+            {% if form.preferred_contact_method.errors %}<div class="errorlist">{{ form.preferred_contact_method.errors }}</div>{% endif %}
+          </div>
+        </div>
+      </fieldset>
+
+      {# ---------- SECTION 3: Project ---------- #}
+      <fieldset class="form-section">
+        <legend class="form-section-head">
+          <span class="step-index">03</span>
+          <span>
+            <strong>{% trans "Your project" %}</strong>
+            <span class="muted small">{% trans "The more detail, the better our response." %}</span>
+          </span>
+        </legend>
+
+        <div class="form-row">
+          <label for="{{ form.project_description.id_for_label }}">
+            {% trans "Project description" %} <span class="req">*</span>
+          </label>
+          {{ form.project_description }}
+          {% if form.project_description.errors %}<div class="errorlist">{{ form.project_description.errors }}</div>{% endif %}
+          <span class="form-hint">
+            {% trans "What is the challenge you are trying to solve? What does your current process look like?" %}
+          </span>
+        </div>
+
+        <div class="form-row">
+          <label for="{{ form.message.id_for_label }}">{% trans "Additional message" %}</label>
+          {{ form.message }}
+          {% if form.message.errors %}<div class="errorlist">{{ form.message.errors }}</div>{% endif %}
+        </div>
+      </fieldset>
+
+      {# ---------- SUBMIT ---------- #}
+      <div class="form-submit-block">
+        <div class="form-consent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          {% trans "By submitting, you agree to be contacted about your request. We never share your information." %}
+        </div>
+        <button class="btn btn-primary btn-lg" type="submit">
+          <span>{% trans "Submit request" %}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+    </form>
+
+    {# ---------- SIDEBAR: alternative contact ---------- #}
+    <div class="consultation-alternatives">
+      <div class="alt-head">
+        <span class="muted small">{% trans "Prefer to talk directly?" %}</span>
+      </div>
+      <div class="alt-links">
+        {% if site.phone %}
+          <a href="tel:{{ site.phone }}" class="contact-chip">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+            {{ site.phone }}
+          </a>
+        {% endif %}
+        {% if site.email %}
+          <a href="mailto:{{ site.email }}" class="contact-chip">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+            {{ site.email }}
+          </a>
+        {% endif %}
+        {% if site.whatsapp %}
+          <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="contact-chip contact-chip-wa">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42z"/></svg>
+            {% trans "WhatsApp" %}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
 {% endblock %}

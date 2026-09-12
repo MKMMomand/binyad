@@ -1,24 +1,116 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Portfolio" %}{% endblock %}
+
+{% block title %}{% trans "Portfolio" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta_description %}{% trans "Selected Binyad projects: software, systems, and websites designed for Afghan businesses and organizations." %}{% endblock %}
+
 {% block content %}
-<section class="page-hero"><div class="container">
-  <h1>{% trans "Portfolio" %}</h1>
-  <p class="lead">{% trans "Selected work. This section will be updated as projects are completed and approved for publication." %}</p>
-</div></section>
-<section class="section"><div class="container grid grid-3">
-  {% for p in projects %}
-    <a class="card" href="{{ p.get_absolute_url }}">
-      {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}" loading="lazy" class="card-image">{% endif %}
-      <h3>{{ p.title_fa|default:p.title }}</h3>
-      <p class="muted">{{ p.industry }}</p>
-      {% if p.is_demo %}<span class="tag tag-demo">{% trans "Demo" %}</span>{% endif %}
-    </a>
-  {% empty %}
-    <div class="empty-state">
-      <h3>{% trans "Portfolio is empty for now" %}</h3>
-      <p class="muted">{% trans "We only publish real client projects after approval. Please check back soon." %}</p>
+
+<section class="page-hero portfolio-hero">
+  <div class="container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>{% trans "Portfolio" %}</span>
+    </nav>
+
+    <div class="portfolio-hero-inner">
+      <div>
+        <span class="eyebrow">{% trans "Selected work" %}</span>
+        <h1>{% trans "Projects built with real organizations" %}</h1>
+        <p class="lead">
+          {% trans "Each project reflects a specific client workflow. We publish only work the client has approved for public reference." %}
+        </p>
+      </div>
     </div>
-  {% endfor %}
-</div></section>
+  </div>
+</section>
+
+<section class="section portfolio-list-section">
+  <div class="container">
+    {% if projects %}
+      <div class="portfolio-grid">
+        {% for p in projects %}
+          <article class="portfolio-card{% if p.featured %} portfolio-card-featured{% endif %}">
+            {% if p.image %}
+              <div class="portfolio-card-visual">
+                <img src="{{ p.image.url }}" alt="{{ p.title_fa|default:p.title }}" loading="lazy">
+                {% if p.featured %}
+                  <span class="pd-badge pd-badge-featured portfolio-float-badge">★ {% trans "Featured" %}</span>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="portfolio-card-visual portfolio-card-placeholder" aria-hidden="true">
+                <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="plg" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#176B45"/>
+                      <stop offset="1" stop-color="#2E8B57"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="20" y="20" width="360" height="220" rx="16" fill="#F5F8F6" stroke="#DDEAE1"/>
+                  <rect x="60" y="60" width="280" height="140" rx="12" fill="#fff" stroke="#DDEAE1"/>
+                  <rect x="60" y="60" width="280" height="30" rx="12" fill="url(#plg)"/>
+                  <circle cx="80" cy="75" r="4" fill="#fff" opacity=".95"/>
+                  <circle cx="94" cy="75" r="4" fill="#fff" opacity=".75"/>
+                  <circle cx="108" cy="75" r="4" fill="#fff" opacity=".55"/>
+                  <rect x="80" y="110" width="90" height="8" rx="4" fill="#CFE0D5"/>
+                  <rect x="80" y="126" width="140" height="6" rx="3" fill="#E1EEE6"/>
+                  <rect x="80" y="140" width="110" height="6" rx="3" fill="#E1EEE6"/>
+                  <rect x="80" y="160" width="60" height="30" rx="6" fill="url(#plg)" opacity=".85"/>
+                  <rect x="150" y="160" width="60" height="30" rx="6" fill="#2E8B57" opacity=".55"/>
+                </svg>
+              </div>
+            {% endif %}
+
+            <div class="portfolio-card-body">
+              <div class="portfolio-card-meta">
+                {% if p.industry %}<span class="pd-badge pd-badge-industry">{{ p.industry }}</span>{% endif %}
+                {% if p.completion_date %}
+                  <span class="portfolio-date">{{ p.completion_date|date:"Y" }}</span>
+                {% endif %}
+              </div>
+              <h3>{{ p.title_fa|default:p.title }}</h3>
+              <p class="muted">{{ p.description_fa|default:p.description|striptags|truncatewords:18 }}</p>
+              <span class="portfolio-card-link">
+                {% trans "View project" %} <span aria-hidden="true">→</span>
+              </span>
+            </div>
+
+            <a class="stretched-link" href="{{ p.get_absolute_url }}" aria-label="{{ p.title_fa|default:p.title }}"></a>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state empty-portfolio">
+        <div class="empty-portfolio-icon" aria-hidden="true">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h3>{% trans "Portfolio is being prepared" %}</h3>
+        <p class="muted">
+          {% trans "We publish project case studies only after the client approves them. Please check back soon — or contact us to discuss a project directly." %}
+        </p>
+        <a class="btn btn-primary mt-sm" href="{% url 'contact:consultation' %}">
+          {% trans "Request a Consultation" %}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div>
+      <h2>{% trans "Want to be our next case study?" %}</h2>
+      <p>{% trans "Let's design something practical for your organization." %}</p>
+    </div>
+    <a href="{% url 'contact:consultation' %}" class="btn btn-light btn-lg">
+      {% trans "Request a Consultation" %}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
 {% endblock %}

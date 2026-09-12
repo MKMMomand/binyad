@@ -1,10 +1,64 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}403 — {% trans "Access denied" %}{% endblock %}
+
+{% block title %}403 — {% trans "Access denied" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
+{% block meta %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
 {% block content %}
-<section class="section"><div class="container narrow center">
-  <h1 class="error-code">403</h1>
-  <p class="lead">{% trans "You do not have permission to access this page." %}</p>
-  <a class="btn btn-primary" href="{% url 'pages:home' %}">{% trans "Return home" %}</a>
-</div></section>
+<section class="error-page">
+  <div class="error-bg" aria-hidden="true">
+    <span class="err-orb err-orb-1"></span>
+    <span class="err-orb err-orb-2"></span>
+  </div>
+
+  <div class="container">
+    <div class="error-card">
+
+      <div class="error-illustration" aria-hidden="true">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="e403" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#176B45"/>
+              <stop offset="1" stop-color="#2E8B57"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#F5F8F6" stroke="#DDEAE1"/>
+          <path d="M100 40 L148 62 V100 c0 30 -22 52 -48 60 -26 -8 -48 -30 -48 -60 V62 Z"
+                fill="url(#e403)" opacity=".9"/>
+          <path d="M100 82 v24" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="100" cy="120" r="4" fill="#fff"/>
+        </svg>
+      </div>
+
+      <span class="error-code-badge">403</span>
+      <h1 class="error-title">{% trans "Access denied" %}</h1>
+      <p class="error-lead">
+        {% trans "You don't have permission to access this page. If you believe this is a mistake, please contact us." %}
+      </p>
+
+      <div class="error-actions">
+        <a class="btn btn-primary btn-lg" href="{% url 'pages:home' %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>
+          </svg>
+          {% trans "Return home" %}
+        </a>
+        <a class="btn btn-ghost btn-lg" href="{% url 'contact:contact' %}">
+          {% trans "Contact us" %}
+        </a>
+      </div>
+
+      <div class="error-help">
+        <span class="muted small">{% trans "Quick links" %}</span>
+        <div class="error-links">
+          <a href="{% url 'services:list' %}">{% trans "Services" %}</a>
+          <a href="{% url 'products:list' %}">{% trans "Products" %}</a>
+          <a href="{% url 'portfolio:list' %}">{% trans "Portfolio" %}</a>
+          <a href="{% url 'blog:list' %}">{% trans "Blog" %}</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 {% endblock %}
