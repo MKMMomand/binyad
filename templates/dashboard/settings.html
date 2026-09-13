@@ -1,0 +1,21 @@
+{% extends "dashboard/base.html" %}
+{% block page_title %}Site Settings{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <header class="panel-head">
+        <h2>Site settings</h2>
+        <a class="panel-action" href="/binyad-admin/core/sitesettings/" target="_blank">Edit →</a>
+    </header>
+    <div class="panel-body">
+        {% if site %}
+        <p><strong>Company:</strong> {{ site.company_name }}</p>
+        <p><strong>Phone:</strong> {{ site.phone }}</p>
+        <p><strong>Email:</strong> {{ site.email }}</p>
+        <p><strong>WhatsApp:</strong> {{ site.whatsapp }}</p>
+        {% else %}
+        <p style="color:#5B6B63;">No SiteSettings row yet. <a href="/binyad-admin/core/sitesettings/add/">Create one →</a></p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

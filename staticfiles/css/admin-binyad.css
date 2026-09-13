@@ -1,0 +1,95 @@
+:root {
+  --binyad-green: #176B45;
+  --binyad-green-2: #2E8B57;
+  --binyad-dark: #10251C;
+  --binyad-off: #F5F8F6;
+}
+
+/* Header */
+#header {
+  background: linear-gradient(135deg, var(--binyad-dark), var(--binyad-green));
+  color: #fff;
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Primary buttons */
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+  background: var(--binyad-green);
+  border-color: var(--binyad-green);
+  border-radius: 6px;
+}
+.button:hover, input[type=submit]:hover, a.button:hover {
+  background: var(--binyad-green-2);
+}
+
+/* Default (secondary) buttons */
+.button.default, input[type=submit].default, .submit-row input.default {
+  background: var(--binyad-green-2);
+}
+
+/* Links */
+a:link, a:visited { color: var(--binyad-green); }
+a:hover { color: var(--binyad-green-2); }
+
+/* Module headers */
+.module h2, .module caption, .inline-group h2 {
+  background: var(--binyad-green);
+  color: #fff;
+  border-radius: 6px 6px 0 0;
+}
+
+/* Selected rows / breadcrumbs */
+.breadcrumbs {
+  background: var(--binyad-dark);
+  color: #cfe6da;
+}
+.breadcrumbs a { color: #fff; }
+
+/* Dashboard cards */
+.binyad-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.binyad-card {
+  background: #fff;
+  border: 1px solid #e3e8e5;
+  border-inline-start: 4px solid var(--binyad-green);
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(16,37,28,.06);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.binyad-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16,37,28,.10);
+}
+.binyad-card .label { color: #5b6b63; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+.binyad-card .value { font-size: 28px; font-weight: 700; color: var(--binyad-dark); margin-top: 4px; }
+.binyad-card .link { font-size: 12px; margin-top: 8px; display: inline-block; }
+
+/* Thumbnails */
+.admin-thumb {
+  width: 48px; height: 48px; object-fit: cover;
+  border-radius: 6px; border: 1px solid #e3e8e5;
+  background: #f5f8f6;
+}
+.admin-thumb-lg { width: 120px; height: auto; border-radius: 8px; }
+
+/* Bilingual field grouping */
+.bilingual-group {
+  border: 1px solid #e3e8e5;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: #fbfdfc;
+}
+.bilingual-group legend {
+  padding: 0 6px;
+  font-weight: 600;
+  color: var(--binyad-green);
+}

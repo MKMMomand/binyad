@@ -1,0 +1,82 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Overview{% endblock %}
+{% block page_title %}Overview{% endblock %}
+
+{% block content %}
+
+<div class="stat-grid">
+    <div class="stat-card stat-card--primary">
+        <div class="stat-label">New leads</div>
+        <div class="stat-value">{{ stats.new_contacts|add:stats.new_consultations }}</div>
+        <a class="stat-link" href="{% url 'dashboard:leads' %}">View inbox →</a>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Total leads</div>
+        <div class="stat-value">{{ stats.total_leads }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Published posts</div>
+        <div class="stat-value">{{ stats.published_posts }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Active services</div>
+        <div class="stat-value">{{ stats.services }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Products</div>
+        <div class="stat-value">{{ stats.products }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Portfolio projects</div>
+        <div class="stat-value">{{ stats.projects }}</div>
+    </div>
+</div>
+
+<div class="dash-cols">
+    <section class="panel">
+        <header class="panel-head">
+            <h2>Leads — last 14 days</h2>
+        </header>
+        <div class="panel-body">
+            <canvas id="leadsChart" height="90"></canvas>
+        </div>
+        <script id="chart-data" type="application/json">
+            {"labels": {{ chart_labels|safe }}, "values": {{ chart_values|safe }}}
+        </script>
+    </section>
+
+    <section class="panel">
+        <header class="panel-head">
+            <h2>Recent activity</h2>
+            <a class="panel-action" href="{% url 'dashboard:leads' %}">All leads →</a>
+        </header>
+        <div class="panel-body panel-body--flush">
+            <ul class="activity-list">
+                {% for c in recent_contacts %}
+                    <li>
+                        <span class="activity-dot dot-contact"></span>
+                        <div>
+                            <div class="activity-title">{{ c.full_name|default:"Anonymous" }}</div>
+                            <div class="activity-sub">{{ c.subject|default:"Contact form" }}</div>
+                        </div>
+                        <div class="activity-time">{{ c.created_at|timesince }} ago</div>
+                    </li>
+                {% empty %}<li class="empty">No contacts yet.</li>{% endfor %}
+
+                {% for q in recent_consultations %}
+                    <li>
+                        <span class="activity-dot dot-consult"></span>
+                        <div>
+                            <div class="activity-title">{{ q.name }}</div>
+                            <div class="activity-sub">{{ q.required_service|default:"Consultation" }}</div>
+                        </div>
+                        <div class="activity-time">{{ q.created_at|timesince }} ago</div>
+                    </li>
+                {% empty %}<li class="empty">No consultations yet.</li>{% endfor %}
+            </ul>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

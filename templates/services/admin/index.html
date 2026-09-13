@@ -1,0 +1,78 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin-binyad.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+
+  {# ---------- STATS ---------- #}
+  <div class="binyad-dashboard">
+    <div class="binyad-card">
+      <div class="label">{% trans "New Leads" %}</div>
+      <div class="value">{{ stats.new_leads }}</div>
+      <a class="link" href="{% url 'admin:contact_contactmessage_changelist' %}?status__exact=new">{% trans "View inbox" %} →</a>
+    </div>
+    <div class="binyad-card">
+      <div class="label">{% trans "Consultations" %}</div>
+      <div class="value">{{ stats.new_consultations }}</div>
+      <a class="link" href="{% url 'admin:contact_consultationrequest_changelist' %}?status__exact=new">{% trans "View inbox" %} →</a>
+    </div>
+    <div class="binyad-card">
+      <div class="label">{% trans "Published Posts" %}</div>
+      <div class="value">{{ stats.published_posts }}</div>
+      <a class="link" href="{% url 'admin:blog_post_changelist' %}?status__exact=published">{% trans "Manage blog" %} →</a>
+    </div>
+    <div class="binyad-card">
+      <div class="label">{% trans "Active Services" %}</div>
+      <div class="value">{{ stats.services }}</div>
+      <a class="link" href="{% url 'admin:services_service_changelist' %}">{% trans "Manage" %} →</a>
+    </div>
+    <div class="binyad-card">
+      <div class="label">{% trans "Products" %}</div>
+      <div class="value">{{ stats.products }}</div>
+      <a class="link" href="{% url 'admin:products_product_changelist' %}">{% trans "Manage" %} →</a>
+    </div>
+    <div class="binyad-card">
+      <div class="label">{% trans "Portfolio Projects" %}</div>
+      <div class="value">{{ stats.projects }}</div>
+      <a class="link" href="{% url 'admin:portfolio_portfolioproject_changelist' %}">{% trans "Manage" %} →</a>
+    </div>
+  </div>
+
+  {# ---------- DEFAULT APP MODULES ---------- #}
+  {% if app_list %}
+    {% for app in app_list %}
+      <div class="app-{{ app.app_label }} module">
+        <table>
+          <caption>
+            <a href="{{ app.app_url }}" class="section" title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">{{ app.name }}</a>
+          </caption>
+          {% for model in app.models %}
+            <tr class="model-{{ model.object_name|lower }}">
+              {% if model.admin_url %}
+                <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
+              {% else %}
+                <th scope="row">{{ model.name }}</th>
+              {% endif %}
+              {% if model.add_url %}
+                <td><a href="{{ model.add_url }}" class="addlink">{% trans 'Add' %}</a></td>
+              {% else %}<td>&nbsp;</td>{% endif %}
+              {% if model.admin_url and model.view_only %}
+                <td><a href="{{ model.admin_url }}" class="viewlink">{% trans 'View' %}</a></td>
+              {% elif model.admin_url %}
+                <td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Change' %}</a></td>
+              {% else %}<td>&nbsp;</td>{% endif %}
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>{% trans "You don't have permission to view or edit anything." %}</p>
+  {% endif %}
+</div>
+{% endblock %}

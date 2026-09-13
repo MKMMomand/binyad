@@ -1,0 +1,32 @@
+{% extends "dashboard/base.html" %}
+{% block page_title %}Lead #{{ object.pk }}{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <header class="panel-head"><h2>Lead details</h2></header>
+    <div class="panel-body">
+        <form method="post">
+            {% csrf_token %}
+            <p><strong>Name:</strong> {{ object.full_name|default:object.name }}</p>
+            <p><strong>Email:</strong> {{ object.email }}</p>
+            <p><strong>Phone:</strong> {{ object.phone }}</p>
+            {% if object.message %}<p><strong>Message:</strong><br>{{ object.message|linebreaksbr }}</p>{% endif %}
+            {% if object.project_description %}<p><strong>Project:</strong><br>{{ object.project_description|linebreaksbr }}</p>{% endif %}
+
+            <label>Status
+                <select name="status">
+                    {% for value, label in object.STATUS_CHOICES %}
+                        <option value="{{ value }}" {% if object.status == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Internal notes
+                <textarea name="internal_notes" rows="5">{{ object.internal_notes }}</textarea>
+            </label>
+
+            <button class="dash-btn" style="background:#176B45;color:#fff;border:0;margin-top:14px;">Save</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

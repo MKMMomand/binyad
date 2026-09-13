@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in · Binyad Control Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <style>
+        .login-wrap { min-height: 100vh; display: grid; place-items: center; background: #0F1E18; }
+        .login-card {
+            width: 380px; background: #fff; border-radius: 18px;
+            padding: 36px 34px; box-shadow: 0 30px 80px rgba(0,0,0,.35);
+        }
+        .login-card h1 { margin: 0 0 6px; font-size: 22px; }
+        .login-card p.sub { color: #5B6B63; margin: 0 0 24px; font-size: 13px; }
+        .login-card label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; }
+        .login-card input {
+            width: 100%; padding: 11px 13px; font-size: 14px;
+            border: 1px solid #E3E8E5; border-radius: 10px;
+            font-family: inherit;
+        }
+        .login-card input:focus { outline: 2px solid #176B45; outline-offset: 1px; border-color: #176B45; }
+        .login-btn {
+            width: 100%; margin-top: 22px; padding: 12px;
+            background: linear-gradient(135deg, #176B45, #2E8B57);
+            color: #fff; border: 0; border-radius: 10px;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+        }
+        .login-err {
+            margin-top: 14px; padding: 10px 12px; border-radius: 8px;
+            background: #F6E4E4; color: #B23A3A; font-size: 13px;
+        }
+        .login-mark {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: linear-gradient(135deg, #176B45, #2E8B57);
+            display: grid; place-items: center;
+            color: #fff; font-weight: 700; font-size: 20px;
+            margin-bottom: 18px;
+        }
+    </style>
+</head>
+<body>
+<form class="login-wrap" method="post">
+    {% csrf_token %}
+    <div class="login-card">
+        <div class="login-mark">B</div>
+        <h1>Binyad Control Panel</h1>
+        <p class="sub">Sign in to manage your site</p>
+
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username" autofocus required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+        <button class="login-btn" type="submit">Sign in</button>
+
+        {% if error %}<div class="login-err">{{ error }}</div>{% endif %}
+    </div>
+</form>
+</body>
+</html>

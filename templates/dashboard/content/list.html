@@ -1,0 +1,37 @@
+{% extends "dashboard/base.html" %}
+{% block page_title %}{{ config.title }}{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <header class="panel-head">
+        <h2>{{ config.icon }} {{ config.title }} ({{ items|length }})</h2>
+        <a class="panel-action" href="/binyad-admin/" target="_blank">Edit in advanced admin →</a>
+    </header>
+    <div class="panel-body">
+        <table style="width:100%; border-collapse: collapse; font-size:14px;">
+            <thead>
+                <tr style="text-align:left; border-bottom:1px solid #E3E8E5;">
+                    <th style="padding:10px 6px;">Title</th>
+                    <th style="padding:10px 6px;">Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr style="border-bottom:1px solid #F0F3F1;">
+                    <td style="padding:12px 6px;">
+                        {{ item.name|default:item.title|default:item }}
+                    </td>
+                    <td style="padding:12px 6px; color:#5B6B63;">
+                        {{ item.updated_at|timesince }} ago
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="2" style="padding:20px; text-align:center; color:#5B6B63;">
+                    No items yet.
+                </td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

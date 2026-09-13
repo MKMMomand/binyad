@@ -1,0 +1,46 @@
+{% extends "dashboard/base.html" %}
+{% block page_title %}Leads{% endblock %}
+
+{% block content %}
+<div class="dash-cols">
+    <section class="panel">
+        <header class="panel-head"><h2>Contact messages</h2></header>
+        <div class="panel-body panel-body--flush">
+            <ul class="activity-list">
+                {% for c in contacts %}
+                <li>
+                    <span class="activity-dot dot-contact"></span>
+                    <div>
+                        <div class="activity-title">
+                            <a href="{% url 'dashboard:lead_detail' 'contact' c.pk %}">{{ c.full_name }}</a>
+                        </div>
+                        <div class="activity-sub">{{ c.subject }} · {{ c.status }}</div>
+                    </div>
+                    <div class="activity-time">{{ c.created_at|timesince }} ago</div>
+                </li>
+                {% empty %}<li class="empty">No contact messages yet.</li>{% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-head"><h2>Consultation requests</h2></header>
+        <div class="panel-body panel-body--flush">
+            <ul class="activity-list">
+                {% for q in consultations %}
+                <li>
+                    <span class="activity-dot dot-consult"></span>
+                    <div>
+                        <div class="activity-title">
+                            <a href="{% url 'dashboard:lead_detail' 'consultation' q.pk %}">{{ q.name }}</a>
+                        </div>
+                        <div class="activity-sub">{{ q.required_service }} · {{ q.status }}</div>
+                    </div>
+                    <div class="activity-time">{{ q.created_at|timesince }} ago</div>
+                </li>
+                {% empty %}<li class="empty">No consultation requests yet.</li>{% endfor %}
+            </ul>
+        </div>
+    </section>
+</div>
+{% endblock %}

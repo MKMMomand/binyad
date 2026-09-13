@@ -1,0 +1,104 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Control Panel{% endblock %} · Binyad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body class="dash-body">
+
+<div class="dash-shell">
+
+    {# ---------- SIDEBAR ---------- #}
+    <aside class="dash-sidebar" id="dashSidebar">
+        <div class="dash-brand">
+            <span class="brand-mark">B</span>
+            <span class="brand-text">Binyad</span>
+        </div>
+
+        <nav class="dash-nav">
+            <a class="dash-link {% if request.resolver_match.url_name == 'index' %}is-active{% endif %}"
+               href="{% url 'dashboard:index' %}">
+                <span class="nav-ico">▤</span> Overview
+            </a>
+
+            <div class="nav-group">Content</div>
+            <a class="dash-link {% if 'content/services' in request.path %}is-active{% endif %}"
+               href="{% url 'dashboard:content_list' 'services' %}">
+                <span class="nav-ico">🛠</span> Services
+            </a>
+            <a class="dash-link {% if 'content/products' in request.path %}is-active{% endif %}"
+               href="{% url 'dashboard:content_list' 'products' %}">
+                <span class="nav-ico">📦</span> Products
+            </a>
+            <a class="dash-link {% if 'content/portfolio' in request.path %}is-active{% endif %}"
+               href="{% url 'dashboard:content_list' 'portfolio' %}">
+                <span class="nav-ico">🎨</span> Portfolio
+            </a>
+            <a class="dash-link {% if 'content/blog' in request.path %}is-active{% endif %}"
+               href="{% url 'dashboard:content_list' 'blog' %}">
+                <span class="nav-ico">📝</span> Blog
+            </a>
+
+            <div class="nav-group">Inbox</div>
+            <a class="dash-link {% if '/leads/' in request.path %}is-active{% endif %}"
+               href="{% url 'dashboard:leads' %}">
+                <span class="nav-ico">📥</span> Leads
+            </a>
+
+            <div class="nav-group">System</div>
+            <a class="dash-link {% if '/settings/' in request.path %}is-active{% endif %}"
+               href="{% url 'dashboard:settings' %}">
+                <span class="nav-ico">⚙</span> Site Settings
+            </a>
+            <a class="dash-link" href="/binyad-admin/" target="_blank">
+                <span class="nav-ico">🔧</span> Advanced Admin
+            </a>
+        </nav>
+
+        <div class="dash-sidebar-footer">
+            <a class="dash-link" href="{% url 'dashboard:logout' %}">
+                <span class="nav-ico">⏏</span> Logout
+            </a>
+        </div>
+    </aside>
+
+    {# ---------- MAIN ---------- #}
+    <div class="dash-main">
+
+        <header class="dash-topbar">
+            <button class="dash-burger" id="dashBurger" aria-label="Toggle sidebar">☰</button>
+            <h1 class="dash-page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+            <div class="dash-topbar-right">
+                <a class="dash-btn dash-btn-ghost" href="/" target="_blank">View site ↗</a>
+                <div class="dash-user">
+                    <span class="dash-avatar">{{ request.user.username|slice:":1"|upper }}</span>
+                    <span class="dash-user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="dash-content">
+            {% if messages %}
+                <div class="dash-messages">
+                    {% for m in messages %}<div class="dash-msg dash-msg-{{ m.tags }}">{{ m }}</div>{% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

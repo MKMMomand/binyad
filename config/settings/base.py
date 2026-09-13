@@ -3,6 +3,7 @@ from pathlib import Path
 import environ
 from django.utils.translation import gettext_lazy as _
 
+from django.urls import reverse_lazy
 
 # =============================================================================
 # BASE DIRECTORY & ENVIRONMENT
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
+    "apps.dashboard",
 
     # Local applications
     "apps.core",
@@ -303,3 +305,23 @@ SECURE_REFERRER_POLICY = "same-origin"
 # =============================================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Admin branding
+ADMIN_SITE_HEADER = "Binyad Control Panel"
+ADMIN_SITE_TITLE = "Binyad Admin"
+ADMIN_INDEX_TITLE = "Welcome to Binyad Control Panel"
+
+
+# Admin
+ADMIN_URL = env("ADMIN_URL", default="binyad-admin/")
+
+# Login redirects
+LOGIN_REDIRECT_URL = reverse_lazy("admin:index")
+
+TEMPLATES[0]["DIRS"] = [BASE_DIR / "templates"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+
+TEMPLATES[0]["OPTIONS"]["context_processors"] += [
+    "apps.dashboard.context_processors.dashboard_context",
+]
