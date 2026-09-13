@@ -179,9 +179,12 @@ USE_I18N = True
 USE_TZ = True
 
 LANGUAGES = [
-    ("fa", _("Dari / Persian")),
-    ("ps", _("Pashto")),
-    ("en", _("English")),
+    # ("fa", _("Dari / Persian")),
+    # # ("ps", _("Pashto")),
+    # ("en", _("English")),
+
+     ("en", "English"),
+    ("fa", "دری"),
 ]
 
 LOCALE_PATHS = [

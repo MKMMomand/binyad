@@ -1,0 +1,230 @@
+/* =========================================================================
+   RTL OVERRIDES — Binyad
+   Only for things logical properties can't handle:
+     • Icon mirroring
+     • Decorative background positions
+     • Transforms that imply direction
+     • Flex/grid reversals
+     • Number and code blocks that must stay LTR
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. ICON MIRRORING
+   Icons that imply direction (arrows, chevrons, progress) must flip.
+   Icons that are direction-agnostic (search, phone, mail) must NOT flip.
+   ------------------------------------------------------------------------- */
+
+/* FLIP these in RTL */
+html[dir="rtl"] .icon-arrow-right,
+html[dir="rtl"] .icon-arrow-left,
+html[dir="rtl"] .icon-chevron-right,
+html[dir="rtl"] .icon-chevron-left,
+html[dir="rtl"] .icon-caret-right,
+html[dir="rtl"] .icon-caret-left,
+html[dir="rtl"] .icon-arrow-forward,
+html[dir="rtl"] .icon-arrow-back,
+html[dir="rtl"] .icon-next,
+html[dir="rtl"] .icon-prev {
+    transform: scaleX(-1);
+}
+
+/* Combine with rotation if the icon is also rotated */
+html[dir="rtl"] .icon-arrow-right.rotated {
+    transform: rotate(45deg) scaleX(-1);
+}
+
+/* DO NOT flip these */
+html[dir="rtl"] .icon-search,
+html[dir="rtl"] .icon-phone,
+html[dir="rtl"] .icon-mail,
+html[dir="rtl"] .icon-check,
+html[dir="rtl"] .icon-user,
+html[dir="rtl"] .icon-menu,
+html[dir="rtl"] .icon-close,
+html[dir="rtl"] .icon-whatsapp,
+html[dir="rtl"] .icon-facebook,
+html[dir="rtl"] .icon-instagram,
+html[dir="rtl"] .icon-linkedin,
+html[dir="rtl"] .icon-telegram {
+    transform: none;
+}
+
+/* -------------------------------------------------------------------------
+   2. DECORATIVE BACKGROUNDS
+   Background-position: left/right doesn't have logical equivalents.
+   Mirror the whole element with scaleX(-1) if it's a decorative blob/wave.
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] .hero-blob,
+html[dir="rtl"] .decorative-shape,
+html[dir="rtl"] .wave-divider {
+    transform: scaleX(-1);
+}
+
+/* If the background is a data-URI SVG with directional content */
+html[dir="rtl"] .hero {
+    background-position-x: right;
+}
+
+/* -------------------------------------------------------------------------
+   3. PROCESS / TIMELINE FLOW
+   Horizontal step flows must reverse direction in RTL.
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] .process-flow,
+html[dir="rtl"] .steps-flow,
+html[dir="rtl"] .timeline-horizontal {
+    flex-direction: row-reverse;
+}
+
+/* Connectors between steps should mirror */
+html[dir="rtl"] .process-connector,
+html[dir="rtl"] .step-connector {
+    transform: scaleX(-1);
+}
+
+/* -------------------------------------------------------------------------
+   4. BREADCRUMBS
+   Separator characters need to flip visually.
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] .breadcrumbs li + li::before {
+    content: "\\";   /* backslash reads as "previous" in Persian */
+    /* Alternative: content: "‹"; */
+}
+
+/* -------------------------------------------------------------------------
+   5. LANGUAGE SWITCHER
+   Always LTR so "EN / دری" reads left-to-right inside RTL layout.
+   ------------------------------------------------------------------------- */
+
+.lang-switcher {
+    direction: ltr;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.lang-switcher .sep {
+    opacity: 0.35;
+    user-select: none;
+}
+.lang-switcher a,
+.lang-switcher button {
+    text-decoration: none;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: background .15s ease;
+}
+.lang-switcher a:hover,
+.lang-switcher button:hover {
+    background: rgba(23, 107, 69, 0.08);
+}
+
+/* -------------------------------------------------------------------------
+   6. NUMBERS, PHONES, EMAILS, CODE — always LTR
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] .num,
+html[dir="rtl"] .phone,
+html[dir="rtl"] .email,
+html[dir="rtl"] .code,
+html[dir="rtl"] code,
+html[dir="rtl"] kbd,
+html[dir="rtl"] pre,
+html[dir="rtl"] .time,
+html[dir="rtl"] .date {
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
+}
+
+/* Year/date ranges in stats usually want to stay Latin */
+html[dir="rtl"] .stat-number {
+    font-family: var(--font-latin);
+    font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------------------
+   7. FORM VALIDATION
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] .form-field.has-error::after {
+    inset-inline-end: 12px;
+    inset-inline-start: auto;
+}
+
+/* Error message alignment */
+html[dir="rtl"] .form-error {
+    text-align: start;
+}
+
+/* -------------------------------------------------------------------------
+   8. NAVIGATION — mobile slide-in direction
+   If your mobile nav slides in from the left in LTR, it should slide in
+   from the right in RTL.
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] .mobile-nav {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    transform: translateX(100%);
+}
+html[dir="rtl"] .mobile-nav.is-open {
+    transform: translateX(0);
+}
+
+/* -------------------------------------------------------------------------
+   9. HERO / SPLIT LAYOUTS
+   If hero is text-left + image-right in LTR, they should swap in RTL.
+   If you used grid-template-columns, the natural RTL flow handles it.
+   But if you used grid-template-areas with LTR names, you must override:
+   ------------------------------------------------------------------------- */
+
+/* Example:
+   LTR: grid-template-areas: "text image";
+   RTL: grid-template-areas: "image text";  <-- override here
+*/
+
+/* -------------------------------------------------------------------------
+   10. STICKY SIDEBAR (Service / Product detail)
+   ------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------
+   11. QUOTES & CITATIONS
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] blockquote {
+    border-inline-start: 4px solid var(--brand);
+    padding-inline-start: 20px;
+    text-align: start;
+}
+html[dir="rtl"] blockquote::before {
+    content: "«";   /* Persian quote style */
+}
+html[dir="rtl"] blockquote::after {
+    content: "»";
+}
+
+/* -------------------------------------------------------------------------
+   12. TRUNCATION / ELLIPSIS
+   `text-overflow: ellipsis` works, but ensure direction is correct.
+   ------------------------------------------------------------------------- */
+
+html[dir="rtl"] .truncate {
+    text-align: start;
+    direction: rtl;
+}
+
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="rtl"] {
+  direction: rtl;
+}

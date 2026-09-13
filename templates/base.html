@@ -1,33 +1,30 @@
-{% load i18n static %}
+{% load i18n static lang_tags %}
 {% get_current_language as LANG %}
 {% get_current_language_bidi as BIDI %}
+{% get_available_languages as LANGS %}
+
 <!DOCTYPE html>
 <html lang="{{ LANG }}" dir="{% if BIDI %}rtl{% else %}ltr{% endif %}">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#176B45">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#176B45">
 
-  <title>{% block title %}{{ site.name_fa }} — {{ site.tagline_fa }}{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}{{ site.tagline_fa }}{% endblock %}">
+    <title>{% block title %}{{ site.company_name|default:"Binyad" }}{% endblock %}</title>
 
-  {# Open Graph #}
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{% block og_title %}{{ site.name_fa }}{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}{{ site.tagline_fa }}{% endblock %}">
-  <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  {% if site.logo %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ site.logo.url }}">{% endif %}
+    {# Fonts: Inter for Latin, Vazirmatn for Persian #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
 
-  {% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
-  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    {# Styles — order matters: typography → styles → rtl overrides #}
+  
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  {% block extra_head %}{% endblock %}
+    {% block extra_css %}{% endblock %}
 </head>
+
 <body class="lang-{{ LANG }} {% if BIDI %}is-rtl{% else %}is-ltr{% endif %}">
 
   <a href="#main" class="skip-link">{% trans "Skip to content" %}</a>
@@ -45,12 +42,10 @@
         <span class="brand-text">
           <span class="brand-name">
             {% if LANG == 'fa' %}{{ site.name_fa|default:"بنیاد" }}
-            {% elif LANG == 'ps' %}{{ site.name_ps|default:"بنیاد" }}
-            {% else %}{{ site.name_en|default:"Binyad" }}{% endif %}
+            {% else %}{{ site.name_en|default:site.company_name|default:"Binyad" }}{% endif %}
           </span>
           <span class="brand-tag">
             {% if LANG == 'fa' %}{{ site.tagline_fa|default:"" }}
-            {% elif LANG == 'ps' %}{{ site.tagline_ps|default:site.tagline_en }}
             {% else %}{{ site.tagline_en|default:"" }}{% endif %}
           </span>
         </span>
@@ -71,16 +66,20 @@
 
       <div class="header-actions">
 
-        <form action="{% url 'set_language' %}" method="post" class="lang-switcher">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.path }}">
-          {% get_available_languages as LANGS %}
-          <select name="language" onchange="this.form.submit()" aria-label="{% trans 'Language' %}">
-            {% for code, label in LANGS %}
-              <option value="{{ code }}" {% if code == LANG %}selected{% endif %}>{{ label }}</option>
-            {% endfor %}
-          </select>
-        </form>
+        {# ============ LANGUAGE SWITCHER ============ #}
+        <select
+          class="lang-select"
+          onchange="if (this.value) window.location.href = this.value;"
+          aria-label="{% trans 'Language' %}">
+          {% for code, label in LANGS %}
+            <option
+              value="{% switch_lang_url code %}"
+              {% if code == LANG %}selected{% endif %}>
+              {{ label }}
+            </option>
+          {% endfor %}
+        </select>
+        {# ============ /LANGUAGE SWITCHER ============ #}
 
         <a href="{% url 'contact:consultation' %}" class="btn btn-primary btn-sm header-cta">
           {% trans "Request a Consultation" %}
@@ -92,7 +91,7 @@
       </div>
     </div>
 
-    {# Mobile nav — rendered here so it's a sibling of header-inner for animation #}
+    {# Mobile nav #}
     <div class="mobile-nav" id="mobileNav" hidden>
       <ul>
         <li><a href="{% url 'pages:home' %}">{% trans "Home" %}</a></li>
@@ -128,12 +127,10 @@
           <span class="brand-text">
             <span class="brand-name">
               {% if LANG == 'fa' %}{{ site.name_fa|default:"بنیاد" }}
-              {% elif LANG == 'ps' %}{{ site.name_ps|default:"بنیاد" }}
-              {% else %}{{ site.name_en|default:"Binyad" }}{% endif %}
+              {% else %}{{ site.name_en|default:site.company_name|default:"Binyad" }}{% endif %}
             </span>
             <span class="brand-tag">
               {% if LANG == 'fa' %}{{ site.tagline_fa }}
-              {% elif LANG == 'ps' %}{{ site.tagline_ps|default:site.tagline_en }}
               {% else %}{{ site.tagline_en }}{% endif %}
             </span>
           </span>
@@ -141,7 +138,6 @@
         {% if site.footer_text_fa or site.footer_text_en %}
           <p class="muted footer-about">
             {% if LANG == 'fa' %}{{ site.footer_text_fa }}
-            {% elif LANG == 'ps' %}{{ site.footer_text_ps|default:site.footer_text_en }}
             {% else %}{{ site.footer_text_en }}{% endif %}
           </p>
         {% endif %}
@@ -170,10 +166,15 @@
       <div class="footer-contact-col">
         <h4>{% trans "Contact" %}</h4>
         <ul class="footer-links">
-          {% if site.phone %}<li><a href="tel:{{ site.phone }}">{{ site.phone }}</a></li>{% endif %}
-          {% if site.email %}<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>{% endif %}
-          {% if site.address_fa %}<li class="muted">{{ site.address_fa }}</li>{% endif %}
-          {% if site.opening_hours_fa %}<li class="muted">{{ site.opening_hours_fa }}</li>{% endif %}
+          {% if site.phone %}<li><a href="tel:{{ site.phone }}" dir="ltr">{{ site.phone }}</a></li>{% endif %}
+          {% if site.email %}<li><a href="mailto:{{ site.email }}" dir="ltr">{{ site.email }}</a></li>{% endif %}
+          {% if LANG == 'fa' %}
+            {% if site.address_fa %}<li class="muted">{{ site.address_fa }}</li>{% endif %}
+            {% if site.opening_hours_fa %}<li class="muted">{{ site.opening_hours_fa }}</li>{% endif %}
+          {% else %}
+            {% if site.address_en %}<li class="muted">{{ site.address_en }}</li>{% endif %}
+            {% if site.opening_hours_en %}<li class="muted">{{ site.opening_hours_en }}</li>{% endif %}
+          {% endif %}
         </ul>
         {% if site.whatsapp %}
           <a class="btn btn-whatsapp btn-sm" href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener">

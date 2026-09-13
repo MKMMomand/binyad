@@ -1,23 +1,34 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static i18n_fields %}
 
 {% block title %}{% trans "Services" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
 {% block meta_description %}{% trans "Binyad services: website development, business systems, databases, mobile apps, and IT consulting for Afghan organizations." %}{% endblock %}
 
 {% block content %}
 
+{# ============ HERO ============ #}
 <section class="page-hero services-hero">
   <div class="container">
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
+
+    <nav class="breadcrumbs" aria-label="{% trans 'Breadcrumb' %}">
       <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
       <span class="breadcrumb-sep">/</span>
       <span>{% trans "Services" %}</span>
     </nav>
 
     <div class="services-hero-inner">
+
       <div class="services-hero-copy">
-        <span class="eyebrow">{% trans "Our services" %}</span>
-        <h1>{% trans "Practical software and IT services" %}</h1>
+        <span class="eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          {% trans "Our services" %}
+        </span>
+
+        <h1 class="hero-title">
+          {% trans "Practical software and" %}
+          <span class="hero-title-accent">{% trans "IT services" %}</span>
+        </h1>
+
         <p class="lead">
           {% trans "From a single website to a complete office system — every service is designed around how your organization actually works." %}
         </p>
@@ -25,66 +36,253 @@
         <div class="hero-actions">
           <a class="btn btn-primary btn-lg" href="{% url 'contact:consultation' %}">
             {% trans "Request a Consultation" %}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+            </svg>
           </a>
           <a class="btn btn-ghost btn-lg" href="{% url 'pages:solutions' %}">
             {% trans "See solutions" %}
           </a>
         </div>
+
+        <ul class="hero-trust hero-trust-inline">
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            {% trans "Fixed scope & pricing" %}
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            {% trans "Local support" %}
+          </li>
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            {% trans "English & Persian" %}
+          </li>
+        </ul>
       </div>
 
       <aside class="services-hero-stats" role="list">
-        <div class="stat-card" role="listitem">
-          <span class="stat-number">{{ services|length }}</span>
+
+        <div class="stat-card stat-card--primary" role="listitem">
+          <span class="stat-number">{{ services|length|default:"0" }}</span>
           <span class="stat-label">{% trans "Service areas" %}</span>
+          <span class="stat-sub">{% trans "Covering the essentials" %}</span>
         </div>
+
         <div class="stat-card" role="listitem">
-          <span class="stat-number">3</span>
-          <span class="stat-label">{% trans "Languages supported" %}</span>
+          <span class="stat-number">7</span>
+          <span class="stat-label">{% trans "Step process" %}</span>
+          <span class="stat-sub">{% trans "Discover to support" %}</span>
         </div>
+
         <div class="stat-card" role="listitem">
-          <span class="stat-number">∞</span>
-          <span class="stat-label">{% trans "Custom scopes" %}</span>
+          <span class="stat-number">100%</span>
+          <span class="stat-label">{% trans "Custom scope" %}</span>
+          <span class="stat-sub">{% trans "Built around you" %}</span>
         </div>
+
       </aside>
+
     </div>
   </div>
 </section>
 
+{# ============ SERVICE TYPES STRIP ============ #}
+<section class="credibility-strip services-tags-strip">
+  <div class="container">
+    <div class="cred-grid">
+      <div class="cred-item">
+        <strong>{% trans "Websites & Portals" %}</strong>
+        <span class="muted small">{% trans "Fast, secure, multilingual" %}</span>
+      </div>
+      <div class="cred-item">
+        <strong>{% trans "Business Systems" %}</strong>
+        <span class="muted small">{% trans "Office, inventory, HR, CRM" %}</span>
+      </div>
+      <div class="cred-item">
+        <strong>{% trans "Databases & Reporting" %}</strong>
+        <span class="muted small">{% trans "Structured, searchable data" %}</span>
+      </div>
+      <div class="cred-item">
+        <strong>{% trans "IT Consulting" %}</strong>
+        <span class="muted small">{% trans "Digital transformation advice" %}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ============ SERVICES GRID ============ #}
 <section class="section services-list-section">
   <div class="container">
-    <div class="grid grid-3">
-      {% for s in services %}
-        <a class="card service-card" href="{{ s.get_absolute_url }}">
-          <span class="card-icon" aria-hidden="true">
-            {% if s.icon %}<i class="{{ s.icon }}"></i>{% else %}◆{% endif %}
-          </span>
-          <h3>{{ s.name_fa|default:s.name }}</h3>
-          <p class="muted">{{ s.short_description_fa|default:s.short_description }}</p>
-          <span class="card-arrow" aria-hidden="true">→</span>
-        </a>
-      {% empty %}
-        <div class="empty-state">
-          <h3>{% trans "Services will be added soon." %}</h3>
-          <p class="muted">{% trans "Please contact us to discuss what we can build for you." %}</p>
-          <a class="btn btn-primary mt-sm" href="{% url 'contact:consultation' %}">
-            {% trans "Request a Consultation" %}
+
+    <header class="section-head section-head-center">
+      <span class="eyebrow eyebrow-center">{% trans "What we offer" %}</span>
+      <h2 class="section-title">
+        {% trans "Choose the service that" %}
+        <span class="title-accent">{% trans "solves your problem" %}</span>
+      </h2>
+      <p class="section-sub">
+        {% trans "Every service below is delivered as a scoped project — with clear deliverables, timelines, and support." %}
+      </p>
+    </header>
+
+    {% if services %}
+      <div class="services-grid services-grid--list">
+
+        {% for s in services %}
+          <a class="service-tile service-tile--list" href="{{ s.get_absolute_url }}">
+
+            <div class="service-icon" aria-hidden="true">
+              {% if s.icon %}
+                <i class="{{ s.icon }}"></i>
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M8 12l2 2 4-4"/>
+                </svg>
+              {% endif %}
+            </div>
+
+            <div class="service-tile-body">
+              <h3 class="service-title">{% tfield s 'name' %}</h3>
+              <p class="service-desc">{% tfield s 'short_description' %}</p>
+
+              {% if s.features_list %}
+                <ul class="service-bullets service-bullets--inline">
+                  {% for f in s.features_list|slice:":3" %}
+                    <li>{{ f }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+
+            <span class="service-cta">
+              {% trans "Explore" %}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+              </svg>
+            </span>
+
           </a>
+        {% endfor %}
+
+      </div>
+
+    {% else %}
+      <div class="empty-state">
+        <h3>{% trans "Services will be added soon." %}</h3>
+        <p class="muted">{% trans "Please contact us to discuss what we can build for you." %}</p>
+        <a class="btn btn-primary mt-sm" href="{% url 'contact:consultation' %}">
+          {% trans "Request a Consultation" %}
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{# ============ HOW WE WORK ============ #}
+<section class="section section-alt services-process-section">
+  <div class="container">
+    <header class="section-head section-head-center">
+      <span class="eyebrow eyebrow-center">{% trans "How we work" %}</span>
+      <h2 class="section-title">
+        {% trans "From first call to" %}
+        <span class="title-accent">{% trans "long-term support" %}</span>
+      </h2>
+      <p class="section-sub">
+        {% trans "Every service follows the same clear journey — so you always know what happens next." %}
+      </p>
+    </header>
+
+    <ol class="services-steps">
+      <li>
+        <span class="step-num">01</span>
+        <div>
+          <strong>{% trans "Discovery" %}</strong>
+          <span class="muted small">{% trans "We listen to how you work today" %}</span>
         </div>
-      {% endfor %}
+      </li>
+      <li>
+        <span class="step-num">02</span>
+        <div>
+          <strong>{% trans "Proposal" %}</strong>
+          <span class="muted small">{% trans "Clear scope, timeline, and price" %}</span>
+        </div>
+      </li>
+      <li>
+        <span class="step-num">03</span>
+        <div>
+          <strong>{% trans "Delivery" %}</strong>
+          <span class="muted small">{% trans "Build, test, and refine with you" %}</span>
+        </div>
+      </li>
+      <li>
+        <span class="step-num">04</span>
+        <div>
+          <strong>{% trans "Support" %}</strong>
+          <span class="muted small">{% trans "Training and ongoing help" %}</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+{# ============ WHY US ============ #}
+<section class="section services-why-section">
+  <div class="container">
+    <header class="section-head section-head-center">
+      <span class="eyebrow eyebrow-center">{% trans "Why Binyad" %}</span>
+      <h2 class="section-title">
+        {% trans "Software built for" %}
+        <span class="title-accent">{% trans "real organizations" %}</span>
+      </h2>
+    </header>
+
+    <div class="why-inline-grid">
+      <div class="why-inline-card">
+        <span class="why-inline-num" aria-hidden="true">01</span>
+        <h3>{% trans "Local context" %}</h3>
+        <p class="muted small">{% trans "We know how Afghan organizations operate — from single offices to multi-branch companies." %}</p>
+      </div>
+      <div class="why-inline-card">
+        <span class="why-inline-num" aria-hidden="true">02</span>
+        <h3>{% trans "Direct communication" %}</h3>
+        <p class="muted small">{% trans "You talk directly to the person building your system. No account managers in between." %}</p>
+      </div>
+      <div class="why-inline-card">
+        <span class="why-inline-num" aria-hidden="true">03</span>
+        <h3>{% trans "Realistic budgets" %}</h3>
+        <p class="muted small">{% trans "Serious software without enterprise pricing. Fixed quotes, no hidden costs." %}</p>
+      </div>
     </div>
   </div>
 </section>
 
+{# ============ FINAL CTA ============ #}
 <section class="cta-band">
   <div class="container cta-inner">
     <div>
       <h2>{% trans "Not sure which service you need?" %}</h2>
       <p>{% trans "Tell us about your organization and we'll suggest a practical path." %}</p>
     </div>
-    <a href="{% url 'contact:consultation' %}" class="btn btn-light btn-lg">
-      {% trans "Request a Consultation" %}
-      <span aria-hidden="true">→</span>
-    </a>
+    <div class="cta-actions">
+      <a href="{% url 'contact:consultation' %}" class="btn btn-light btn-lg">
+        {% trans "Request a Consultation" %}
+        <span aria-hidden="true">→</span>
+      </a>
+      {% if site.whatsapp %}
+        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="btn btn-outline-light">
+          {% trans "Chat on WhatsApp" %}
+        </a>
+      {% endif %}
+    </div>
   </div>
 </section>
 

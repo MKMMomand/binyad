@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static i18n_fields %}
 
 {% block title %}{% trans "Products" %} — {{ site.name_en|default:"Binyad" }}{% endblock %}
 {% block meta_description %}{% trans "Binyad product line: office management, inventory, CRM, HR, and industry-specific systems for Afghan businesses and organizations." %}{% endblock %}
@@ -12,7 +12,7 @@
 {# ============ HERO ============ #}
 <section class="page-hero products-hero">
   <div class="container">
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <nav class="breadcrumbs" aria-label="{% trans 'Breadcrumb' %}">
       <a href="{% url 'pages:home' %}">{% trans "Home" %}</a>
       <span class="breadcrumb-sep">/</span>
       <span>{% trans "Products" %}</span>
@@ -41,12 +41,12 @@
           <span class="stat-label">{% trans "Products on the roadmap" %}</span>
         </div>
         <div class="stat-card" role="listitem">
-          <span class="stat-number">3</span>
-          <span class="stat-label">{% trans "Languages supported" %}</span>
+          <span class="stat-number">4</span>
+          <span class="stat-label">{% trans "Deployment stages" %}</span>
         </div>
         <div class="stat-card" role="listitem">
-          <span class="stat-number">∞</span>
-          <span class="stat-label">{% trans "Customization options" %}</span>
+          <span class="stat-number">100%</span>
+          <span class="stat-label">{% trans "Customizable" %}</span>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@
 
           <div class="product-card-visual">
             {% if p.image %}
-              <img src="{{ p.image.url }}" alt="{{ p.name_fa|default:p.name }}" loading="lazy" itemprop="image">
+              <img src="{{ p.image.url }}" alt="{% tfield p 'name' %}" loading="lazy" itemprop="image">
             {% else %}
               <div class="product-card-placeholder" aria-hidden="true">
                 <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
@@ -110,9 +110,9 @@
           </div>
 
           <div class="product-card-body">
-            <h3 itemprop="name">{{ p.name_fa|default:p.name }}</h3>
+            <h3 itemprop="name">{% tfield p 'name' %}</h3>
             <p class="muted" itemprop="description">
-              {{ p.short_description_fa|default:p.short_description }}
+              {% tfield p 'short_description' %}
             </p>
 
             {% if p.features_list %}
@@ -131,7 +131,7 @@
             </span>
           </div>
 
-          <a class="stretched-link" href="{{ p.get_absolute_url }}" aria-label="{{ p.name_fa|default:p.name }}"></a>
+          <a class="stretched-link" href="{{ p.get_absolute_url }}" aria-label="{% tfield p 'name' %}"></a>
         </article>
       {% empty %}
         <div class="empty-state">
@@ -178,7 +178,7 @@
         <span class="value-icon" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 12h20"/></svg>
         </span>
-        <h3>{% trans "Persian & Pashto" %}</h3>
+        <h3>{% trans "English & Persian" %}</h3>
         <p class="muted small">{% trans "Native RTL interface designed for local users, not just translated." %}</p>
       </div>
       <div class="value-card">

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static %}
+{% load i18n static i18n_fields %}
 
 {% block title %}{{ site.name_en|default:"Binyad" }} — {% trans "Smart Solutions for Better Management" %}{% endblock %}
 {% block meta_description %}{% trans "Binyad designs and implements software, administrative and technology solutions for Afghan businesses and organizations." %}{% endblock %}
@@ -8,289 +8,309 @@
 
 {% block content %}
 
-{# ============ HERO ============ #}
-<section class="hero home-hero">
-  <div class="container hero-inner">
-
-    <div class="hero-copy">
-      <span class="eyebrow">
-        <span class="eyebrow-dot" aria-hidden="true"></span>
-        {% trans "Binyad — Business, Management & IT Solutions" %}
-      </span>
-
-      <h1 class="hero-title">
-        {% trans "Smart Solutions for" %}<br>
-        <span class="hero-title-accent">{% trans "Better Management" %}</span>
-      </h1>
-
-      <p class="lead">
-        {% trans "Binyad designs and implements software, administrative, and technology solutions for businesses and organizations across Afghanistan." %}
-      </p>
-
-      <div class="hero-actions">
-        <a href="{% url 'contact:consultation' %}" class="btn btn-primary btn-lg">
-          {% trans "Request a Consultation" %}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
-          </svg>
-        </a>
-        <a href="{% url 'services:list' %}" class="btn btn-ghost btn-lg">
-          {% trans "View Services" %}
-        </a>
-      </div>
-
-      <div class="hero-trust">
-        <div class="trust-item">
-          <span class="trust-check" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          </span>
-          {% trans "Persian · Pashto · English" %}
+{# ============ HERO SECTION ============ #}
+<section class="hero-section">
+  <div class="hero-bg-gradient"></div>
+  <div class="container hero-container">
+    <div class="hero-content-wrapper">
+      
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          {% trans "Binyad — Business, Management & IT Solutions" %}
         </div>
-        <div class="trust-item">
-          <span class="trust-check" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          </span>
-          {% trans "Offline-ready systems" %}
+
+        <h1 class="hero-title">
+          {% trans "Smart Solutions for" %}<br>
+          <span class="text-gradient">{% trans "Better Management" %}</span>
+        </h1>
+
+        <p class="hero-lead">
+          {% trans "Binyad designs and implements software, administrative, and technology solutions for businesses and organizations across Afghanistan." %}
+        </p>
+
+        <div class="hero-actions">
+          <a href="{% url 'contact:consultation' %}" class="btn btn-primary btn-lg">
+            {% trans "Request a Consultation" %}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="icon-arrow">
+              <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+          <a href="{% url 'services:list' %}" class="btn btn-secondary btn-lg">
+            {% trans "View Services" %}
+          </a>
         </div>
-        <div class="trust-item">
-          <span class="trust-check" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          </span>
-          {% trans "Local support" %}
+
+        <div class="trust-row">
+          <div class="trust-item">
+            <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Persian · English" %}
+          </div>
+          <div class="trust-item">
+            <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Offline-ready systems" %}
+          </div>
+          <div class="trust-item">
+            <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            {% trans "Local support" %}
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="hero-visual" aria-hidden="true">
-      <svg viewBox="0 0 520 460" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#176B45"/>
-            <stop offset="1" stop-color="#2E8B57"/>
-          </linearGradient>
-          <linearGradient id="hg2" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0" stop-color="#E7F5EC"/>
-            <stop offset="1" stop-color="#fff"/>
-          </linearGradient>
-          <filter id="hshadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
-            <feOffset dx="0" dy="10" result="offsetblur"/>
-            <feComponentTransfer><feFuncA type="linear" slope=".14"/></feComponentTransfer>
-            <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
+      <div class="hero-visual">
+        <svg viewBox="0 0 520 460" xmlns="http://www.w3.org/2000/svg" class="hero-svg">
+          <defs>
+            <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#176B45"/>
+              <stop offset="1" stop-color="#10B981"/>
+            </linearGradient>
+            <linearGradient id="grad2" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0" stop-color="#E7F5EC"/>
+              <stop offset="1" stop-color="#fff"/>
+            </linearGradient>
+            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+              <feOffset dx="0" dy="12" result="offsetblur"/>
+              <feComponentTransfer><feFuncA type="linear" slope=".15"/></feComponentTransfer>
+              <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
 
-        {# Background panel #}
-        <rect x="20" y="20" width="480" height="420" rx="28" fill="#F5F8F6" stroke="#DDEAE1"/>
+          <rect x="20" y="20" width="480" height="420" rx="32" fill="#F8FAFC" stroke="#E2E8F0"/>
 
-        {# Primary dashboard window #}
-        <g filter="url(#hshadow)">
-          <rect x="70" y="70" width="380" height="240" rx="18" fill="#fff" stroke="#DDEAE1"/>
-          <rect x="70" y="70" width="380" height="48" rx="18" fill="url(#hg1)"/>
-          <circle cx="98" cy="94" r="6" fill="#fff" opacity=".95"/>
-          <circle cx="118" cy="94" r="6" fill="#fff" opacity=".75"/>
-          <circle cx="138" cy="94" r="6" fill="#fff" opacity=".55"/>
+          <g filter="url(#softShadow)">
+            <rect x="70" y="70" width="380" height="240" rx="20" fill="#fff" stroke="#E2E8F0"/>
+            <rect x="70" y="70" width="380" height="56" rx="20" fill="url(#grad1)"/>
+            <circle cx="102" cy="98" r="6" fill="#fff" opacity=".9"/>
+            <circle cx="124" cy="98" r="6" fill="#fff" opacity=".7"/>
+            <circle cx="146" cy="98" r="6" fill="#fff" opacity=".5"/>
 
-          {# Left column: bars #}
-          <rect x="100" y="220" width="26" height="60" rx="5" fill="url(#hg1)" opacity=".9"/>
-          <rect x="138" y="190" width="26" height="90" rx="5" fill="url(#hg1)" opacity=".75"/>
-          <rect x="176" y="160" width="26" height="120" rx="5" fill="url(#hg1)" opacity=".9"/>
-          <rect x="214" y="200" width="26" height="80" rx="5" fill="url(#hg1)" opacity=".6"/>
-          <rect x="252" y="180" width="26" height="100" rx="5" fill="url(#hg1)" opacity=".85"/>
+            <rect x="100" y="220" width="28" height="70" rx="6" fill="url(#grad1)" opacity=".9"/>
+            <rect x="142" y="180" width="28" height="110" rx="6" fill="url(#grad1)" opacity=".75"/>
+            <rect x="184" y="140" width="28" height="150" rx="6" fill="url(#grad1)" opacity=".9"/>
+            <rect x="226" y="200" width="28" height="90" rx="6" fill="url(#grad1)" opacity=".6"/>
+            <rect x="268" y="170" width="28" height="120" rx="6" fill="url(#grad1)" opacity=".85"/>
 
-          {# Right column: list rows #}
-          <rect x="304" y="140" width="120" height="12" rx="6" fill="#CFE0D5"/>
-          <rect x="304" y="164" width="100" height="8" rx="4" fill="#E1EEE6"/>
-          <rect x="304" y="182" width="80" height="8" rx="4" fill="#E1EEE6"/>
-          <rect x="304" y="200" width="110" height="8" rx="4" fill="#E1EEE6"/>
-          <rect x="304" y="222" width="90" height="24" rx="6" fill="url(#hg1)" opacity=".85"/>
-        </g>
+            <rect x="320" y="130" width="120" height="14" rx="7" fill="#D1FAE5"/>
+            <rect x="320" y="156" width="100" height="10" rx="5" fill="#F3F4F6"/>
+            <rect x="320" y="176" width="80" height="10" rx="5" fill="#F3F4F6"/>
+            <rect x="320" y="196" width="110" height="10" rx="5" fill="#F3F4F6"/>
+            <rect x="320" y="220" width="90" height="28" rx="8" fill="url(#grad1)" opacity=".85"/>
+          </g>
 
-        {# Floating card: chart #}
-        <g filter="url(#hshadow)">
-          <rect x="40" y="290" width="180" height="120" rx="16" fill="url(#hg2)" stroke="#b9dfc7"/>
-          <circle cx="70" cy="322" r="14" fill="url(#hg1)" opacity=".9"/>
-          <path d="M64 322l4 4 8-8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="94" y="312" width="90" height="10" rx="5" fill="#176B45" opacity=".55"/>
-          <rect x="94" y="330" width="70" height="7" rx="3.5" fill="#176B45" opacity=".3"/>
+          <g filter="url(#softShadow)">
+            <rect x="40" y="310" width="180" height="120" rx="18" fill="url(#grad2)" stroke="#A7F3D0"/>
+            <circle cx="70" cy="342" r="16" fill="url(#grad1)" opacity=".9"/>
+            <path d="M64 342l4 4 8-8" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="96" y="330" width="90" height="12" rx="6" fill="#176B45" opacity=".5"/>
+            <rect x="96" y="350" width="70" height="8" rx="4" fill="#176B45" opacity=".25"/>
+            <rect x="60" y="380" width="140" height="10" rx="5" fill="#176B45" opacity=".15"/>
+            <rect x="60" y="400" width="90" height="10" rx="5" fill="#176B45" opacity=".15"/>
+          </g>
 
-          <rect x="60" y="356" width="140" height="8" rx="4" fill="#176B45" opacity=".2"/>
-          <rect x="60" y="374" width="90" height="8" rx="4" fill="#176B45" opacity=".2"/>
-        </g>
+          <g filter="url(#softShadow)">
+            <rect x="300" y="330" width="180" height="120" rx="18" fill="#fff" stroke="#E2E8F0"/>
+            <rect x="314" y="348" width="60" height="12" rx="6" fill="#D1FAE5"/>
+            <rect x="314" y="368" width="140" height="10" rx="5" fill="#F3F4F6"/>
+            <rect x="314" y="388" width="120" height="10" rx="5" fill="#F3F4F6"/>
+            <rect x="314" y="410" width="80" height="28" rx="8" fill="url(#grad1)" opacity=".85"/>
+            <circle cx="460" cy="424" r="14" fill="#ECFDF5" stroke="#A7F3D0"/>
+            <path d="M454 424l4 4 8-8" stroke="#059669" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
 
-        {# Floating card: mobile #}
-        <g filter="url(#hshadow)">
-          <rect x="300" y="320" width="180" height="120" rx="16" fill="#fff" stroke="#DDEAE1"/>
-          <rect x="312" y="336" width="60" height="10" rx="5" fill="#CFE0D5"/>
-          <rect x="312" y="354" width="140" height="8" rx="4" fill="#E1EEE6"/>
-          <rect x="312" y="372" width="120" height="8" rx="4" fill="#E1EEE6"/>
-          <rect x="312" y="392" width="80" height="24" rx="6" fill="url(#hg1)" opacity=".85"/>
-          <circle cx="460" cy="404" r="12" fill="#E7F5EC" stroke="#b9dfc7"/>
-          <path d="M455 404l3 3 6-6" stroke="#176B45" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
+          <circle cx="490" cy="60" r="8" fill="#FBBF24" opacity=".6"/>
+          <circle cx="30" cy="270" r="6" fill="#10B981" opacity=".5"/>
+        </svg>
+      </div>
 
-        {# Accent dots #}
-        <circle cx="490" cy="60" r="6" fill="#C8A24A" opacity=".55"/>
-        <circle cx="30" cy="270" r="5" fill="#2E8B57" opacity=".4"/>
-      </svg>
     </div>
   </div>
 </section>
 
-{# ============ LOGO / CREDIBILITY STRIP ============ #}
-<section class="credibility-strip">
+{# ============ CREDIBILITY BAR ============ #}
+<div class="credibility-bar">
   <div class="container">
     <div class="cred-grid">
-      <div class="cred-item">
-        <strong>{% trans "Hands-on" %}</strong>
-        <span class="muted small">{% trans "Direct involvement" %}</span>
+      <div class="cred-card">
+        <span class="cred-icon">🤝</span>
+        <div>
+          <h4>{% trans "Hands-on" %}</h4>
+          <p class="text-sm">{% trans "Direct involvement" %}</p>
+        </div>
       </div>
-      <div class="cred-item">
-        <strong>{% trans "Made for Afghanistan" %}</strong>
-        <span class="muted small">{% trans "Local context, local support" %}</span>
+      <div class="cred-card">
+        <span class="cred-icon">🇦🇫</span>
+        <div>
+          <h4>{% trans "Made for Afghanistan" %}</h4>
+          <p class="text-sm">{% trans "Local context, local support" %}</p>
+        </div>
       </div>
-      <div class="cred-item">
-        <strong>{% trans "Offline-first" %}</strong>
-        <span class="muted small">{% trans "Works with or without internet" %}</span>
+      <div class="cred-card">
+        <span class="cred-icon">📡</span>
+        <div>
+          <h4>{% trans "Offline-first" %}</h4>
+          <p class="text-sm">{% trans "Works with or without internet" %}</p>
+        </div>
       </div>
-      <div class="cred-item">
-        <strong>{% trans "Bilingual" %}</strong>
-        <span class="muted small">{% trans "Persian, Pashto, English" %}</span>
+      <div class="cred-card">
+        <span class="cred-icon">🌐</span>
+        <div>
+          <h4>{% trans "Bilingual" %}</h4>
+          <p class="text-sm">{% trans "English & Persian" %}</p>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-{# ============ WHAT WE DO ============ #}
-<section class="section">
+
+<section class="section services-section">
   <div class="container">
-    <header class="section-head">
-      <span class="eyebrow">{% trans "What we do" %}</span>
-      <h2>{% trans "Practical services for real business needs" %}</h2>
-      <p>{% trans "From a single website to a full office system — we design each solution around your actual workflow." %}</p>
+    <header class="section-header text-center">
+      <span class="section-eyebrow">{% trans "What we do" %}</span>
+      <h2 class="section-title">
+        {% trans "Practical services for" %}
+        <span class="highlight">{% trans "real business needs" %}</span>
+      </h2>
+      <p class="section-lead">
+        {% trans "From a single website to a full office system — every solution is designed around your actual workflow." %}
+      </p>
     </header>
 
-    <div class="grid grid-4">
-      {% for s in services %}
-        <a class="card service-card" href="{{ s.get_absolute_url }}">
-          <span class="card-icon" aria-hidden="true">
-            {% if s.icon %}<i class="{{ s.icon }}"></i>{% else %}◆{% endif %}
-          </span>
-          <h3>{{ s.name_fa|default:s.name }}</h3>
-          <p class="muted">{{ s.short_description_fa|default:s.short_description }}</p>
-          <span class="card-arrow" aria-hidden="true">→</span>
-        </a>
-      {% empty %}
-        <div class="empty-state">
-          <h3>{% trans "Services will be added soon." %}</h3>
-          <p class="muted">{% trans "Please check back shortly or contact us for details." %}</p>
-        </div>
-      {% endfor %}
-    </div>
+    {% if services %}
+      <div class="bento-grid">
 
-    <div class="section-foot">
-      <a class="btn btn-ghost" href="{% url 'services:list' %}">
-        {% trans "View all services" %}
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
+        {# --- Featured Service (Spans 2 cols) --- #}
+        {% with first=services.0 %}
+        <a href="{{ first.get_absolute_url }}" class="bento-card featured-card">
+          <div class="card-badge">{% trans "Most requested" %}</div>
+          <div class="card-icon large">
+            {% if first.icon %}<i class="{{ first.icon }}"></i>{% else %}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M8 20h8"/></svg>
+            {% endif %}
+          </div>
+          <h3 class="card-title">{% tfield first 'name' %}</h3>
+          <p class="card-desc">{% tfield first 'short_description' %}</p>
+          {% if first.features %}
+            <div class="feature-tags">
+              {% for f in first.features_list|slice:":3" %}
+                <span class="tag">{{ f }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <span class="card-link">
+            {% trans "Explore Solution" %}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        {% endwith %}
+
+        {# --- Standard Services --- #}
+        {% for s in services|slice:"1:" %}
+          <a href="{{ s.get_absolute_url }}" class="bento-card">
+            <div class="card-icon">
+              {% if s.icon %}<i class="{{ s.icon }}"></i>{% else %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+              {% endif %}
+            </div>
+            <h3 class="card-title">{% tfield s 'name' %}</h3>
+            <p class="card-desc">{% tfield s 'short_description' %}</p>
+            <span class="card-link">
+              {% trans "Learn more" %}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        {% endfor %}
+
+      </div>
+
+      <div class="section-footer text-center">
+        <a class="btn btn-outline" href="{% url 'services:list' %}">
+          {% trans "View all services" %}
+        </a>
+      </div>
+
+    {% else %}
+      <div class="empty-state">
+        <h3>{% trans "Services will be added soon." %}</h3>
+        <p class="muted">{% trans "Please check back shortly or contact us for details." %}</p>
+      </div>
+    {% endif %}
+
   </div>
 </section>
 
-{# ============ PROBLEMS WE SOLVE ============ #}
+{# ============ PROBLEMS SECTION (Comparison) ============ #}
 <section class="section section-alt problems-section">
   <div class="container">
-    <header class="section-head">
-      <span class="eyebrow">{% trans "The problem" %}</span>
-      <h2>{% trans "Common business problems we solve" %}</h2>
-      <p>{% trans "Every organization we meet struggles with the same recurring issues — we turn each of them into a working digital solution." %}</p>
+    <header class="section-header">
+      <span class="section-eyebrow">{% trans "The problem" %}</span>
+      <h2 class="section-title">{% trans "Common business problems we solve" %}</h2>
+      <p class="section-lead">{% trans "Every organization we meet struggles with the same recurring issues — we turn each of them into a working digital solution." %}</p>
     </header>
 
-    <div class="problems-layout">
-
-      <ul class="problems-list">
-        <li class="problem-item">
-          <span class="problem-icon" aria-hidden="true">✕</span>
+    <div class="comparison-layout">
+      <div class="problems-list">
+        <div class="problem-card">
+          <div class="problem-icon red">✕</div>
           <div>
             <strong>{% trans "Paper-based records" %}</strong>
-            <p class="muted small">{% trans "Files that get lost, damaged, or misplaced." %}</p>
+            <p class="text-sm text-muted">{% trans "Files that get lost, damaged, or misplaced." %}</p>
           </div>
-        </li>
-        <li class="problem-item">
-          <span class="problem-icon" aria-hidden="true">✕</span>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon red">✕</div>
           <div>
             <strong>{% trans "Excel dependency" %}</strong>
-            <p class="muted small">{% trans "Fragile sheets scattered across computers." %}</p>
+            <p class="text-sm text-muted">{% trans "Fragile sheets scattered across computers." %}</p>
           </div>
-        </li>
-        <li class="problem-item">
-          <span class="problem-icon" aria-hidden="true">✕</span>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon red">✕</div>
           <div>
             <strong>{% trans "Lost information" %}</strong>
-            <p class="muted small">{% trans "Data that exists somewhere but can't be trusted." %}</p>
+            <p class="text-sm text-muted">{% trans "Data that exists somewhere but can't be trusted." %}</p>
           </div>
-        </li>
-        <li class="problem-item">
-          <span class="problem-icon" aria-hidden="true">✕</span>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon red">✕</div>
           <div>
             <strong>{% trans "Difficult reporting" %}</strong>
-            <p class="muted small">{% trans "Reports that take hours, or never arrive." %}</p>
+            <p class="text-sm text-muted">{% trans "Reports that take hours, or never arrive." %}</p>
           </div>
-        </li>
-        <li class="problem-item">
-          <span class="problem-icon" aria-hidden="true">✕</span>
-          <div>
-            <strong>{% trans "Manual administration" %}</strong>
-            <p class="muted small">{% trans "Routine work consuming hours every day." %}</p>
-          </div>
-        </li>
-        <li class="problem-item">
-          <span class="problem-icon" aria-hidden="true">✕</span>
-          <div>
-            <strong>{% trans "Lack of centralized information" %}</strong>
-            <p class="muted small">{% trans "No single source of truth for the team." %}</p>
-          </div>
-        </li>
-      </ul>
-
-      <div class="problems-visual">
-        <div class="pv-card pv-before">
-          <span class="pv-label">{% trans "Before" %}</span>
-          <div class="pv-before-grid" aria-hidden="true">
-            <span class="paper"></span>
-            <span class="paper"></span>
-            <span class="paper"></span>
-            <span class="paper paper-tilt-1"></span>
-            <span class="paper paper-tilt-2"></span>
-            <span class="paper"></span>
-          </div>
-          <p class="muted small">{% trans "Scattered, fragile, hard to trust." %}</p>
-        </div>
-
-        <div class="pv-arrow" aria-hidden="true">
-          <svg width="34" height="24" viewBox="0 0 34 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 12h28"/><path d="M22 4l8 8-8 8"/>
-          </svg>
-        </div>
-
-        <div class="pv-card pv-after">
-          <span class="pv-label pv-label-accent">{% trans "With Binyad" %}</span>
-          <div class="pv-window" aria-hidden="true">
-            <div class="pv-window-bar"></div>
-            <div class="pv-window-body">
-              <span></span><span></span><span></span><span></span>
-            </div>
-          </div>
-          <p class="muted small">{% trans "Centralized, organized, always available." %}</p>
         </div>
       </div>
 
+      <div class="comparison-visual">
+        <div class="visual-card before">
+          <span class="visual-label">{% trans "Before" %}</span>
+          <div class="paper-stack">
+            <div class="paper-sheet tilt-1"></div>
+            <div class="paper-sheet tilt-2"></div>
+            <div class="paper-sheet"></div>
+          </div>
+        </div>
+
+        <div class="arrow-divider">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+
+        <div class="visual-card after">
+          <span class="visual-label green">{% trans "With Binyad" %}</span>
+          <div class="clean-dash">
+            <div class="dash-header"></div>
+            <div class="dash-body">
+              <div class="dash-row"></div>
+              <div class="dash-row"></div>
+              <div class="dash-row"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="problems-foot">
-      <p class="lead">
-        {% trans "Binyad converts these problems into organized digital systems — designed around your workflow, not the other way around." %}
-      </p>
+    <div class="cta-box">
+      <p class="lead">{% trans "Binyad converts these problems into organized digital systems — designed around your workflow, not the other way around." %}</p>
       <a class="btn btn-primary" href="{% url 'contact:consultation' %}">
         {% trans "Request a Consultation" %}
       </a>
@@ -302,170 +322,153 @@
 {% if flagship %}
 <section class="section flagship-section">
   <div class="container">
-    <div class="flagship-inner">
-
-      <div class="flagship-copy">
-        <span class="eyebrow">{% trans "Flagship product" %}</span>
-        <h2>{{ flagship.name_fa|default:flagship.name }}</h2>
-        <p class="lead">
-          {{ flagship.short_description_fa|default:flagship.short_description }}
-        </p>
+    <div class="flagship-layout">
+      
+      <div class="flagship-info">
+        <span class="section-eyebrow">{% trans "Flagship product" %}</span>
+        <h2 class="section-title">{% tfield flagship 'name' %}</h2>
+        <p class="lead">{% tfield flagship 'short_description' %}</p>
 
         {% if flagship.features_list %}
-        <ul class="feature-list feature-list-2col">
+        <ul class="check-list">
           {% for f in flagship.features_list|slice:":8" %}
-            <li>{{ f }}</li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              {{ f }}
+            </li>
           {% endfor %}
         </ul>
         {% endif %}
 
-        <div class="hero-actions">
+        <div class="btn-group">
           <a class="btn btn-primary" href="{{ flagship.get_absolute_url }}">
             {% trans "View Solution" %}
-            <span aria-hidden="true">→</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn-ghost" href="{% url 'products:list' %}">
+          <a class="btn btn-secondary" href="{% url 'products:list' %}">
             {% trans "All products" %}
           </a>
         </div>
       </div>
 
-      <aside class="flagship-card">
-        <div class="flagship-card-head">
-          <span class="status-badge status-{{ flagship.status }}">
-            {{ flagship.get_status_display }}
-          </span>
-        </div>
-
-        {% if flagship.image %}
-          <img src="{{ flagship.image.url }}" alt="{{ flagship.name }}" loading="lazy" class="flagship-image">
-        {% else %}
-          <div class="flagship-mock" aria-hidden="true">
-            <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="fg1" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#176B45"/>
-                  <stop offset="1" stop-color="#2E8B57"/>
-                </linearGradient>
-              </defs>
-              <rect x="10" y="10" width="380" height="240" rx="14" fill="#fff" stroke="#DDEAE1"/>
-              <rect x="10" y="10" width="380" height="34" rx="14" fill="url(#fg1)"/>
-              <circle cx="32" cy="27" r="4" fill="#fff" opacity=".9"/>
-              <circle cx="46" cy="27" r="4" fill="#fff" opacity=".7"/>
-              <circle cx="60" cy="27" r="4" fill="#fff" opacity=".5"/>
-              <rect x="30" y="60" width="80" height="160" rx="8" fill="#F5F8F6"/>
-              <rect x="40" y="72" width="60" height="8" rx="4" fill="#CFE0D5"/>
-              <rect x="40" y="90" width="60" height="6" rx="3" fill="#E1EEE6"/>
-              <rect x="40" y="104" width="48" height="6" rx="3" fill="#E1EEE6"/>
-              <rect x="40" y="118" width="52" height="6" rx="3" fill="#E1EEE6"/>
-              <rect x="40" y="140" width="60" height="6" rx="3" fill="#E1EEE6"/>
-              <rect x="130" y="60" width="240" height="14" rx="7" fill="#CFE0D5"/>
-              <rect x="130" y="86" width="240" height="60" rx="8" fill="#F5F8F6"/>
-              <rect x="145" y="100" width="120" height="8" rx="4" fill="#CFE0D5"/>
-              <rect x="145" y="118" width="180" height="6" rx="3" fill="#E1EEE6"/>
-              <rect x="130" y="162" width="115" height="58" rx="8" fill="url(#fg1)" opacity=".9"/>
-              <rect x="255" y="162" width="115" height="58" rx="8" fill="#2E8B57" opacity=".55"/>
-            </svg>
+      <div class="flagship-preview">
+        <div class="preview-card">
+          <div class="preview-header">
+            <span class="status-dot"></span>
+            <span class="status-text">{{ flagship.get_status_display }}</span>
           </div>
-        {% endif %}
 
-        {% if flagship.demo_url %}
-          <a class="flagship-demo" href="{{ flagship.demo_url }}" target="_blank" rel="noopener">
-            {% trans "View live demo" %} <span aria-hidden="true">↗</span>
-          </a>
-        {% endif %}
-      </aside>
+          {% if flagship.image %}
+            <img src="{{ flagship.image.url }}" alt="{% tfield flagship 'name' %}" loading="lazy" class="preview-image">
+          {% else %}
+            <div class="preview-mockup">
+              <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="380" height="240" rx="16" fill="#fff" stroke="#E2E8F0"/>
+                <rect x="10" y="10" width="380" height="40" rx="16" fill="#176B45"/>
+                <circle cx="36" cy="30" r="5" fill="#fff" opacity=".9"/>
+                <circle cx="52" cy="30" r="5" fill="#fff" opacity=".7"/>
+                <rect x="30" y="70" width="80" height="160" rx="8" fill="#F8FAFC"/>
+                <rect x="40" y="85" width="60" height="8" rx="4" fill="#D1FAE5"/>
+                <rect x="40" y="105" width="60" height="6" rx="3" fill="#F1F5F9"/>
+                <rect x="130" y="70" width="240" height="20" rx="10" fill="#D1FAE5"/>
+                <rect x="130" y="100" width="240" height="70" rx="8" fill="#F8FAFC"/>
+                <rect x="150" y="120" width="120" height="10" rx="5" fill="#D1FAE5"/>
+                <rect x="150" y="140" width="180" height="6" rx="3" fill="#F1F5F9"/>
+                <rect x="130" y="180" width="120" height="60" rx="8" fill="#176B45" opacity=".9"/>
+                <rect x="260" y="180" width="110" height="60" rx="8" fill="#10B981" opacity=".5"/>
+              </svg>
+            </div>
+          {% endif %}
+
+          {% if flagship.demo_url %}
+            <a class="demo-link" href="{{ flagship.demo_url }}" target="_blank" rel="noopener">
+              {% trans "View live demo" %} <span>↗</span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
 
     </div>
   </div>
 </section>
 {% endif %}
 
-{# ============ WHY BINYAD ============ #}
+{# ============ WHY US GRID ============ #}
 <section class="section section-alt why-section">
   <div class="container">
-    <header class="section-head">
-      <span class="eyebrow">{% trans "Why Binyad" %}</span>
-      <h2>{% trans "Built for real businesses, not for slide decks" %}</h2>
-      <p>{% trans "Eight reasons organizations choose to work with us." %}</p>
+    <header class="section-header text-center">
+      <span class="section-eyebrow">{% trans "Why Binyad" %}</span>
+      <h2 class="section-title">{% trans "Built for real businesses, not for slide decks" %}</h2>
+      <p class="section-lead">{% trans "Eight reasons organizations choose to work with us." %}</p>
     </header>
 
-    <div class="grid grid-4 why-grid">
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">01</span>
+    <div class="grid-4">
+      <div class="reason-card">
+        <span class="reason-num">01</span>
         <h3>{% trans "Local understanding" %}</h3>
-        <p class="muted small">{% trans "We know the workflows, constraints, and realities of Afghan organizations." %}</p>
+        <p class="text-sm text-muted">{% trans "We know the workflows, constraints, and realities of Afghan organizations." %}</p>
       </div>
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">02</span>
-        <h3>{% trans "Persian & Pashto support" %}</h3>
-        <p class="muted small">{% trans "Interfaces, documentation, and support — all in your language." %}</p>
+      <div class="reason-card">
+        <span class="reason-num">02</span>
+        <h3>{% trans "Persian & English" %}</h3>
+        <p class="text-sm text-muted">{% trans "Interfaces, documentation, and support — all in your language." %}</p>
       </div>
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">03</span>
+      <div class="reason-card">
+        <span class="reason-num">03</span>
         <h3>{% trans "Practical solutions" %}</h3>
-        <p class="muted small">{% trans "We build what you'll actually use, not what looks best in a demo." %}</p>
+        <p class="text-sm text-muted">{% trans "We build what you'll actually use, not what looks best in a demo." %}</p>
       </div>
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">04</span>
-        <h3>{% trans "Offline-first options" %}</h3>
-        <p class="muted small">{% trans "Systems that keep working when the internet doesn't." %}</p>
+      <div class="reason-card">
+        <span class="reason-num">04</span>
+        <h3>{% trans "Offline-first" %}</h3>
+        <p class="text-sm text-muted">{% trans "Systems that keep working when the internet doesn't." %}</p>
       </div>
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">05</span>
-        <h3>{% trans "Custom development" %}</h3>
-        <p class="muted small">{% trans "Every business is different. Our software adapts to yours." %}</p>
+      <div class="reason-card">
+        <span class="reason-num">05</span>
+        <h3>{% trans "Custom dev" %}</h3>
+        <p class="text-sm text-muted">{% trans "Every business is different. Our software adapts to yours." %}</p>
       </div>
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">06</span>
-        <h3>{% trans "Affordable solutions" %}</h3>
-        <p class="muted small">{% trans "Serious software without enterprise pricing or hidden costs." %}</p>
+      <div class="reason-card">
+        <span class="reason-num">06</span>
+        <h3>{% trans "Affordable" %}</h3>
+        <p class="text-sm text-muted">{% trans "Serious software without enterprise pricing or hidden costs." %}</p>
       </div>
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">07</span>
-        <h3>{% trans "Local technical support" %}</h3>
-        <p class="muted small">{% trans "Direct access to the person who built your system." %}</p>
+      <div class="reason-card">
+        <span class="reason-num">07</span>
+        <h3>{% trans "Local support" %}</h3>
+        <p class="text-sm text-muted">{% trans "Direct access to the person who built your system." %}</p>
       </div>
-
-      <div class="why-card">
-        <span class="why-num" aria-hidden="true">08</span>
+      <div class="reason-card">
+        <span class="reason-num">08</span>
         <h3>{% trans "Data security" %}</h3>
-        <p class="muted small">{% trans "Modern security practices, careful access control, proper backups." %}</p>
+        <p class="text-sm text-muted">{% trans "Modern security practices, careful access control, proper backups." %}</p>
       </div>
-
     </div>
   </div>
 </section>
 
 {# ============ INDUSTRIES ============ #}
 <section class="section industries-section">
-  <div class="container">
-    <header class="section-head">
-      <span class="eyebrow">{% trans "Industries we serve" %}</span>
-      <h2>{% trans "Software for every kind of organization" %}</h2>
-      <p>{% trans "We work with organizations of any size — from single shops to multi-branch companies." %}</p>
+  <div class="container text-center">
+    <header class="section-header">
+      <span class="section-eyebrow">{% trans "Industries" %}</span>
+      <h2 class="section-title">{% trans "Software for every kind of organization" %}</h2>
+      <p class="section-lead">{% trans "We work with organizations of any size — from single shops to multi-branch companies." %}</p>
     </header>
 
-    <div class="industry-grid">
-      <span class="industry-chip">{% trans "Companies" %}</span>
-      <span class="industry-chip">{% trans "Pharmacies" %}</span>
-      <span class="industry-chip">{% trans "Clinics" %}</span>
-      <span class="industry-chip">{% trans "Schools" %}</span>
-      <span class="industry-chip">{% trans "Shops" %}</span>
-      <span class="industry-chip">{% trans "Distributors" %}</span>
-      <span class="industry-chip">{% trans "NGOs" %}</span>
-      <span class="industry-chip">{% trans "Real estate" %}</span>
-      <span class="industry-chip">{% trans "Construction" %}</span>
-      <span class="industry-chip">{% trans "Offices" %}</span>
-      <span class="industry-chip">{% trans "Startups" %}</span>
-      <span class="industry-chip industry-chip-more">{% trans "And more" %}</span>
+    <div class="industry-cloud">
+      <span class="ind-tag">{% trans "Companies" %}</span>
+      <span class="ind-tag active">{% trans "Pharmacies" %}</span>
+      <span class="ind-tag">{% trans "Clinics" %}</span>
+      <span class="ind-tag">{% trans "Schools" %}</span>
+      <span class="ind-tag">{% trans "Shops" %}</span>
+      <span class="ind-tag">{% trans "Distributors" %}</span>
+      <span class="ind-tag">{% trans "NGOs" %}</span>
+      <span class="ind-tag">{% trans "Real Estate" %}</span>
+      <span class="ind-tag">{% trans "Construction" %}</span>
+      <span class="ind-tag">{% trans "Offices" %}</span>
+      <span class="ind-tag">{% trans "Startups" %}</span>
+      <span class="ind-tag more">{% trans "And more" %}</span>
     </div>
   </div>
 </section>
@@ -473,68 +476,68 @@
 {# ============ PROCESS ============ #}
 <section class="section section-alt process-section">
   <div class="container">
-    <header class="section-head">
-      <span class="eyebrow">{% trans "Our process" %}</span>
-      <h2>{% trans "How we work — from idea to support" %}</h2>
-      <p>{% trans "A clear seven-step journey that keeps projects predictable and outcomes measurable." %}</p>
+    <header class="section-header">
+      <span class="section-eyebrow">{% trans "Our process" %}</span>
+      <h2 class="section-title">{% trans "How we work — from idea to support" %}</h2>
+      <p class="section-lead">{% trans "A clear seven-step journey that keeps projects predictable and outcomes measurable." %}</p>
     </header>
 
-    <ol class="process process-detailed">
-      <li>
-        <span class="num">1</span>
-        <strong>{% trans "Discover" %}</strong>
-        <span class="muted small">{% trans "Understanding your workflow" %}</span>
-      </li>
-      <li>
-        <span class="num">2</span>
-        <strong>{% trans "Analyze" %}</strong>
-        <span class="muted small">{% trans "Finding the real problem" %}</span>
-      </li>
-      <li>
-        <span class="num">3</span>
-        <strong>{% trans "Design" %}</strong>
-        <span class="muted small">{% trans "Planning the right solution" %}</span>
-      </li>
-      <li>
-        <span class="num">4</span>
-        <strong>{% trans "Develop" %}</strong>
-        <span class="muted small">{% trans "Building with care" %}</span>
-      </li>
-      <li>
-        <span class="num">5</span>
-        <strong>{% trans "Test" %}</strong>
-        <span class="muted small">{% trans "Verifying in real conditions" %}</span>
-      </li>
-      <li>
-        <span class="num">6</span>
-        <strong>{% trans "Train" %}</strong>
-        <span class="muted small">{% trans "Making your team confident" %}</span>
-      </li>
-      <li>
-        <span class="num">7</span>
-        <strong>{% trans "Support" %}</strong>
-        <span class="muted small">{% trans "Staying available long-term" %}</span>
-      </li>
-    </ol>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-marker">1</div>
+        <h4>{% trans "Discover" %}</h4>
+        <span class="text-sm text-muted">{% trans "Understanding your workflow" %}</span>
+      </div>
+      <div class="step">
+        <div class="step-marker">2</div>
+        <h4>{% trans "Analyze" %}</h4>
+        <span class="text-sm text-muted">{% trans "Finding the real problem" %}</span>
+      </div>
+      <div class="step">
+        <div class="step-marker">3</div>
+        <h4>{% trans "Design" %}</h4>
+        <span class="text-sm text-muted">{% trans "Planning the right solution" %}</span>
+      </div>
+      <div class="step">
+        <div class="step-marker">4</div>
+        <h4>{% trans "Develop" %}</h4>
+        <span class="text-sm text-muted">{% trans "Building with care" %}</span>
+      </div>
+      <div class="step">
+        <div class="step-marker">5</div>
+        <h4>{% trans "Test" %}</h4>
+        <span class="text-sm text-muted">{% trans "Verifying in real conditions" %}</span>
+      </div>
+      <div class="step">
+        <div class="step-marker">6</div>
+        <h4>{% trans "Train" %}</h4>
+        <span class="text-sm text-muted">{% trans "Making your team confident" %}</span>
+      </div>
+      <div class="step">
+        <div class="step-marker">7</div>
+        <h4>{% trans "Support" %}</h4>
+        <span class="text-sm text-muted">{% trans "Staying available long-term" %}</span>
+      </div>
+    </div>
   </div>
 </section>
 
-{# ============ CLOSING CTA ============ #}
-<section class="cta-band home-cta">
-  <div class="container cta-inner">
-    <div>
-      <h2>{% trans "What is your business or administrative challenge?" %}</h2>
+{# ============ CTA BAND ============ #}
+<section class="cta-section">
+  <div class="container cta-container">
+    <div class="cta-content">
+      <h2>{% trans "What is your business challenge?" %}</h2>
       <p>{% trans "Talk to Binyad and let us design a practical solution for it." %}</p>
     </div>
-    <div class="cta-actions">
-      <a href="{% url 'contact:consultation' %}" class="btn btn-light btn-lg">
+    <div class="cta-buttons">
+      <a href="{% url 'contact:consultation' %}" class="btn btn-white">
         {% trans "Request a Consultation" %}
-        <span aria-hidden="true">→</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
       </a>
       {% if site.whatsapp %}
-        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="btn btn-outline-light">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42z"/></svg>
-          {% trans "Chat on WhatsApp" %}
+        <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener" class="btn btn-glass">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.48 0 .14 5.34.13 11.9c0 2.1.55 4.14 1.6 5.94L0 24l6.32-1.66a11.87 11.87 0 0 0 5.71 1.46h.01c6.56 0 11.9-5.34 11.9-11.9a11.8 11.8 0 0 0-3.42-8.42z"/></svg>
+          {% trans "WhatsApp" %}
         </a>
       {% endif %}
     </div>

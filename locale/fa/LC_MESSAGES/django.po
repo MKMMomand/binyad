@@ -76,3 +76,421 @@ msgstr "مشکل کاری یا اداری شما چیست؟"
 
 msgid "Talk to Binyad and let us design a practical solution for it."
 msgstr "با بنیاد صحبت کنید تا برای آن یک راه‌حل عملی طراحی کنیم."
+
+# ============================================================================
+# BASE TEMPLATE — Header / Nav / Footer
+# ============================================================================
+
+msgid "Skip to content"
+msgstr "رفتن به محتوا"
+
+msgid "Main navigation"
+msgstr "ناوبری اصلی"
+
+msgid "Language"
+msgstr "زبان"
+
+msgid "Change language"
+msgstr "تغییر زبان"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "About"
+msgstr "درباره ما"
+
+msgid "Services"
+msgstr "خدمات"
+
+msgid "Solutions"
+msgstr "راهکارها"
+
+msgid "Products"
+msgstr "محصولات"
+
+msgid "Portfolio"
+msgstr "نمونه کارها"
+
+msgid "Blog"
+msgstr "بلاگ"
+
+msgid "Contact"
+msgstr "تماس با ما"
+
+msgid "Request a Consultation"
+msgstr "درخواست مشاوره"
+
+msgid "Menu"
+msgstr "منو"
+
+msgid "Quick links"
+msgstr "لینک‌های سریع"
+
+msgid "Privacy Policy"
+msgstr "سیاست حفظ حریم خصوصی"
+
+msgid "Terms & Conditions"
+msgstr "شرایط و ضوابط"
+
+msgid "Chat on WhatsApp"
+msgstr "چت در واتس‌اپ"
+
+msgid "All rights reserved."
+msgstr "تمام حقوق محفوظ است."
+
+msgid "From manual work to organized digital systems."
+msgstr "از کار دستی تا سیستم‌های دیجیتال سازمان‌یافته."
+
+msgid "Back to top"
+msgstr "بازگشت به بالا"
+
+# ============================================================================
+# HOME PAGE
+# ============================================================================
+
+msgid "Business Software Solutions"
+msgstr "راهکارهای نرم‌افزاری کسب‌وکار"
+
+msgid "We build software for Afghan businesses."
+msgstr "ما برای کسب‌وکارهای افغان نرم‌افزار می‌سازیم."
+
+msgid "Get Started"
+msgstr "همین حالا شروع کنید"
+
+msgid "Learn More"
+msgstr "بیشتر بدانید"
+
+msgid "Why Choose Us"
+msgstr "چرا ما را انتخاب کنید"
+
+msgid "Our Services"
+msgstr "خدمات ما"
+
+msgid "Our Products"
+msgstr "محصولات ما"
+
+msgid "Our Process"
+msgstr "روش کار ما"
+
+msgid "Industries We Serve"
+msgstr "صنایعی که به آن‌ها خدمت می‌کنیم"
+
+msgid "Trusted by Businesses Across Afghanistan"
+msgstr "مورد اعتماد کسب‌وکارها در سراسر افغانستان"
+
+msgid "Ready to transform your business?"
+msgstr "آماده‌اید کسب‌وکارتان را متحول کنید؟"
+
+msgid "Start your digital transformation today."
+msgstr "امروز تحول دیجیتال خود را آغاز کنید."
+
+msgid "View Services"
+msgstr "مشاهده خدمات"
+
+msgid "View Products"
+msgstr "مشاهده محصولات"
+
+msgid "Read More"
+msgstr "ادامه مطلب"
+
+msgid "View All"
+msgstr "مشاهده همه"
+
+msgid "Explore"
+msgstr "کاوش کنید"
+
+# ============================================================================
+# ABOUT PAGE
+# ============================================================================
+
+msgid "About Us"
+msgstr "درباره ما"
+
+msgid "About Binyad"
+msgstr "درباره بنیاد"
+
+msgid "Our Mission"
+msgstr "مأموریت ما"
+
+msgid "Our Vision"
+msgstr "چشم‌انداز ما"
+
+msgid "Our Values"
+msgstr "ارزش‌های ما"
+
+msgid "Our Team"
+msgstr "تیم ما"
+
+msgid "How We Work"
+msgstr "روش کار ما"
+
+msgid "What We Solve"
+msgstr "چه مشکلی را حل می‌کنیم"
+
+# ============================================================================
+# SERVICES
+# ============================================================================
+
+msgid "All Services"
+msgstr "همه خدمات"
+
+msgid "What's Included"
+msgstr "آنچه شامل می‌شود"
+
+msgid "Who This Is For"
+msgstr "این خدمت برای چه کسی است"
+
+msgid "Related Services"
+msgstr "خدمات مرتبط"
+
+msgid "Start a Project"
+msgstr "شروع یک پروژه"
+
+msgid "Talk to Us"
+msgstr "با ما صحبت کنید"
+
+msgid "Service Details"
+msgstr "جزئیات خدمت"
+
+# ============================================================================
+# PRODUCTS
+# ============================================================================
+
+msgid "All Products"
+msgstr "همه محصولات"
+
+msgid "Key Features"
+msgstr "ویژگی‌های کلیدی"
+
+msgid "Available"
+msgstr "موجود"
+
+msgid "In Development"
+msgstr "در حال توسعه"
+
+msgid "Planned"
+msgstr "برنامه‌ریزی‌شده"
+
+msgid "Custom Solution"
+msgstr "راهکار سفارشی"
+
+msgid "Request Demo"
+msgstr "درخواست دمو"
+
+msgid "Related Products"
+msgstr "محصولات مرتبط"
+
+# ============================================================================
+# PORTFOLIO
+# ============================================================================
+
+msgid "Our Work"
+msgstr "کارهای ما"
+
+msgid "All Projects"
+msgstr "همه پروژه‌ها"
+
+msgid "Featured Projects"
+msgstr "پروژه‌های ویژه"
+
+msgid "Client"
+msgstr "مشتری"
+
+msgid "Industry"
+msgstr "صنعت"
+
+msgid "Technologies"
+msgstr "تکنولوژی‌ها"
+
+msgid "View Project"
+msgstr "مشاهده پروژه"
+
+msgid "More Projects"
+msgstr "پروژه‌های بیشتر"
+
+# ============================================================================
+# BLOG
+# ============================================================================
+
+msgid "Latest Articles"
+msgstr "آخرین مقالات"
+
+msgid "Search"
+msgstr "جستجو"
+
+msgid "Categories"
+msgstr "دسته‌بندی‌ها"
+
+msgid "Tags"
+msgstr "برچسب‌ها"
+
+msgid "Published on"
+msgstr "منتشر شده در"
+
+msgid "Related Posts"
+msgstr "مقالات مرتبط"
+
+msgid "No posts found."
+msgstr "مقاله‌ای یافت نشد."
+
+msgid "Back to Blog"
+msgstr "بازگشت به بلاگ"
+
+# ============================================================================
+# CONTACT
+# ============================================================================
+
+msgid "Get in Touch"
+msgstr "با ما در تماس باشید"
+
+msgid "Send Message"
+msgstr "ارسال پیام"
+
+msgid "Your name"
+msgstr "نام شما"
+
+msgid "Your email"
+msgstr "ایمیل شما"
+
+msgid "Your phone"
+msgstr "شماره تماس شما"
+
+msgid "Your message"
+msgstr "پیام شما"
+
+msgid "Company"
+msgstr "شرکت"
+
+msgid "Subject"
+msgstr "موضوع"
+
+msgid "Send"
+msgstr "ارسال"
+
+msgid "Message sent successfully!"
+msgstr "پیام با موفقیت ارسال شد!"
+
+msgid "We'll get back to you soon."
+msgstr "به‌زودی با شما تماس خواهیم گرفت."
+
+msgid "Working hours"
+msgstr "ساعات کاری"
+
+msgid "Phone"
+msgstr "تلفن"
+
+msgid "Email"
+msgstr "ایمیل"
+
+msgid "Address"
+msgstr "آدرس"
+
+# ============================================================================
+# CONSULTATION
+# ============================================================================
+
+msgid "Request a Free Consultation"
+msgstr "درخواست مشاوره رایگان"
+
+msgid "Project Details"
+msgstr "جزئیات پروژه"
+
+msgid "Tell us about your project"
+msgstr "درباره پروژه‌تان توضیح دهید"
+
+msgid "Budget Range"
+msgstr "محدوده بودجه"
+
+msgid "Preferred Contact Method"
+msgstr "روش تماس مورد نظر"
+
+msgid "By phone"
+msgstr "از طریق تلفن"
+
+msgid "By email"
+msgstr "از طریق ایمیل"
+
+msgid "By WhatsApp"
+msgstr "از طریق واتس‌اپ"
+
+msgid "Submit Request"
+msgstr "ثبت درخواست"
+
+# ============================================================================
+# SUCCESS / FORM STATES
+# ============================================================================
+
+msgid "Thank you!"
+msgstr "سپاسگزاریم!"
+
+msgid "Your message has been received."
+msgstr "پیام شما دریافت شد."
+
+msgid "We'll contact you soon."
+msgstr "به‌زودی با شما تماس می‌گیریم."
+
+msgid "Return Home"
+msgstr "بازگشت به صفحه اصلی"
+
+# ============================================================================
+# ERRORS
+# ============================================================================
+
+msgid "Page not found"
+msgstr "صفحه یافت نشد"
+
+msgid "Something went wrong"
+msgstr "مشکلی پیش آمد"
+
+msgid "Permission denied"
+msgstr "دسترسی مجاز نیست"
+
+msgid "Return to Home"
+msgstr "بازگشت به صفحه اصلی"
+
+msgid "The page you're looking for doesn't exist."
+msgstr "صفحه‌ای که به دنبال آن هستید وجود ندارد."
+
+msgid "Try one of these instead:"
+msgstr "یکی از این موارد را امتحان کنید:"
+
+# ============================================================================
+# PRIVACY & TERMS
+# ============================================================================
+
+msgid "Last updated"
+msgstr "آخرین به‌روزرسانی"
+
+msgid "Table of Contents"
+msgstr "فهرست مطالب"
+
+# ============================================================================
+# MISC
+# ============================================================================
+
+msgid "Read more"
+msgstr "ادامه مطلب"
+
+msgid "See all"
+msgstr "مشاهده همه"
+
+msgid "Back"
+msgstr "بازگشت"
+
+msgid "Next"
+msgstr "بعدی"
+
+msgid "Previous"
+msgstr "قبلی"
+
+msgid "Close"
+msgstr "بستن"
+
+msgid "Loading..."
+msgstr "در حال بارگذاری..."
+
+msgid "Share"
+msgstr "اشتراک‌گذاری"
+
+msgid "or"
+msgstr "یا"

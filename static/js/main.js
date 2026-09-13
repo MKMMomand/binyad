@@ -40,3 +40,48 @@
     });
   });
 })();
+
+
+/* =========================================================================
+   LANGUAGE DROPDOWN — toggle, click-outside, escape
+   ========================================================================= */
+(function () {
+    'use strict';
+
+    document.querySelectorAll('[data-lang-switcher]').forEach((switcher) => {
+        const trigger = switcher.querySelector('.lang-trigger');
+        if (!trigger) return;
+
+        // Toggle on click
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = switcher.classList.toggle('is-open');
+            trigger.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!switcher.contains(e.target)) {
+                switcher.classList.remove('is-open');
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close on Escape
+        switcher.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                switcher.classList.remove('is-open');
+                trigger.setAttribute('aria-expanded', 'false');
+                trigger.focus();
+            }
+        });
+
+        // Close after picking a language
+        switcher.querySelectorAll('.lang-option:not(.is-active)').forEach((link) => {
+            link.addEventListener('click', () => {
+                switcher.classList.remove('is-open');
+                trigger.setAttribute('aria-expanded', 'false');
+            });
+        });
+    });
+})();
