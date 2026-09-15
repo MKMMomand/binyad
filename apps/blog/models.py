@@ -53,6 +53,7 @@ class Post(TimeStampedModel):
     status = models.CharField(max_length=12, choices=Status.choices, default=Status.DRAFT)
     seo_title = models.CharField(max_length=160, blank=True)
     seo_description = models.CharField(max_length=255, blank=True)
+    related_name="post",
 
     class Meta:
         ordering = ["-published_at", "-created_at"]

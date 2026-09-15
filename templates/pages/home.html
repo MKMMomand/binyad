@@ -165,6 +165,7 @@
 
 {# ============ SERVICES ============ #}
 {# ============ SERVICES ============ #}
+{# ============ SERVICES ============ #}
 <section class="section services-section">
   <div class="container">
     <header class="section-header text-center">
@@ -179,93 +180,51 @@
     </header>
 
     {% if services %}
-      <div class="bento-grid">
+      <div class="svc-grid">
+        {% for s in services %}
+          <a href="{{ s.get_absolute_url }}" class="svc-card">
 
-        {# ---------- FEATURED (first) ---------- #}
-        {% with first=services.0 %}
-        <a href="{{ first.get_absolute_url }}" class="bento-card bento-card--featured">
-
-          <div class="bento-media">
-            {% if first.image %}
-              <img
-                src="{{ first.image.url }}"
-                alt="{% tfield first 'name' %}"
-                loading="lazy"
-                class="bento-media-img">
-            {% else %}
-              <div class="bento-media-fallback" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="3" y="4" width="18" height="14" rx="2"/>
-                  <path d="M3 10h18"/>
-                  <path d="M8 20h8"/>
-                </svg>
-              </div>
-            {% endif %}
-            <span class="bento-badge">{% trans "Most requested" %}</span>
-          </div>
-
-          <div class="bento-body">
-            <div class="bento-icon bento-icon--lg">
-              {% if first.icon %}<i class="{{ first.icon }}"></i>{% else %}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M8 20h8"/></svg>
-              {% endif %}
-            </div>
-
-            <h3 class="bento-title">{% tfield first 'name' %}</h3>
-            <p class="bento-desc">{% tfield first 'short_description' %}</p>
-
-            {% if first.features %}
-              <div class="bento-tags">
-                {% for f in first.features_list|slice:":3" %}
-                  <span class="bento-tag">{{ f }}</span>
-                {% endfor %}
-              </div>
-            {% endif %}
-
-            <span class="bento-link">
-              {% trans "Explore solution" %}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-            </span>
-          </div>
-
-        </a>
-        {% endwith %}
-
-        {# ---------- REMAINING SERVICES ---------- #}
-        {% for s in services|slice:"1:" %}
-          <a href="{{ s.get_absolute_url }}" class="bento-card">
-
-            <div class="bento-media bento-media--sm">
+            {# ---- Proper image box ---- #}
+            <div class="svc-media">
               {% if s.image %}
                 <img
                   src="{{ s.image.url }}"
                   alt="{% tfield s 'name' %}"
                   loading="lazy"
-                  class="bento-media-img">
+                  class="svc-media-img">
               {% else %}
-                <div class="bento-media-fallback" aria-hidden="true">
+                <div class="svc-media-fallback" aria-hidden="true">
                   {% if s.icon %}
                     <i class="{{ s.icon }}"></i>
                   {% else %}
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="4" width="18" height="14" rx="2"/>
+                      <path d="M3 10h18"/>
+                      <path d="M8 20h8"/>
+                    </svg>
                   {% endif %}
                 </div>
               {% endif %}
             </div>
 
-            <div class="bento-body">
-              <h3 class="bento-title">{% tfield s 'name' %}</h3>
-              <p class="bento-desc">{% tfield s 'short_description' %}</p>
+            {# ---- Body ---- #}
+            <div class="svc-body">
+              <h3 class="svc-title">{% tfield s 'name' %}</h3>
+              <p class="svc-desc">{% tfield s 'short_description' %}</p>
 
-              <span class="bento-link">
+              <span class="svc-link">
                 {% trans "Learn more" %}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+                </svg>
               </span>
             </div>
 
           </a>
         {% endfor %}
-
       </div>
 
       <div class="section-footer text-center">
@@ -492,6 +451,8 @@
 
 {# ============ TEAM ============ #}
 {% if team_members %}
+{# ============ TEAM ============ #}
+{% if team_members %}
 <section class="section team-section">
   <div class="container">
 
@@ -523,9 +484,6 @@
               </div>
             {% endif %}
 
-            {# Role chip over the photo #}
-            <span class="team-role-chip">{% tfield member 'position' %}</span>
-
             {# Social links, revealed on hover #}
             {% if member.email or member.linkedin or member.phone %}
               <div class="team-social">
@@ -549,7 +507,13 @@
           </div>
 
           <div class="team-body">
+            {# 1. POSITION — bold & prominent #}
+            <p class="team-position">{% tfield member 'position' %}</p>
+
+            {# 2. NAME #}
             <h3 class="team-name">{{ member.name }}</h3>
+
+            {# 3. INTRO / BIO #}
             {% if member.bio %}
               <p class="team-bio">{{ member.bio }}</p>
             {% endif %}
@@ -562,6 +526,7 @@
 
   </div>
 </section>
+{% endif %}
 {% endif %}
 
 {# ============ INDUSTRIES ============ #}
