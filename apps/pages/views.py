@@ -12,13 +12,24 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["services"] = Service.objects.filter(active=True)[:8]
-        ctx["flagship"] = Product.objects.filter(active=True, slug="binyad-office").first() \
-                          or Product.objects.filter(active=True).first()
-        ctx["testimonials"] = Testimonial.objects.filter(active=True)[:6]
-        ctx["faqs"] = FAQ.objects.filter(active=True)[:6]
-        return ctx
 
+        from apps.services.models import Service
+        from apps.products.models import Product
+        from apps.core.models import TeamMember
+
+        ctx["services"] = Service.objects.filter(active=True).order_by("order")[:7]
+        ctx["flagship"] = (
+            Product.objects.filter(active=True)
+            .exclude(status="planned")
+            .order_by("order")
+            .first()
+        )
+        ctx["team_members"] = (
+            TeamMember.objects.filter(active=True)
+            .order_by("order", "name")[:6]
+        )
+
+        return ctx
 
 class AboutView(TemplateView):
     template_name = "pages/about.html"

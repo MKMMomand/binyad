@@ -138,14 +138,25 @@
         {% for s in services %}
           <a class="service-tile service-tile--list" href="{{ s.get_absolute_url }}">
 
-            <div class="service-icon" aria-hidden="true">
-              {% if s.icon %}
-                <i class="{{ s.icon }}"></i>
+            {# ---------- Image / icon thumb ---------- #}
+            <div class="service-tile-thumb">
+              {% if s.image %}
+                <img
+                  src="{{ s.image.url }}"
+                  alt="{% tfield s 'name' %}"
+                  loading="lazy"
+                  class="service-tile-thumb-img">
               {% else %}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9"/>
-                  <path d="M8 12l2 2 4-4"/>
-                </svg>
+                <div class="service-tile-thumb-fallback" aria-hidden="true">
+                  {% if s.icon %}
+                    <i class="{{ s.icon }}"></i>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="9"/>
+                      <path d="M8 12l2 2 4-4"/>
+                    </svg>
+                  {% endif %}
+                </div>
               {% endif %}
             </div>
 
